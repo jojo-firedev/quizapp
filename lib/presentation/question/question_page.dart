@@ -54,9 +54,6 @@ class _QuestionPageState extends State<QuestionPage>
 
   @override
   Widget build(BuildContext context) {
-    double fullWidth = MediaQuery.of(context).size.width / 0.2;
-    double halfWidth = fullWidth / 2;
-
     return Scaffold(
       body: Stack(
         children: [
@@ -66,7 +63,6 @@ class _QuestionPageState extends State<QuestionPage>
               mainAxisSize: MainAxisSize.min,
               children: [
                 CardElement(
-                  width: fullWidth,
                   backgroundColor: _questionBackgroundColor,
                   child: Text(
                     "Im Alarmfall besteht für aktive Mitglieder einer Freiwilligen Feuerwehr die Verpflichtung",
@@ -125,8 +121,6 @@ class _QuestionPageState extends State<QuestionPage>
                       ),
                     ),
                   ],
-                  //   ),
-                  // ],
                 ),
               ],
             ),
@@ -161,8 +155,7 @@ class _QuestionPageState extends State<QuestionPage>
         ],
       ),
       floatingActionButton: Wrap(
-        //will break to another line on overflow
-        direction: Axis.horizontal, //use vertical to show  on vertical axis
+        direction: Axis.horizontal,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.all(10),
