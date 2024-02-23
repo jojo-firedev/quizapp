@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/presentation/participants_management/participants_management_page.dart';
 import 'package:quizapp/presentation/question/question_page.dart';
+import 'package:quizapp/style.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,11 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Quiz Turnier',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const QuestionPage(),
+      theme: getLightThemeData(),
+      themeMode: ThemeMode.light,
+      routes: {
+        '/question': (context) => const QuestionPage(),
+        '/participants': (context) => ParticipantsManagementPage(),
+      },
+      initialRoute: '/participants',
     );
   }
 }
