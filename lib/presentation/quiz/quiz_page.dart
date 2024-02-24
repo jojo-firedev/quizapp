@@ -1,16 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:quizapp/presentation/question/components/card_element.dart';
+import 'package:quizapp/presentation/quiz/components/card_element.dart';
 
-class QuestionPage extends StatefulWidget {
-  const QuestionPage({super.key});
+class QuizPage extends StatefulWidget {
+  const QuizPage({super.key});
 
   @override
-  State<QuestionPage> createState() => _QuestionPageState();
+  State<QuizPage> createState() => _QuizPageState();
 }
 
-class _QuestionPageState extends State<QuestionPage>
+class _QuizPageState extends State<QuizPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   final int _countdownSeconds = 30;
