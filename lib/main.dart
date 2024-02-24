@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/presentation/participants_management/participants_management_page.dart';
-import 'package:quizapp/presentation/question/question_page.dart';
+import 'package:quizapp/presentation/home/home_page.dart';
+import 'package:quizapp/presentation/quiz/quiz_page.dart';
+import 'package:quizapp/presentation/teilnehmer_uebersicht/teilnehmer_uebersicht_page.dart';
 import 'package:quizapp/style.dart';
 
 void main() {
@@ -18,10 +19,11 @@ class MyApp extends StatelessWidget {
       theme: getLightThemeData(),
       themeMode: ThemeMode.light,
       routes: {
-        '/question': (context) => const QuestionPage(),
-        '/participants': (context) => ParticipantsManagementPage(),
+        '/': (context) => const HomePage(),
+        '/quiz': (context) => const QuizPage(),
+        '/teilnehmer': (context) => TeilnehmerUebersichtPage(),
       },
-      initialRoute: '/participants',
+      initialRoute: '/',
     );
   }
 }
