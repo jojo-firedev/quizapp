@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/service/dev/test_buzzer.dart';
-import 'package:quizapp/service/network_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
