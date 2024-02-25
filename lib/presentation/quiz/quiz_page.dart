@@ -150,6 +150,14 @@ class _QuizPageState extends State<QuizPage>
               },
             ),
           ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
         ],
       ),
       floatingActionButton: Wrap(
