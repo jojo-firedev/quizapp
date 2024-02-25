@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/service/network_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,6 +15,14 @@ class HomePage extends StatelessWidget {
           mainAxisSpacing: 10,
         ),
         children: [
+          Card(
+            child: InkWell(
+              onTap: () {},
+              child: const Center(
+                child: Text('Geführte Bedienung'),
+              ),
+            ),
+          ),
           InkWell(
             onTap: () => Navigator.pushNamed(context, '/quiz'),
             child: const Card(
@@ -31,18 +40,10 @@ class HomePage extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () => NetworkService().getIpAddress(),
             child: const Card(
               child: Center(
-                child: Text(''),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: const Card(
-              child: Center(
-                child: Text(''),
+                child: Text('Test'),
               ),
             ),
           ),
