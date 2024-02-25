@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/service/dev/test_buzzer.dart';
 import 'package:quizapp/service/network_service.dart';
 
 class HomePage extends StatelessWidget {
@@ -40,7 +41,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => NetworkService().getIpAddress(),
+            onTap: () => testBuzzer(),
             child: const Card(
               child: Center(
                 child: Text('Test'),
