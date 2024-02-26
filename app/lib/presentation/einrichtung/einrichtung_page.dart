@@ -5,6 +5,32 @@ class EinrichtungPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Einrichtung'),
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            title: const Text('Buzzer verbinden'),
+            subtitle: const Text('Verbindung mit allen Buzzer herstellen'),
+            onTap: () =>
+                Navigator.of(context).pushNamed('/einrichtung/buzzer_paring'),
+          ),
+          const ListTile(
+            title: Text('Teilnehmer hinzufügen'),
+            subtitle: Text('Teilnehmer hinzufügen'),
+          ),
+          const ListTile(
+            title: Text('Teilnehmer bearbeiten'),
+            subtitle: Text('Teilnehmer bearbeiten'),
+          ),
+          const ListTile(
+            title: Text('Teilnehmer löschen'),
+            subtitle: Text('Teilnehmer löschen'),
+          ),
+        ],
+      ),
+    );
   }
 }
