@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/gobals.dart';
 
-import 'package:quizapp/service/buzzer_service.dart';
-import 'package:quizapp/service/buzzer_socket_service.dart';
+import 'package:quizapp/service/buzzer_udp_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,20 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late BuzzerSocketService _buzzerSocketService;
-
-  @override
-  void initState() {
-    _buzzerSocketService = BuzzerSocketService(context);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _buzzerSocketService.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +25,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Card(
               child: InkWell(
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, '/einrichtung'),
                 child: Center(
                   child: Column(
                     children: [
@@ -111,7 +97,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Card(
               child: InkWell(
-                onTap: () => _buzzerSocketService.releaseBuzzer(),
+                onTap: () => Global.buzzerSocketService!.releaseBuzzer(),
                 child: Center(
                   child: Column(
                     children: [
@@ -182,7 +168,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => BuzzerService().sendConfigWithIP(),
+                onTap: () => BuzzerUdpService().sendConfigWithIP(),
                 child: Center(
                   child: Column(
                     children: [
@@ -209,7 +195,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.red,
               child: InkWell(
                 onTap: () =>
-                    _buzzerSocketService.lockBuzzer('00:00:00:00:00:00'),
+                    Global.buzzerSocketService!.lockBuzzer('00:00:00:00:00:00'),
                 child: Center(
                   child: Column(
                     children: [
@@ -235,7 +221,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => _buzzerSocketService.releaseBuzzer(),
+                onTap: () => Global.buzzerSocketService!.releaseBuzzer(),
                 child: Center(
                   child: Column(
                     children: [
@@ -264,11 +250,11 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: Container(
         padding: const EdgeInsets.all(20),
         child: StreamBuilder<int>(
-          stream: _buzzerSocketService.connectedSocketsCountStream,
+          stream: Global.buzzerSocketService!.connectedSocketsCountStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Text(
-                'Verbundene Buttons: ${snapshot.data}',
+                'Verbundene Buzzer: ${snapshot.data}',
                 style: const TextStyle(fontSize: 20),
               );
             } else {
