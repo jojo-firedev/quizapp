@@ -3,14 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:quizapp/service/snackbar_service.dart';
+import 'package:quizapp/gobals.dart';
 
 class BuzzerSocketService {
-  List<Socket> _sockets = [];
-  List<String> _macs = [];
-
   ServerSocket? _serverSocket;
-  BuildContext context;
+  Timer? _keepAliveTimer;
 
   final _connectedSocketsCountController = StreamController<int>.broadcast();
 
@@ -19,12 +16,13 @@ class BuzzerSocketService {
       _connectedSocketsCountController.stream;
 
   // Methode zum Aktualisieren des Streams
-  void _updateConnectedSocketsCount() {
-    _connectedSocketsCountController.add(_sockets.length);
+  void updateConnectedSocketsCount() {
+    _connectedSocketsCountController.add(Global.sockets.length);
   }
 
-  BuzzerSocketService(this.context) {
+  BuzzerSocketService() {
     _startServer();
+    _startKeepAlive();
   }
 
   void _startServer() async {
@@ -39,20 +37,29 @@ class BuzzerSocketService {
     }
   }
 
+  void _startKeepAlive() {
+    _keepAliveTimer =
+        Timer.periodic(Duration(seconds: 10), (Timer t) => _sendKeepAlive());
+  }
+
+  void _sendKeepAlive() {
+    String keepAliveMessage = jsonEncode({'KeepAlive': []});
+    _sendMessageToAll(keepAliveMessage);
+  }
+
   void _handleClient(Socket clientSocket) {
     print(
         'Client connected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
-    _sockets.add(clientSocket);
-    _updateConnectedSocketsCount();
+    Global.sockets.add(clientSocket);
+    updateConnectedSocketsCount();
 
     clientSocket.listen((List<int> data) {
       String message = utf8.decode(data);
       Map<String, dynamic> jsonObject = jsonDecode(message);
-      showSnackbar(context, message);
 
       if (jsonObject.values.first == 'Connected') {
         String mac = jsonObject.keys.first;
-        _macs.add(mac);
+        Global.macs.add(mac);
       } else if (jsonObject.values.first == 'ButtonPressed') {
         String mac = jsonObject.keys.first;
         lockBuzzer(mac);
@@ -61,18 +68,18 @@ class BuzzerSocketService {
           'Received message from ${clientSocket.remoteAddress}:${clientSocket.remotePort}: $message');
     }, onError: (error) {
       print('Error with client: $error');
-      _sockets.remove(clientSocket);
-      _updateConnectedSocketsCount();
+      Global.sockets.remove(clientSocket);
+      updateConnectedSocketsCount();
     }, onDone: () {
       print(
           'Client disconnected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
-      _sockets.remove(clientSocket);
-      _updateConnectedSocketsCount();
+      Global.sockets.remove(clientSocket);
+      updateConnectedSocketsCount();
     });
   }
 
   void _sendMessageToAll(String message, {Socket? senderSocket}) {
-    for (var socket in _sockets) {
+    for (var socket in Global.sockets) {
       if (socket == senderSocket && senderSocket != null) {
         continue;
       }
@@ -95,7 +102,8 @@ class BuzzerSocketService {
 
   void close() {
     _serverSocket?.close();
-    for (var socket in _sockets) {
+    _keepAliveTimer?.cancel();
+    for (var socket in Global.sockets) {
       socket.destroy();
     }
   }
