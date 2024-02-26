@@ -2,8 +2,11 @@ import 'dart:io';
 
 class NetworkService {
   Future<String> getIpAddress() async {
-    NetworkInterface ipAddress = await getNetworkInterface();
-    return ipAddress.addresses.first.address;
+    NetworkInterface interface = await getNetworkInterface();
+    InternetAddress iPv4Address = interface.addresses
+        .where((element) => element.type == InternetAddressType.IPv4)
+        .first;
+    return iPv4Address.address;
   }
 
   Future<NetworkInterface> getNetworkInterface() async {
