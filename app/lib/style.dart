@@ -21,7 +21,7 @@ ThemeData getLightThemeData() {
       // foregroundColor: Colors.grey.shade900,
       titleTextStyle: TextStyle(
         color: Colors.grey.shade900,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
         fontSize: 20,
       ),
       actionsIconTheme: IconThemeData(
@@ -32,13 +32,13 @@ ThemeData getLightThemeData() {
       ),
     ),
     dividerTheme: DividerThemeData(
-      color: Colors.grey.shade400,
+      color: Colors.grey.shade900,
       thickness: 1,
       space: 0,
       indent: 5,
       endIndent: 5,
     ),
-    dividerColor: Colors.green,
+    dividerColor: Colors.grey.shade700,
     iconTheme: IconThemeData(
       color: Colors.grey.shade800,
       weight: 600,
@@ -93,7 +93,7 @@ ThemeData getLightThemeData() {
       fillColor: const Color(0xfff6f6f6),
     ),
     listTileTheme: ListTileThemeData(
-      textColor: Colors.grey.shade300,
+      textColor: Colors.grey.shade900,
       iconColor: Colors.grey.shade600,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
