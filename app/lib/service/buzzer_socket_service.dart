@@ -38,8 +38,10 @@ class BuzzerSocketService {
   }
 
   void _startKeepAlive() {
-    _keepAliveTimer =
-        Timer.periodic(Duration(seconds: 10), (Timer t) => _sendKeepAlive());
+    _keepAliveTimer = Timer.periodic(
+      const Duration(seconds: 10),
+      (Timer t) => _sendKeepAlive(),
+    );
   }
 
   void _sendKeepAlive() {
