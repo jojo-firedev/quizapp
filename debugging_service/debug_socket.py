@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 
 class Client:
@@ -11,6 +12,7 @@ class Client:
         threading.Thread(target=self.receive_messages, daemon=True).start()
 
     def send_message(self, message):
+        print(f"Sending: {message}")
         self.socket.sendall(message.encode())
 
     def receive_messages(self):
@@ -21,18 +23,20 @@ class Client:
 
 
 def main():
+    # Keep the script running
+    input("Press Enter to exit...\n")
+
     server_host = "localhost"
-    server_port = 12345
+    server_port = 8082
 
     client1 = Client(server_host, server_port)
     client2 = Client(server_host, server_port)
 
     # Send messages from clients
-    client1.send_message("Hello from Client 1!")
-    client2.send_message("Hello from Client 2!")
-
-    # Keep the script running
-    input("Press Enter to exit...\n")
+    time.sleep(1)
+    client1.send_message('{"3D:E9:BD:FB:FC:4B": "Connected"}')
+    time.sleep(1)
+    client2.send_message('{"AC:87:CA:64:EB:74": "Connected"}')
 
 
 if __name__ == "__main__":
