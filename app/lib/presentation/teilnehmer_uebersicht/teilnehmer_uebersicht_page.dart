@@ -8,6 +8,9 @@ class TeilnehmerUebersichtPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Teilnehmerübersicht'),
+      ),
       body: FutureBuilder<List<Jugendfeuerwehr>>(
         future: csvService.readCsv(),
         builder: (context, snapshot) {
