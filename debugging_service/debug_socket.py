@@ -23,13 +23,12 @@ class Client:
 
 
 def main():
-    # Keep the script running
-    input("Press Enter to exit...\n")
 
     server_host = "localhost"
     server_port = 8082
 
     client1 = Client(server_host, server_port)
+    time.sleep(1)
     client2 = Client(server_host, server_port)
 
     # Send messages from clients
@@ -37,6 +36,9 @@ def main():
     client1.send_message('{"3D:E9:BD:FB:FC:4B": "Connected"}')
     time.sleep(1)
     client2.send_message('{"AC:87:CA:64:EB:74": "Connected"}')
+
+    # Keep the script running
+    input("Press Enter to exit...\n")
 
 
 if __name__ == "__main__":
