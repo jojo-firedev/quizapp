@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
 import 'package:quizapp/presentation/quiz/quiz_page.dart';
 import 'package:quizapp/presentation/teilnehmer_uebersicht/teilnehmer_uebersicht_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/quiz': (context) => const QuizPage(),
         '/teilnehmer': (context) => TeilnehmerUebersichtPage(),
+        '/einstellungen': (context) => EinstellungPage(),
       },
       initialRoute: '/',
     );
