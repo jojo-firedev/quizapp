@@ -2,7 +2,7 @@ import 'package:udp/udp.dart';
 
 import 'package:quizapp/service/network_service.dart';
 
-class BuzzerService {
+class BuzzerUdpService {
   final NetworkService _networkService = NetworkService();
   final Port buzzerUdpConfigPort = const Port(8090);
 
