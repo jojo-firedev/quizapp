@@ -5,6 +5,8 @@ import 'package:csv/csv.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 
 class CsvService {
+  const CsvService();
+
   Future<List<Jugendfeuerwehr>> readCsv() async {
     print('Reading CSV');
     final input = File(
