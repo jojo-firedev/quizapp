@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/service/buzzer_socket_service.dart';
 import 'package:quizapp/service/dev/test_buzzer.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late BuzzerSocketService _buzzerSocketService;
+
+  @override
+  void initState() {
+    _buzzerSocketService = BuzzerSocketService();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _buzzerSocketService.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,50 +35,54 @@ class HomePage extends StatelessWidget {
           mainAxisSpacing: 10,
         ),
         children: [
-          Card(
-            child: InkWell(
-              onTap: () {},
-              child: const Center(
+          InkWell(
+            onTap: () {},
+            child: const Card(
+              child: Center(
                 child: Text('Geführte Bedienung'),
               ),
             ),
           ),
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, '/quiz'),
-            child: const Card(
-              child: Center(
+          Card(
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, '/quiz'),
+              child: const Center(
                 child: Text('Start Quiz'),
               ),
             ),
           ),
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, '/teilnehmer'),
-            child: const Card(
-              child: Center(
+          Card(
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, '/teilnehmer'),
+              child: const Center(
                 child: Text('Teilnehmer Übersicht'),
               ),
             ),
           ),
-          InkWell(
-            onTap: () => testBuzzer(),
-            child: const Card(
-              child: Center(
-                child: Text('Test'),
+          Card(
+            color: Colors.red,
+            child: InkWell(
+              onTap: () => testBuzzer(),
+              child: const Center(
+                child: Text('Send UDP Config',
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: const Card(
-              child: Center(
-                child: Text(''),
+          Card(
+            color: Colors.red,
+            child: InkWell(
+              onTap: () {},
+              child: const Center(
+                child: Text('Send TCP Message',
+                    style: TextStyle(color: Colors.white)),
               ),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: const Card(
-              child: Center(
+          Card(
+            child: InkWell(
+              onTap: () {},
+              child: const Center(
                 child: Text(''),
               ),
             ),
