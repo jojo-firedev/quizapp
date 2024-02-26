@@ -1,12 +1,29 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:quizapp/service/snackbar_service.dart';
 
 class BuzzerSocketService {
   List<Socket> _sockets = [];
   List<String> _macs = [];
-  ServerSocket? _serverSocket;
 
-  BuzzerSocketService() {
+  ServerSocket? _serverSocket;
+  BuildContext context;
+
+  final _connectedSocketsCountController = StreamController<int>.broadcast();
+
+  // Stream erhalten
+  Stream<int> get connectedSocketsCountStream =>
+      _connectedSocketsCountController.stream;
+
+  // Methode zum Aktualisieren des Streams
+  void _updateConnectedSocketsCount() {
+    _connectedSocketsCountController.add(_sockets.length);
+  }
+
+  BuzzerSocketService(this.context) {
     _startServer();
   }
 
@@ -26,10 +43,13 @@ class BuzzerSocketService {
     print(
         'Client connected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
     _sockets.add(clientSocket);
+    _updateConnectedSocketsCount();
 
     clientSocket.listen((List<int> data) {
       String message = utf8.decode(data);
       Map<String, dynamic> jsonObject = jsonDecode(message);
+      showSnackbar(context, message);
+
       if (jsonObject.values.first == 'Connected') {
         String mac = jsonObject.keys.first;
         _macs.add(mac);
@@ -42,10 +62,12 @@ class BuzzerSocketService {
     }, onError: (error) {
       print('Error with client: $error');
       _sockets.remove(clientSocket);
+      _updateConnectedSocketsCount();
     }, onDone: () {
       print(
           'Client disconnected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
       _sockets.remove(clientSocket);
+      _updateConnectedSocketsCount();
     });
   }
 
