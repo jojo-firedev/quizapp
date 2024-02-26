@@ -110,6 +110,76 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
+              child: InkWell(
+                onTap: () => _buzzerSocketService.releaseBuzzer(),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.lock_open,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          '',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              child: InkWell(
+                onTap: () {},
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.help,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Fragenkatalog',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              child: InkWell(
+                onTap: () => Navigator.pushNamed(context, '/einstellungen'),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.settings,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Einstellungen',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
               color: Colors.red,
               child: InkWell(
                 onTap: () => BuzzerService().sendConfigWithIP(),
@@ -199,10 +269,10 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               return Text(
                 'Verbundene Buttons: ${snapshot.data}',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               );
             } else {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
           },
         ),
