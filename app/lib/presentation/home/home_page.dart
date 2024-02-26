@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:quizapp/service/buzzer_service.dart';
 import 'package:quizapp/service/buzzer_socket_service.dart';
-import 'package:quizapp/service/dev/test_buzzer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -111,7 +112,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => testBuzzer(),
+                onTap: () => BuzzerService().sendConfigWithIP(),
                 child: Center(
                   child: Column(
                     children: [
