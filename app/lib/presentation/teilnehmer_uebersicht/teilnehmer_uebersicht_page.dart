@@ -22,11 +22,10 @@ class TeilnehmerUebersichtPage extends StatelessWidget {
               itemCount: data.length,
               itemBuilder: (context, index) {
                 final gemeinde = data[index].gemeinde;
-                final ort = data[index].ort;
                 final name = data[index].name;
                 return ListTile(
                   title: Text(name),
-                  subtitle: Text('Gemeinde/Stadt: $gemeinde'),
+                  subtitle: Text(gemeinde),
                 );
               },
             );
