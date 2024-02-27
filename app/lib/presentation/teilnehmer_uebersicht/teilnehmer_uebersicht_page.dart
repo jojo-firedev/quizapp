@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/csv_service.dart';
