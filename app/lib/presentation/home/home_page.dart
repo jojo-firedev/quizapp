@@ -11,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  BuzzerUdpService buzzerUdpService = BuzzerUdpService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -194,8 +195,9 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () =>
-                    Global.buzzerSocketService!.lockBuzzer('00:00:00:00:00:00'),
+                // onTap: () =>
+                //     Global.buzzerSocketService!.lockBuzzer('00:00:00:00:00:00'),
+                onTap: () => buzzerUdpService.sendButtonLock(),
                 child: Center(
                   child: Column(
                     children: [
@@ -221,7 +223,8 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => Global.buzzerSocketService!.releaseBuzzer(),
+                // onTap: () => Global.buzzerSocketService!.releaseBuzzer(),
+                onTap: () => buzzerUdpService.sendButtonRelease(),
                 child: Center(
                   child: Column(
                     children: [
