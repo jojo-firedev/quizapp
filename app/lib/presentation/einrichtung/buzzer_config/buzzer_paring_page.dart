@@ -84,7 +84,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
             const SizedBox(height: 20),
             FilledButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/einrichtung/buzzer_config');
+                Navigator.pushNamed(context, '/einrichtung/buzzer_assignment');
               },
               child: const Text('Weiter'),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/gobals.dart';
-import 'package:quizapp/presentation/einrichtung/buzzer_config/1_buzzer_paring_page.dart';
-import 'package:quizapp/presentation/einrichtung/buzzer_config/2_buzzer_config_page.dart';
+import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_paring_page.dart';
+import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_assignment_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
 import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/einrichtung': (context) => const EinrichtungPage(),
         '/einrichtung/buzzer_paring': (context) => const BuzzerParingPage(),
-        '/einrichtung/buzzer_config': (context) => const BuzzerConfigPage(),
+        '/einrichtung/buzzer_assignment': (context) =>
+            const BuzzerAssignmentPage(),
         '/quiz': (context) => const QuizPage(),
         '/teilnehmer': (context) => const TeilnehmerUebersichtPage(),
         '/einstellungen': (context) => const EinstellungPage(),

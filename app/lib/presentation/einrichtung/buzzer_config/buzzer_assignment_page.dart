@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/csv_service.dart';
 
-class TeilnehmerUebersichtPage extends StatelessWidget {
-  final CsvService csvService = const CsvService();
+class BuzzerAssignmentPage extends StatefulWidget {
+  const BuzzerAssignmentPage({super.key});
 
-  const TeilnehmerUebersichtPage({super.key});
+  @override
+  State<BuzzerAssignmentPage> createState() => _BuzzerAssignmentPageState();
+}
+
+class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
+  final CsvService csvService = const CsvService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Teilnehmerübersicht'),
+        title: const Text('Buzzer zuordnen'),
       ),
       body: FutureBuilder<List<Jugendfeuerwehr>>(
         future: csvService.readCsv(),
