@@ -98,20 +98,20 @@ class _HomePageState extends State<HomePage> {
             ),
             Card(
               child: InkWell(
-                onTap: () => Global.buzzerSocketService!.releaseBuzzer(),
+                onTap: () => buzzerUdpService.sendPing(),
                 child: Center(
                   child: Column(
                     children: [
                       Expanded(
                         child: Icon(
-                          Icons.lock_open,
+                          Icons.send,
                           size: MediaQuery.of(context).size.width / 10,
                         ),
                       ),
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          '',
+                          'Send Ping to Buzzer',
                         ),
                       ),
                     ],
