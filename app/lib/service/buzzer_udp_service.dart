@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:udp/udp.dart';
 
 import 'package:quizapp/service/network_service.dart';
@@ -8,13 +11,20 @@ class BuzzerUdpService {
 
   void sendConfigWithIP() async {
     String ipAddress = await _networkService.getIpAddress();
+    const String broadcastAddress = '255.255.255.255'; // Broadcast address
+    const int port = 4444; // Port number
 
-    String configMessage = '{"Config": {"ServerIPAdresse" : "$ipAddress"}}';
+    String configMessage =
+        '''{"Config": {"ServerIPAdresse": "192.168.0.120"}}''';
     print('Config: $configMessage');
 
+    List<int> data = utf8.encode(configMessage);
+
+    var socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
+    var result = socket.send(data, InternetAddress(broadcastAddress), port);
+
     var sender = await UDP.bind(Endpoint.any(port: const Port(65000)));
-    await sender.send(
-        configMessage.codeUnits, Endpoint.broadcast(port: buzzerUdpConfigPort));
-    print('Sent config message');
+    await sender.send(data, Endpoint.broadcast(port: buzzerUdpConfigPort));
+    print('Sent config message ${result}');
   }
 }
