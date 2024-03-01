@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Card(
               child: InkWell(
-                onTap: () => Navigator.pushNamed(context, '/quiz'),
+                onTap: () => Navigator.pushNamed(context, '/quiz-master'),
                 child: Center(
                   child: Column(
                     children: [
