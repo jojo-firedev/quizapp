@@ -9,9 +9,7 @@ class CsvService {
 
   Future<List<Jugendfeuerwehr>> readCsv() async {
     print('Reading CSV');
-    final input = File(
-            'C:\\Users\\priva\\dev\\quizapp\\app\\lib\\data\\jugendfeuerwehre-lklg.csv')
-        .openRead();
+    final input = File('/assets/data/jugendfeuerwehren-lklg.csv').openRead();
     List<dynamic> fields = await input
         .transform(utf8.decoder)
         .transform(const CsvToListConverter())
