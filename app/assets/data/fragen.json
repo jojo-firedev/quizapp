@@ -1,0 +1,15 @@
+{
+    "themen": {
+        "1": "Wirtschaft",
+        "2": "Politik",
+        "3": "Sport",
+        "4": "Kultur",
+        "5": "Wissenschaft",
+        "6": "Technik"
+    },
+    "fragen": {
+        "wirtschaft": [],
+        "politik": [],
+        "sport": []
+    }
+}
