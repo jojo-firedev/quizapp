@@ -17,18 +17,6 @@ class EinrichtungPage extends StatelessWidget {
             onTap: () =>
                 Navigator.of(context).pushNamed('/einrichtung/buzzer_paring'),
           ),
-          const ListTile(
-            title: Text('Teilnehmer hinzufügen'),
-            subtitle: Text('Teilnehmer hinzufügen'),
-          ),
-          const ListTile(
-            title: Text('Teilnehmer bearbeiten'),
-            subtitle: Text('Teilnehmer bearbeiten'),
-          ),
-          const ListTile(
-            title: Text('Teilnehmer löschen'),
-            subtitle: Text('Teilnehmer löschen'),
-          ),
         ],
       ),
     );
