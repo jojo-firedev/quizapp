@@ -16,7 +16,7 @@ class BuzzerUdpService {
     Global.logger.d('Sent udp message: $message');
   }
 
-  void sendConfigWithIP() async {
+  void sendConfig() async {
     String ipAddress = await _networkService.getIpAddress();
 
     String configMessage = jsonEncode({
