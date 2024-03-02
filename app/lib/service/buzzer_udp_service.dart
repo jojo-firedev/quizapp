@@ -13,7 +13,7 @@ class BuzzerUdpService {
     List<int> data = utf8.encode(message);
     var sender = await UDP.bind(Endpoint.any(port: _localUdpPort));
     await sender.send(data, Endpoint.broadcast(port: _buzzerUdpPort));
-    Global.logger.d('Sent udp message');
+    Global.logger.d('Sent udp message: $message');
   }
 
   void sendConfigWithIP() async {
@@ -29,9 +29,11 @@ class BuzzerUdpService {
   }
 
   void sendBuzzerLock({String? winnerMac}) {
-    String lockMessage = jsonEncode({
-      'ButtonLock': [winnerMac]
-    });
+    List winner = [];
+    if (winnerMac != null) {
+      winner = [winnerMac];
+    }
+    String lockMessage = jsonEncode({'ButtonLock': winner});
 
     _sendUdpMessage(lockMessage);
   }
@@ -43,9 +45,7 @@ class BuzzerUdpService {
   }
 
   void sendPing() {
-    String pingMessage = jsonEncode({
-      'Ping': ["Ping"]
-    });
+    String pingMessage = jsonEncode({'Ping': []});
 
     _sendUdpMessage(pingMessage);
   }
