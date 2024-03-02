@@ -7,12 +7,19 @@ import 'package:quizapp/service/buzzer_udp_service.dart';
 
 class BuzzerManagerService {
   BuzzerType buzzerType = BuzzerType.udp;
+  bool _isBuzzerLocked = false;
   late BuzzerUdpService buzzerUdpService;
   late BuzzerUdpListenerService buzzerUdpListenerService;
   late BuzzerSocketService buzzerSocketService;
 
   BuzzerManagerService(this.buzzerType) {
     setup();
+  }
+
+  bool get isBuzzerLocked => _isBuzzerLocked;
+
+  set isBuzzerLocked(bool value) {
+    _isBuzzerLocked = value;
   }
 
   void setup() {
@@ -52,7 +59,7 @@ class BuzzerManagerService {
     }
   }
 
-  void handleMessage(data, ip, port) {
+  void handleMessage(data, ip, port, internalbuzzerType) {
     String message = utf8.decode(data);
     Map<String, dynamic> jsonObject = jsonDecode(message);
 
@@ -62,10 +69,11 @@ class BuzzerManagerService {
       String mac = jsonObject.keys.first;
       Global.macs.add(mac);
     } else if (jsonObject.values.first == 'ButtonPressed') {
+      print('Button pressed');
       String mac = jsonObject.keys.first;
-      if (buzzerType == BuzzerType.socket) {
+      if (internalbuzzerType == BuzzerType.socket) {
         buzzerSocketService.sendBuzzerLock(winnerMac: mac);
-      } else if (buzzerType == BuzzerType.udp) {
+      } else if (internalbuzzerType == BuzzerType.udp) {
         buzzerUdpService.sendBuzzerLock(winnerMac: mac);
       }
     }
