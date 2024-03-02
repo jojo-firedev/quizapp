@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:quizapp/globals.dart';
+import 'package:quizapp/service/buzzer_manager_service.dart';
 
-class BuzzerUdpListener {
+class BuzzerUdpListenerService {
   RawDatagramSocket? _socket;
   final int buzzerUdpPort = 8090;
   final int localUdpPort = 8084;
 
-  BuzzerUdpListener() {
+  BuzzerUdpListenerService() {
     startListening();
     Global.logger.d('Buzzer UDP listener started on port $localUdpPort');
   }
@@ -21,11 +22,16 @@ class BuzzerUdpListener {
       // Listen for UDP packets
       _socket!.listen((RawSocketEvent event) {
         if (event == RawSocketEvent.read) {
-          Datagram? datagram = _socket!.receive();
-          if (datagram != null) {
+          Datagram? result = _socket!.receive();
+          if (result != null) {
+            BuzzerManagerService(BuzzerType.silent).handleMessage(
+              result.data,
+              result.address,
+              result.port,
+            );
             // Process received data here
-            String message = String.fromCharCodes(datagram.data);
-            Global.logger.d('Received message: $message');
+            // String message = String.fromCharCodes(result.data);
+            // Global.logger.d('Received message: $message');
           }
         }
       });

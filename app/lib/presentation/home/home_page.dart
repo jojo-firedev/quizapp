@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/service/buzzer_udp_listener_service.dart';
-
-import 'package:quizapp/service/buzzer_udp_service.dart';
+import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,8 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  BuzzerUdpService buzzerUdpService = BuzzerUdpService();
-  BuzzerUdpListener buzzerUdpListener = BuzzerUdpListener();
+  BuzzerManagerService buzzerManagerService =
+      BuzzerManagerService(BuzzerType.udp);
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Card(
               child: InkWell(
-                onTap: () => buzzerUdpService.sendPing(),
+                onTap: () => buzzerManagerService.sendPing(),
                 child: Center(
                   child: Column(
                     children: [
@@ -172,7 +170,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => BuzzerUdpService().sendConfigWithIP(),
+                onTap: () => buzzerManagerService.sendConfig(),
                 child: Center(
                   child: Column(
                     children: [
@@ -200,7 +198,7 @@ class _HomePageState extends State<HomePage> {
               child: InkWell(
                 // onTap: () =>
                 //     Global.buzzerSocketService!.lockBuzzer('00:00:00:00:00:00'),
-                onTap: () => buzzerUdpService.sendButtonLock(),
+                onTap: () => buzzerManagerService.sendBuzzerLock(),
                 child: Center(
                   child: Column(
                     children: [
@@ -227,7 +225,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.red,
               child: InkWell(
                 // onTap: () => Global.buzzerSocketService!.releaseBuzzer(),
-                onTap: () => buzzerUdpService.sendButtonRelease(),
+                onTap: () => buzzerManagerService.sendBuzzerRelease(),
                 child: Center(
                   child: Column(
                     children: [
@@ -253,22 +251,22 @@ class _HomePageState extends State<HomePage> {
           ],
         );
       }),
-      floatingActionButton: Container(
-        padding: const EdgeInsets.all(20),
-        child: StreamBuilder<int>(
-          stream: Global.buzzerSocketService!.connectedSocketsCountStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(
-                'Verbundene Buzzer: ${snapshot.data}',
-                style: const TextStyle(fontSize: 20),
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
-      ),
+      // floatingActionButton: Container(
+      //   padding: const EdgeInsets.all(20),
+      //   child:  StreamBuilder<int>(
+      //     stream: buzzerManagerService.buzzerSocketService.connectedSocketsCountStream,
+      //     builder: (context, snapshot) {
+      //       if (snapshot.hasData) {
+      //         return Text(
+      //           'Verbundene Buzzer: ${snapshot.data}',
+      //           style: const TextStyle(fontSize: 20),
+      //         );
+      //       } else {
+      //         return const CircularProgressIndicator();
+      //       }
+      //     },
+      //   ),
+      // ),
     );
   }
 }

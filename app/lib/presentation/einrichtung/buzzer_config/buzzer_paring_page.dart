@@ -61,23 +61,23 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
             const SizedBox(height: 10),
             const Text(
                 'Schließen Sie alle Buzzer an die Stromversorgung an und drücke Sie auf "Buzzer konfigurieren".'),
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: StreamBuilder<int>(
-                stream: Global.buzzerSocketService!.connectedSocketsCountStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      'Verbundene Buzzer: ${snapshot.data}',
-                      style: const TextStyle(
-                          fontSize: 30, fontWeight: FontWeight.bold),
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.all(20),
+            //   child: StreamBuilder<int>(
+            //     // stream: Global.buzzerSocketService!.connectedSocketsCountStream,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         return Text(
+            //           'Verbundene Buzzer: ${snapshot.data}',
+            //           style: const TextStyle(
+            //               fontSize: 30, fontWeight: FontWeight.bold),
+            //         );
+            //       } else {
+            //         return const CircularProgressIndicator();
+            //       }
+            //     },
+            //   ),
+            // ),
             const SizedBox(height: 20),
             const Text(
                 "Wenn alle Buzzer verbunden sind, drücken Sie auf 'Weiter'."),

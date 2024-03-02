@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:quizapp/globals.dart';
+import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class BuzzerSocketService {
   ServerSocket? _serverSocket;
@@ -55,18 +56,11 @@ class BuzzerSocketService {
     updateConnectedSocketsCount();
 
     clientSocket.listen((List<int> data) {
-      String message = utf8.decode(data);
-      Map<String, dynamic> jsonObject = jsonDecode(message);
-
-      if (jsonObject.values.first == 'Connected') {
-        String mac = jsonObject.keys.first;
-        Global.macs.add(mac);
-      } else if (jsonObject.values.first == 'ButtonPressed') {
-        String mac = jsonObject.keys.first;
-        lockBuzzer(mac);
-      }
-      Global.logger.d(
-          'Received message from ${clientSocket.remoteAddress}:${clientSocket.remotePort}: $message');
+      BuzzerManagerService(BuzzerType.silent).handleMessage(
+        data,
+        clientSocket.remoteAddress.address,
+        clientSocket.remotePort,
+      );
     }, onError: (error) {
       Global.logger.d('Error with client: $error');
       Global.sockets.remove(clientSocket);
@@ -88,7 +82,7 @@ class BuzzerSocketService {
     }
   }
 
-  void lockBuzzer(String winnerMac) {
+  void sendBuzzerLock({String? winnerMac}) {
     String lockMessage = jsonEncode({
       'ButtonLock': [winnerMac]
     });
@@ -96,9 +90,17 @@ class BuzzerSocketService {
     _sendMessageToAll(lockMessage);
   }
 
-  void releaseBuzzer() {
+  void sendBuzzerRelease() {
     String resetMessage = jsonEncode({'ButtonRelease': []});
     _sendMessageToAll(resetMessage);
+  }
+
+  void sendPing() {
+    String pingMessage = jsonEncode({
+      'Ping': ["Ping"]
+    });
+
+    _sendMessageToAll(pingMessage);
   }
 
   void close() {

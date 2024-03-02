@@ -66,7 +66,7 @@ class _QuizMasterPageState extends State<QuizMasterPage>
                     Card(
                       color: Colors.red,
                       child: InkWell(
-                        onTap: () => buzzerUdpService.sendButtonRelease(),
+                        onTap: () => buzzerUdpService.sendBuzzerRelease(),
                         child: Center(
                           child: Column(
                             children: [
@@ -97,7 +97,7 @@ class _QuizMasterPageState extends State<QuizMasterPage>
                     Card(
                       color: Colors.grey.shade800,
                       child: InkWell(
-                        onTap: () => buzzerUdpService.sendButtonLock(),
+                        onTap: () => buzzerUdpService.sendBuzzerLock(),
                         child: Center(
                           child: Column(
                             children: [
@@ -124,7 +124,7 @@ class _QuizMasterPageState extends State<QuizMasterPage>
                     Card(
                       color: Colors.grey.shade800,
                       child: InkWell(
-                        onTap: () => buzzerUdpService.sendButtonRelease(),
+                        onTap: () => buzzerUdpService.sendBuzzerRelease(),
                         child: Center(
                           child: Column(
                             children: [

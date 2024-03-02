@@ -28,13 +28,15 @@ class BuzzerUdpService {
     _sendUdpMessage(configMessage);
   }
 
-  void sendButtonLock() {
-    String lockMessage = jsonEncode({'ButtonLock': []});
+  void sendBuzzerLock({String? winnerMac}) {
+    String lockMessage = jsonEncode({
+      'ButtonLock': [winnerMac]
+    });
 
     _sendUdpMessage(lockMessage);
   }
 
-  void sendButtonRelease() {
+  void sendBuzzerRelease() {
     String releaseMessage = jsonEncode({'ButtonRelease': []});
 
     _sendUdpMessage(releaseMessage);
