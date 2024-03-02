@@ -10,7 +10,7 @@ class CsvService {
 
   Future<List<Jugendfeuerwehr>> readCsv() async {
     Global.logger.d('Reading CSV');
-    final input = File('/assets/data/jugendfeuerwehren-lklg.csv').openRead();
+    final input = File('assets/data/jugendfeuerwehren-lklg.csv').openRead();
     List<dynamic> fields = await input
         .transform(utf8.decoder)
         .transform(const CsvToListConverter())
@@ -19,8 +19,7 @@ class CsvService {
     List<Jugendfeuerwehr> list = fields
         .map((e) => Jugendfeuerwehr(
               name: e[0],
-              ort: e[1],
-              gemeinde: e[2],
+              gemeinde: e[1],
             ))
         .toList();
 
