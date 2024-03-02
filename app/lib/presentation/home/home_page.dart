@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/globals.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class HomePage extends StatefulWidget {
