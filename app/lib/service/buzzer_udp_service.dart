@@ -5,13 +5,13 @@ import 'package:quizapp/service/network_service.dart';
 
 class BuzzerUdpService {
   final NetworkService _networkService = NetworkService();
-  final Port buzzerUdpPort = const Port(8090);
-  final Port localUdpPort = const Port(8084);
+  final Port _buzzerUdpPort = const Port(8090);
+  final Port _localUdpPort = const Port(8084);
 
-  void sendUdpMessage(String message) async {
+  void _sendUdpMessage(String message) async {
     List<int> data = utf8.encode(message);
-    var sender = await UDP.bind(Endpoint.any(port: localUdpPort));
-    await sender.send(data, Endpoint.broadcast(port: buzzerUdpPort));
+    var sender = await UDP.bind(Endpoint.any(port: _localUdpPort));
+    await sender.send(data, Endpoint.broadcast(port: _buzzerUdpPort));
     print('Sent config message');
   }
 
@@ -24,19 +24,19 @@ class BuzzerUdpService {
 
     print('Config: $configMessage');
 
-    sendUdpMessage(configMessage);
+    _sendUdpMessage(configMessage);
   }
 
   void sendButtonLock() {
     String lockMessage = jsonEncode({'ButtonLock': []});
 
-    sendUdpMessage(lockMessage);
+    _sendUdpMessage(lockMessage);
   }
 
   void sendButtonRelease() {
     String releaseMessage = jsonEncode({'ButtonRelease': []});
 
-    sendUdpMessage(releaseMessage);
+    _sendUdpMessage(releaseMessage);
   }
 
   void sendPing() {
@@ -44,6 +44,6 @@ class BuzzerUdpService {
       'Ping': ["Ping"]
     });
 
-    sendUdpMessage(pingMessage);
+    _sendUdpMessage(pingMessage);
   }
 }
