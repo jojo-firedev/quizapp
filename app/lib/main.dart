@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/globals.dart';
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_paring_page.dart';
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_assignment_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
@@ -8,11 +7,9 @@ import 'package:quizapp/presentation/home/home_page.dart';
 import 'package:quizapp/presentation/quiz/quiz_page.dart';
 import 'package:quizapp/presentation/quiz_master/quiz_master_page.dart';
 import 'package:quizapp/presentation/teilnehmer_uebersicht/teilnehmer_uebersicht_page.dart';
-import 'package:quizapp/service/buzzer_socket_service.dart';
 import 'package:quizapp/style.dart';
 
 void main() {
-  Global.buzzerSocketService = BuzzerSocketService();
   runApp(const MyApp());
 }
 
