@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/gobals.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/service/buzzer_udp_service.dart';
 
 class BuzzerParingPage extends StatefulWidget {

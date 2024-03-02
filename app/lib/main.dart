@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/gobals.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_paring_page.dart';
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_assignment_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
