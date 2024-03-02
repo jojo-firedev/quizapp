@@ -1,12 +1,18 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:logger/logger.dart';
+import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class Global {
   static List<Socket> sockets = [];
   static List<String> macs = [];
-  static BuzzerManagerService? buzzerManagerService;
+  static ConnectionMode connectionMode = ConnectionMode.idle;
+  static BuzzerType buzzerType = BuzzerType.udp;
+  static bool isBuzzerLocked = false;
+  static List<BuzzerAssignment> assignedBuzzer = [];
+  static final streamController = StreamController<Map<String, dynamic>>();
 
   static Logger logger = Logger(
     printer: PrettyPrinter(),
