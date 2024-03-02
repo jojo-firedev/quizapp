@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:quizapp/service/csv_service.dart';
 
 class ParticipantsManagementPage extends StatefulWidget {
+  const ParticipantsManagementPage({super.key});
+
   @override
-  _ParticipantsManagementPageState createState() =>
+  State<ParticipantsManagementPage> createState() =>
       _ParticipantsManagementPageState();
 }
 
 class _ParticipantsManagementPageState
     extends State<ParticipantsManagementPage> {
-  CsvService csvService = CsvService();
+  CsvService csvService = const CsvService();
   List<String> participants = [
     'John Doe',
     'Jane Smith',

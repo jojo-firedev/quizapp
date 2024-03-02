@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/gobals.dart';
+import 'package:quizapp/globals.dart';
+import 'package:quizapp/service/buzzer_udp_listener_service.dart';
 
 import 'package:quizapp/service/buzzer_udp_service.dart';
 
@@ -12,6 +13,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   BuzzerUdpService buzzerUdpService = BuzzerUdpService();
+  BuzzerUdpListener buzzerUdpListener = BuzzerUdpListener();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

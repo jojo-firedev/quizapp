@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/presentation/quiz/components/card_element.dart';
 
 class QuizPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _QuizPageState extends State<QuizPage>
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         // Countdown completed, handle your action here
-        print('Countdown completed');
+        Global.logger.d('Countdown completed');
       }
     });
   }

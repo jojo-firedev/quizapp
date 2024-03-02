@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:quizapp/gobals.dart';
+import 'package:quizapp/globals.dart';
 
 class BuzzerSocketService {
   ServerSocket? _serverSocket;
@@ -27,12 +27,12 @@ class BuzzerSocketService {
   void _startServer() async {
     try {
       _serverSocket = await ServerSocket.bind(InternetAddress.anyIPv4, 8082);
-      print('Server started on port ${_serverSocket!.port}');
+      Global.logger.d('Server started on port ${_serverSocket!.port}');
       _serverSocket!.listen((Socket clientSocket) {
         _handleClient(clientSocket);
       });
     } catch (e) {
-      print('Error starting server: $e');
+      Global.logger.d('Error starting server: $e');
     }
   }
 
@@ -49,7 +49,7 @@ class BuzzerSocketService {
   }
 
   void _handleClient(Socket clientSocket) {
-    print(
+    Global.logger.d(
         'Client connected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
     Global.sockets.add(clientSocket);
     updateConnectedSocketsCount();
@@ -65,14 +65,14 @@ class BuzzerSocketService {
         String mac = jsonObject.keys.first;
         lockBuzzer(mac);
       }
-      print(
+      Global.logger.d(
           'Received message from ${clientSocket.remoteAddress}:${clientSocket.remotePort}: $message');
     }, onError: (error) {
-      print('Error with client: $error');
+      Global.logger.d('Error with client: $error');
       Global.sockets.remove(clientSocket);
       updateConnectedSocketsCount();
     }, onDone: () {
-      print(
+      Global.logger.d(
           'Client disconnected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
       Global.sockets.remove(clientSocket);
       updateConnectedSocketsCount();
