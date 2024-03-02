@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/service/buzzer_udp_service.dart';
 
 class BuzzerUdpListenerService {
   RawDatagramSocket? _socket;
@@ -31,19 +30,7 @@ class BuzzerUdpListenerService {
             Global.logger.d(
                 'Received message from ${result.address.address}:${result.port}: $message');
 
-            if (jsonObject.values.first == 'Connected') {
-              String mac = jsonObject.keys.first;
-              if (!Global.macs.contains(mac)) {
-                Global.macs.add(mac);
-              }
-            } else if (jsonObject.values.first == 'ButtonPressed') {
-              String mac = jsonObject.keys.first;
-              if (!Global.macs.contains(mac)) {
-                Global.macs.add(mac);
-              }
-
-              BuzzerUdpService().sendBuzzerLock(winnerMac: mac);
-            }
+            Global.streamController.add(jsonObject);
           }
         }
       });
