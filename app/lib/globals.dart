@@ -10,12 +10,12 @@ class Global {
   static List<Socket> sockets = [];
   static List<String> macs = [];
   static ConnectionMode connectionMode = ConnectionMode.idle;
-  static BuzzerType buzzerType = BuzzerType.udp;
+  static BuzzerType buzzerType = BuzzerType.socket;
   static bool isBuzzerLocked = false;
   static List<BuzzerAssignment> assignedBuzzer = [];
   static Jugendfeuerwehr? currentAssignmentData;
   static final streamController = StreamController<Map<String, dynamic>>();
-  static BuzzerManagerService? buzzerManagerService;
+  static BuzzerManagerService buzzerManagerService = BuzzerManagerService();
 
   static Logger logger = Logger(
     printer: PrettyPrinter(),
