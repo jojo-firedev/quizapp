@@ -13,14 +13,12 @@ class BuzzerAssignmentPage extends StatefulWidget {
 
 class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
   final CsvService csvService = const CsvService();
-  final BuzzerManagerService _buzzerManagerService = BuzzerManagerService();
 
   @override
   void initState() {
     Global.connectionMode = ConnectionMode.assignment;
-    _buzzerManagerService.setup();
-    _buzzerManagerService.listenToStream();
-    _buzzerManagerService.sendBuzzerRelease();
+
+    Global.buzzerManagerService!.sendBuzzerRelease();
 
     super.initState();
   }

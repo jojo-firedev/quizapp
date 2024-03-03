@@ -13,6 +13,8 @@ import 'package:quizapp/style.dart';
 
 void main() {
   Global.buzzerType = BuzzerType.udp;
+  Global.buzzerManagerService = BuzzerManagerService();
+  Global.buzzerManagerService!.setup();
   runApp(const MyApp());
 }
 

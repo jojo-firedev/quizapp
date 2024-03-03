@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Card(
               child: InkWell(
-                onTap: () => BuzzerManagerService().sendPing(),
+                onTap: () => Global.buzzerManagerService!.sendPing(),
                 child: Center(
                   child: Column(
                     children: [
@@ -166,7 +167,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => BuzzerManagerService().sendConfig(),
+                onTap: () => Global.buzzerManagerService!.sendConfig(),
                 child: Center(
                   child: Column(
                     children: [
@@ -192,7 +193,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => BuzzerManagerService().sendBuzzerLock(),
+                onTap: () => Global.buzzerManagerService!.sendBuzzerLock(),
                 child: Center(
                   child: Column(
                     children: [
@@ -218,7 +219,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => BuzzerManagerService().sendBuzzerRelease(),
+                onTap: () => Global.buzzerManagerService!.sendBuzzerRelease(),
                 child: Center(
                   child: Column(
                     children: [

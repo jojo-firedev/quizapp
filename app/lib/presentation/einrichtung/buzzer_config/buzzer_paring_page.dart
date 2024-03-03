@@ -10,13 +10,9 @@ class BuzzerParingPage extends StatefulWidget {
 }
 
 class _BuzzerParingPageState extends State<BuzzerParingPage> {
-  final BuzzerManagerService _buzzerManagerService = BuzzerManagerService();
-
   @override
   void initState() {
     Global.connectionMode = ConnectionMode.parring;
-    _buzzerManagerService.setup();
-    _buzzerManagerService.listenToStream();
 
     super.initState();
   }
@@ -40,7 +36,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
-              onPressed: () => _buzzerManagerService.sendConfig(),
+              onPressed: () => Global.buzzerManagerService!.sendConfig(),
               child: const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
@@ -61,7 +57,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               ),
               onPressed: () {
                 setState(() {
-                  _buzzerManagerService.connectAllBuzzer();
+                  Global.buzzerManagerService!.connectAllBuzzer();
                 });
               },
               child: const Padding(
