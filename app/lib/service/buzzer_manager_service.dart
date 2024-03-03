@@ -9,7 +9,9 @@ class BuzzerManagerService {
   late BuzzerUdpListenerService buzzerUdpListenerService;
   late BuzzerSocketService buzzerSocketService;
 
-  BuzzerManagerService();
+  BuzzerManagerService() {
+    setup();
+  }
 
   void setup() {
     if (Global.buzzerType == BuzzerType.socket) {
@@ -18,63 +20,6 @@ class BuzzerManagerService {
       buzzerUdpService = BuzzerUdpService();
       buzzerUdpListenerService = BuzzerUdpListenerService();
     }
-  }
-
-  void listenToStream() {
-    Global.streamController.stream.listen((event) {
-      Map<String, dynamic> jsonObject = event;
-      print(Global.connectionMode);
-
-      switch (Global.connectionMode) {
-        case ConnectionMode.idle:
-          break;
-        case ConnectionMode.parring:
-          String mac = jsonObject.keys.first;
-          if (!Global.macs.contains(mac)) {
-            Global.macs.add(mac);
-            Global.logger.d('Added mac: $mac');
-          }
-          Global.logger.d(Global.macs);
-          BuzzerUdpService().sendBuzzerRelease();
-          break;
-        case ConnectionMode.assignment:
-          print('Received message: $jsonObject for Assignement');
-          if (jsonObject.values.first != 'ButtonPressed') {
-            break;
-          } else if (Global.currentAssignmentData == null) {
-            break;
-          }
-
-          Global.assignedBuzzer.add(BuzzerAssignment(
-              gemeinde: Global.currentAssignmentData!.gemeinde,
-              name: Global.currentAssignmentData!.name,
-              mac: jsonObject.keys.first));
-          Global.logger.d(Global.assignedBuzzer.toString());
-          Global.currentAssignmentData = null;
-          sendBuzzerRelease();
-          break;
-        case ConnectionMode.game:
-          switch (jsonObject.values.first) {
-            case 'Connected':
-              String mac = jsonObject.keys.first;
-              if (!Global.macs.contains(mac)) {
-                Global.macs.add(mac);
-              }
-              break;
-            case 'ButtonPressed':
-              String mac = jsonObject.keys.first;
-              if (!Global.macs.contains(mac)) {
-                Global.macs.add(mac);
-              }
-              BuzzerUdpService().sendBuzzerLock(winnerMac: mac);
-              break;
-            default:
-              break;
-          }
-        default:
-          break;
-      }
-    });
   }
 
   void close() {
@@ -94,9 +39,9 @@ class BuzzerManagerService {
     sendBuzzerRelease();
   }
 
-  void sendBuzzerLock() {
+  void sendBuzzerLock({String? winnerMac}) {
     if (Global.buzzerType == BuzzerType.socket) {
-      buzzerSocketService.sendBuzzerLock();
+      buzzerSocketService.sendBuzzerLock(winnerMac: winnerMac);
     } else if (Global.buzzerType == BuzzerType.udp) {
       buzzerUdpService.sendBuzzerLock();
     }
