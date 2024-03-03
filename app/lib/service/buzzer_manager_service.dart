@@ -77,6 +77,14 @@ class BuzzerManagerService {
     });
   }
 
+  void close() {
+    if (Global.buzzerType == BuzzerType.udp) {
+      buzzerUdpListenerService.stopListening();
+    } else {
+      buzzerSocketService.stopListening();
+    }
+  }
+
   void sendConfig() {
     buzzerUdpService.sendConfig();
   }

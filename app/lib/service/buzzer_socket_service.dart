@@ -111,7 +111,7 @@ class BuzzerSocketService {
     _sendMessageToAll(pingMessage);
   }
 
-  void close() {
+  void stopListening() {
     _serverSocket?.close();
     _keepAliveTimer?.cancel();
     for (var socket in Global.sockets) {
