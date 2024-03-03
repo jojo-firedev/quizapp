@@ -17,6 +17,12 @@ class EinrichtungPage extends StatelessWidget {
             onTap: () =>
                 Navigator.of(context).pushNamed('/einrichtung/buzzer_paring'),
           ),
+          ListTile(
+            title: const Text('Buzzer zuordnen'),
+            subtitle: const Text('Buzzer den Jugendfeuerwehren zuordnen'),
+            onTap: () => Navigator.of(context)
+                .pushNamed('/einrichtung/buzzer_assignment'),
+          ),
         ],
       ),
     );

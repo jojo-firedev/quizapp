@@ -13,10 +13,15 @@ class BuzzerAssignmentPage extends StatefulWidget {
 
 class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
   final CsvService csvService = const CsvService();
+  final BuzzerManagerService _buzzerManagerService = BuzzerManagerService();
 
   @override
   void initState() {
     Global.connectionMode = ConnectionMode.assignment;
+    _buzzerManagerService.setup();
+    _buzzerManagerService.listenToStream();
+    _buzzerManagerService.sendBuzzerRelease();
+
     super.initState();
   }
 
@@ -30,40 +35,30 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
           SizedBox(width: 10)
         ],
       ),
-      body: StreamBuilder(
-        stream: Global.streamController.stream,
+      body: FutureBuilder<List<Jugendfeuerwehr>>(
+        future: csvService.readCsv(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return FutureBuilder<List<Jugendfeuerwehr>>(
-              future: csvService.readCsv(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final data = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      final gemeinde = data[index].gemeinde;
-                      final name = data[index].name;
-                      return ListTile(
-                        title: Text(name),
-                        subtitle: Text(gemeinde),
-                        trailing: const Icon(Icons.link, color: Colors.red),
-                        onTap: () {
-                          BuzzerManagerService()
-                              .assignBuzzer(name: name, gemeinde: gemeinde);
-                        },
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return const CircularProgressIndicator();
-                }
+            final data = snapshot.data!;
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final gemeinde = data[index].gemeinde;
+                final name = data[index].name;
+                return ListTile(
+                  title: Text(name),
+                  subtitle: Text(gemeinde),
+                  trailing: const Icon(Icons.link, color: Colors.red),
+                  onTap: () {
+                    Global.currentAssignmentData = data[index];
+                  },
+                );
               },
             );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
           } else {
-            return Container();
+            return const CircularProgressIndicator();
           }
         },
       ),

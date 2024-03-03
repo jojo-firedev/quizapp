@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/service/buzzer_socket_service.dart';
@@ -25,6 +23,7 @@ class BuzzerManagerService {
   void listenToStream() {
     Global.streamController.stream.listen((event) {
       Map<String, dynamic> jsonObject = event;
+      print(Global.connectionMode);
 
       switch (Global.connectionMode) {
         case ConnectionMode.idle:
@@ -37,7 +36,22 @@ class BuzzerManagerService {
           }
           Global.logger.d(Global.macs);
           BuzzerUdpService().sendBuzzerRelease();
+          break;
         case ConnectionMode.assignment:
+          print('Received message: $jsonObject for Assignement');
+          if (jsonObject.values.first != 'ButtonPressed') {
+            break;
+          } else if (Global.currentAssignmentData == null) {
+            break;
+          }
+
+          Global.assignedBuzzer.add(BuzzerAssignment(
+              gemeinde: Global.currentAssignmentData!.gemeinde,
+              name: Global.currentAssignmentData!.name,
+              mac: jsonObject.keys.first));
+          Global.logger.d(Global.assignedBuzzer.toString());
+          Global.currentAssignmentData = null;
+          sendBuzzerRelease();
           break;
         case ConnectionMode.game:
           switch (jsonObject.values.first) {
@@ -55,6 +69,7 @@ class BuzzerManagerService {
               BuzzerUdpService().sendBuzzerLock(winnerMac: mac);
               break;
             default:
+              break;
           }
         default:
           break;
@@ -93,29 +108,6 @@ class BuzzerManagerService {
     } else if (Global.buzzerType == BuzzerType.udp) {
       buzzerUdpService.sendPing();
     }
-  }
-
-  void assignBuzzer({required String name, required String gemeinde}) {
-    print('Start assigning buzzer for $name');
-    StreamSubscription<Map<String, dynamic>> subscription =
-        Global.streamController.stream.listen((event) async {});
-
-    subscription.onData((data) {
-      String mac = data.keys.first;
-
-      assignBuzzerToJugendfeuerwehr(name: name, gemeinde: gemeinde, mac: mac);
-      subscription.cancel();
-    });
-  }
-
-  void assignBuzzerToJugendfeuerwehr(
-      {required String name, required String gemeinde, required String mac}) {
-    print('Assigne Buzzer $mac to $name');
-    Global.assignedBuzzer.add(BuzzerAssignment(
-      name: name,
-      gemeinde: gemeinde,
-      mac: mac,
-    ));
   }
 }
 

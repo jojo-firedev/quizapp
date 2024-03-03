@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class BuzzerParingPage extends StatefulWidget {
@@ -9,6 +10,17 @@ class BuzzerParingPage extends StatefulWidget {
 }
 
 class _BuzzerParingPageState extends State<BuzzerParingPage> {
+  final BuzzerManagerService _buzzerManagerService = BuzzerManagerService();
+
+  @override
+  void initState() {
+    Global.connectionMode = ConnectionMode.parring;
+    _buzzerManagerService.setup();
+    _buzzerManagerService.listenToStream();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +40,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
-              onPressed: () => BuzzerManagerService().sendConfig(),
+              onPressed: () => _buzzerManagerService.sendConfig(),
               child: const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
@@ -49,7 +61,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               ),
               onPressed: () {
                 setState(() {
-                  BuzzerManagerService().connectAllBuzzer();
+                  _buzzerManagerService.connectAllBuzzer();
                 });
               },
               child: const Padding(
@@ -71,9 +83,8 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/einrichtung/buzzer_assignment');
-              },
+              onPressed: () => Navigator.pushNamed(
+                  context, '/einrichtung/buzzer_assignment'),
               child: const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
