@@ -1,5 +1,4 @@
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/service/buzzer_socket_service.dart';
 import 'package:quizapp/service/buzzer_udp_listener_service.dart';
 import 'package:quizapp/service/buzzer_udp_service.dart';
@@ -14,10 +13,11 @@ class BuzzerManagerService {
   }
 
   void setup() {
+    buzzerUdpService = BuzzerUdpService();
+
     if (Global.buzzerType == BuzzerType.socket) {
       buzzerSocketService = BuzzerSocketService();
     } else if (Global.buzzerType == BuzzerType.udp) {
-      buzzerUdpService = BuzzerUdpService();
       buzzerUdpListenerService = BuzzerUdpListenerService();
     }
   }
