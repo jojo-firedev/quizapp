@@ -47,33 +47,34 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
             ),
             const SizedBox(height: 20),
             const Text(
-                "Die Buzzer sind verbunden, wenn die LED im Buzzer dauerhaft Lila leuchtet."),
-            const Text(
-                'Sobald alle Buzzer lila leuchten, drücke auf "Verbinden".'),
+                "Die Buzzer sind verbunden, wenn die LED im Buzzer dauerhaft Gelb leuchtet."),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
-              ),
-              onPressed: () {
-                setState(() {
-                  Global.buzzerManagerService.connectAllBuzzer();
-                });
+            StreamBuilder<int>(
+              stream: Global.buzzerManagerService.buzzerSocketService
+                  .connectedSocketsCountStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    'Verbundene Buzzer: ${snapshot.data}',
+                    style: const TextStyle(fontSize: 20),
+                  );
+                } else {
+                  if (Global.sockets.isNotEmpty) {
+                    return Text(
+                      'Verbundene Buzzer: ${Global.sockets.length}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey.shade800,
+                      ),
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                }
               },
-              child: const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Verbinden',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
             ),
             const SizedBox(height: 20),
-            const Text(
-                'Sobald die Buzzer weiß leuchten, müssen alle Buzzer nacheinander betätigt werden.'),
-            const SizedBox(height: 20),
-            const Text(
-                'Wenn alle Buzzer betätigt wurden, drücke auf "Weiter".'),
+            const Text('Wenn alle Buzzer verbunden sind, drücke auf "Weiter".'),
             const SizedBox(height: 20),
             ElevatedButton(
               style: ButtonStyle(
