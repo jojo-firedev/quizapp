@@ -244,22 +244,23 @@ class _HomePageState extends State<HomePage> {
           ],
         );
       }),
-      // floatingActionButton: Container(
-      //   padding: const EdgeInsets.all(20),
-      //   child:  StreamBuilder<int>(
-      //     stream: buzzerManagerService.buzzerSocketService.connectedSocketsCountStream,
-      //     builder: (context, snapshot) {
-      //       if (snapshot.hasData) {
-      //         return Text(
-      //           'Verbundene Buzzer: ${snapshot.data}',
-      //           style: const TextStyle(fontSize: 20),
-      //         );
-      //       } else {
-      //         return const CircularProgressIndicator();
-      //       }
-      //     },
-      //   ),
-      // ),
+      floatingActionButton: Container(
+        padding: const EdgeInsets.all(20),
+        child: StreamBuilder<int>(
+          stream: Global.buzzerManagerService.buzzerSocketService
+              .connectedSocketsCountStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(
+                'Verbundene Buzzer: ${snapshot.data}',
+                style: const TextStyle(fontSize: 20),
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        ),
+      ),
     );
   }
 }
