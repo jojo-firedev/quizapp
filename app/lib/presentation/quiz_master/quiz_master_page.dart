@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:quizapp/service/buzzer_udp_service.dart';
 
 class QuizMasterPage extends StatefulWidget {

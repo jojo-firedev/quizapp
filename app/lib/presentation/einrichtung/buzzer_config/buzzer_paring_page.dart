@@ -36,7 +36,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
-              onPressed: () => Global.buzzerManagerService!.sendConfig(),
+              onPressed: () => Global.buzzerManagerService.sendConfig(),
               child: const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
@@ -57,7 +57,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               ),
               onPressed: () {
                 setState(() {
-                  Global.buzzerManagerService!.connectAllBuzzer();
+                  Global.buzzerManagerService.connectAllBuzzer();
                 });
               },
               child: const Padding(

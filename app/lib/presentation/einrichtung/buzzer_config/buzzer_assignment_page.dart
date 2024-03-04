@@ -18,7 +18,7 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
   void initState() {
     Global.connectionMode = ConnectionMode.assignment;
 
-    Global.buzzerManagerService!.sendBuzzerRelease();
+    Global.buzzerManagerService.sendBuzzerRelease();
 
     super.initState();
   }
