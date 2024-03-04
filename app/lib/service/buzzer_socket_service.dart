@@ -21,7 +21,7 @@ class BuzzerSocketService {
 
   BuzzerSocketService() {
     _startServer();
-    _startKeepAlive();
+    // _startKeepAlive();
   }
 
   void _startServer() async {
@@ -44,6 +44,8 @@ class BuzzerSocketService {
   }
 
   void _sendKeepAlive() {
+    Global.logger.d('KeepAlive');
+
     String keepAliveMessage = jsonEncode({'KeepAlive': []});
     _sendMessageToAll(keepAliveMessage);
   }
@@ -57,6 +59,9 @@ class BuzzerSocketService {
     clientSocket.listen((List<int> data) {
       String message = utf8.decode(data);
       Map<String, dynamic> jsonObject = jsonDecode(message);
+
+      Global.logger.d(
+          'Received message from ${clientSocket.remoteAddress}:${clientSocket.remotePort}: $message');
 
       if (jsonObject.values.first == 'Connected') {
         String mac = jsonObject.keys.first;
@@ -81,6 +86,8 @@ class BuzzerSocketService {
 
   void _sendMessageToAll(String message, {Socket? senderSocket}) {
     for (var socket in Global.sockets) {
+      Global.logger
+          .d('Sending message "$message" to: ${socket.remoteAddress.address}');
       if (socket == senderSocket && senderSocket != null) {
         continue;
       }
@@ -104,9 +111,7 @@ class BuzzerSocketService {
   }
 
   void sendPing() {
-    String pingMessage = jsonEncode({
-      'Ping': ["Ping"]
-    });
+    String pingMessage = '["Ping"]';
 
     _sendMessageToAll(pingMessage);
   }

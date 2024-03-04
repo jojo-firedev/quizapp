@@ -45,7 +45,7 @@ class BuzzerUdpService {
   }
 
   void sendPing() {
-    String pingMessage = jsonEncode({'Ping': []});
+    String pingMessage = '["Ping"]';
 
     _sendUdpMessage(pingMessage);
   }
