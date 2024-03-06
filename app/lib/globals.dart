@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:logger/logger.dart';
 import 'package:quizapp/models/buzzer_assignment.dart';
+import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class Global {
@@ -10,8 +11,8 @@ class Global {
   static List<String> macs = [];
   static ConnectionMode connectionMode = ConnectionMode.idle;
   static BuzzerType buzzerType = BuzzerType.socket;
-  static bool isBuzzerLocked = false;
   static List<BuzzerAssignment> assignedBuzzer = [];
+  static List<Jugendfeuerwehr> jugendfeuerwehren = [];
   static int? currentAssignmentData;
   static final streamController = StreamController<Map<String, dynamic>>();
   static BuzzerManagerService buzzerManagerService = BuzzerManagerService();
