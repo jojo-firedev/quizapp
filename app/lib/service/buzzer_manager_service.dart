@@ -12,6 +12,10 @@ class BuzzerManagerService {
   late BuzzerUdpListenerService buzzerUdpListenerService;
   late BuzzerSocketService buzzerSocketService;
 
+	final _streamController = StreamController<Map<String, dynamic>>();
+
+	Stream<Map<String, dynamic>> get stream => _streamController.stream.asBroadcast();
+
   BuzzerManagerService() {
     setup();
   }
@@ -37,7 +41,7 @@ class BuzzerManagerService {
   void handleMessage(String message, Socket senderSocket) {
     Map<String, dynamic> jsonObject = jsonDecode(message);
 
-    Global.streamController.add(jsonObject);
+    _streamController.sink.add(jsonObject);
 
     Global.logger.d(
         'Received message from ${senderSocket.remoteAddress}:${senderSocket.remotePort}: $message');
