@@ -7,6 +7,12 @@ import 'package:quizapp/models/jugendfeuerwehr.dart';
 class FileManagerService {
   const FileManagerService();
 
+  void saveJFsToJson(List<Jugendfeuerwehr> jf) {
+    final jfJson = jf.map((e) => e.toJson()).toList();
+    final jfString = jsonEncode(jfJson);
+    File('assets/data/jugendfeuerwehren.json').writeAsString(jfString);
+  }
+
   Future<List<Jugendfeuerwehr>> readAllJFsFromJson() async {
     final jsonString =
         await File('assets/data/jugendfeuerwehren.json').readAsString();

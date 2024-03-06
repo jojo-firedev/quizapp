@@ -1,30 +1,26 @@
 class Jugendfeuerwehr {
-  final int reihnfolge;
+  final int reihenfolge;
   final String name;
-  final String gemeinde;
   final int tisch;
 
   Jugendfeuerwehr({
-    required this.reihnfolge,
+    required this.reihenfolge,
     required this.name,
-    required this.gemeinde,
     required this.tisch,
   });
 
   factory Jugendfeuerwehr.fromJson(Map<String, dynamic> json) {
     return Jugendfeuerwehr(
-      reihnfolge: json['reihnfolge'],
+      reihenfolge: json['reihnfolge'],
       name: json['name'],
-      gemeinde: json['gemeinde'],
       tisch: json['tisch'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'reihnfolge': reihnfolge,
+      'reihnfolge': reihenfolge,
       'name': name,
-      'gemeinde': gemeinde,
       'tisch': tisch,
     };
   }
