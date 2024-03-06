@@ -21,7 +21,7 @@ class BuzzerSocketService {
 
   BuzzerSocketService() {
     _startServer();
-    // _startKeepAlive();
+    _startKeepAlive();
   }
 
   void _startServer() async {
@@ -39,20 +39,14 @@ class BuzzerSocketService {
   void _startKeepAlive() {
     _keepAliveTimer = Timer.periodic(
       const Duration(seconds: 10),
-      (Timer t) => _sendKeepAlive(),
+      (Timer t) => sendPing(),
     );
-  }
-
-  void _sendKeepAlive() {
-    Global.logger.d('KeepAlive');
-
-    String keepAliveMessage = jsonEncode({'KeepAlive': []});
-    _sendMessageToAll(keepAliveMessage);
   }
 
   void _handleClient(Socket clientSocket) {
     Global.logger.d(
-        'Client connected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}');
+      'Client connected: ${clientSocket.remoteAddress}:${clientSocket.remotePort}',
+    );
     Global.sockets.add(clientSocket);
     updateConnectedSocketsCount();
 
