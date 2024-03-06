@@ -14,7 +14,6 @@ class Global {
   static List<BuzzerAssignment> assignedBuzzer = [];
   static List<Jugendfeuerwehr> jugendfeuerwehren = [];
   static int? currentAssignmentData;
-  static final streamController = StreamController<Map<String, dynamic>>();
   static BuzzerManagerService buzzerManagerService = BuzzerManagerService();
 
   static Logger logger = Logger(
