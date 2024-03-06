@@ -28,18 +28,16 @@ class BuzzerUdpService {
     _sendUdpMessage(configMessage);
   }
 
-  void sendBuzzerLock({String? winnerMac}) {
-    List winner = [];
-    if (winnerMac != null) {
-      winner = [winnerMac];
-    }
-    String lockMessage = jsonEncode({'ButtonLock': winner});
+  void sendBuzzerLock({List<String>? macs}) {
+    macs ??= [];
+    String lockMessage = jsonEncode({'ButtonLock': macs});
 
     _sendUdpMessage(lockMessage);
   }
 
-  void sendBuzzerRelease() {
-    String releaseMessage = jsonEncode({'ButtonRelease': []});
+  void sendBuzzerRelease({List<String>? macs}) {
+    macs ??= [];
+    String releaseMessage = jsonEncode({'ButtonRelease': macs});
 
     _sendUdpMessage(releaseMessage);
   }

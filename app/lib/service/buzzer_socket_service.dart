@@ -58,20 +58,7 @@ class BuzzerSocketService {
 
     clientSocket.listen((List<int> data) {
       String message = utf8.decode(data);
-      Map<String, dynamic> jsonObject = jsonDecode(message);
-
-      Global.logger.d(
-          'Received message from ${clientSocket.remoteAddress}:${clientSocket.remotePort}: $message');
-
-      if (jsonObject.values.first == 'Connected') {
-        String mac = jsonObject.keys.first;
-        Global.macs.add(mac);
-      } else if (jsonObject.values.first == 'ButtonPressed') {
-        String mac = jsonObject.keys.first;
-        sendBuzzerLock(winnerMac: mac);
-      }
-      Global.logger.d(
-          'Received message from ${clientSocket.remoteAddress}:${clientSocket.remotePort}: $message');
+      Global.buzzerManagerService.handleMessage(message, clientSocket);
     }, onError: (error) {
       Global.logger.d('Error with client: $error');
       Global.sockets.remove(clientSocket);
@@ -95,18 +82,17 @@ class BuzzerSocketService {
     }
   }
 
-  void sendBuzzerLock({String? winnerMac}) {
-    List winner = [];
-    if (winnerMac != null) {
-      winner = [winnerMac];
-    }
-    String lockMessage = jsonEncode({'ButtonLock': winner});
+  void sendBuzzerLock({List<String>? macs}) {
+    macs ??= [];
+    String lockMessage = jsonEncode({'ButtonLock': macs});
 
     _sendMessageToAll(lockMessage);
   }
 
-  void sendBuzzerRelease() {
-    String resetMessage = jsonEncode({'ButtonRelease': []});
+  void sendBuzzerRelease({List<String>? macs}) {
+    macs ??= [];
+
+    String resetMessage = jsonEncode({'ButtonRelease': macs});
     _sendMessageToAll(resetMessage);
   }
 

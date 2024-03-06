@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:quizapp/globals.dart';
+import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/service/buzzer_socket_service.dart';
 import 'package:quizapp/service/buzzer_udp_listener_service.dart';
 import 'package:quizapp/service/buzzer_udp_service.dart';
@@ -30,6 +34,67 @@ class BuzzerManagerService {
     }
   }
 
+  void handleMessage(String message, Socket senderSocket) {
+    Map<String, dynamic> jsonObject = jsonDecode(message);
+
+    Global.logger.d(
+        'Received message from ${senderSocket.remoteAddress}:${senderSocket.remotePort}: $message');
+
+    print(Global.connectionMode);
+
+    switch (Global.connectionMode) {
+      case ConnectionMode.idle:
+        break;
+      case ConnectionMode.parring:
+        String mac = jsonObject.keys.first;
+        if (!Global.macs.contains(mac)) {
+          Global.macs.add(mac);
+          Global.logger.d('Added mac: $mac');
+        }
+        Global.logger.d(Global.macs);
+        Global.buzzerManagerService.sendBuzzerRelease();
+        break;
+      case ConnectionMode.assignment:
+        if (jsonObject.values.first != 'ButtonPressed') {
+          break;
+        } else if (Global.currentAssignmentData == null) {
+          break;
+        } else if (Global.assignedBuzzer
+            .any((element) => element.tisch == Global.currentAssignmentData)) {
+          break;
+        }
+
+        Global.assignedBuzzer.add(BuzzerAssignment(
+            tisch: Global.currentAssignmentData!, mac: jsonObject.keys.first));
+        Global.logger.d(Global.assignedBuzzer.toString());
+        Global.currentAssignmentData = null;
+
+        List<String> macs = Global.assignedBuzzer.map((e) => e.mac).toList();
+        Global.buzzerManagerService.sendBuzzerRelease(macs: macs);
+        break;
+      case ConnectionMode.game:
+        switch (jsonObject.values.first) {
+          case 'Connected':
+            String mac = jsonObject.keys.first;
+            if (!Global.macs.contains(mac)) {
+              Global.macs.add(mac);
+            }
+            break;
+          case 'ButtonPressed':
+            String mac = jsonObject.keys.first;
+            if (!Global.macs.contains(mac)) {
+              Global.macs.add(mac);
+            }
+            Global.buzzerManagerService.sendBuzzerLock(mac: mac);
+            break;
+          default:
+            break;
+        }
+      default:
+        break;
+    }
+  }
+
   void sendConfig() {
     buzzerUdpService.sendConfig();
   }
@@ -39,19 +104,35 @@ class BuzzerManagerService {
     sendBuzzerRelease();
   }
 
-  void sendBuzzerLock({String? winnerMac}) {
+  void sendBuzzerLock({String? mac, List<String>? macs}) {
+    if (macs == null) {
+      if (mac == null) {
+        macs = [];
+      } else {
+        macs = [mac];
+      }
+    }
+
     if (Global.buzzerType == BuzzerType.socket) {
-      buzzerSocketService.sendBuzzerLock(winnerMac: winnerMac);
+      buzzerSocketService.sendBuzzerLock(macs: macs);
     } else if (Global.buzzerType == BuzzerType.udp) {
-      buzzerUdpService.sendBuzzerLock();
+      buzzerUdpService.sendBuzzerLock(macs: macs);
     }
   }
 
-  void sendBuzzerRelease() {
+  void sendBuzzerRelease({String? mac, List<String>? macs}) {
+    if (macs == null) {
+      if (mac == null) {
+        macs = [];
+      } else {
+        macs = [mac];
+      }
+    }
+
     if (Global.buzzerType == BuzzerType.socket) {
-      buzzerSocketService.sendBuzzerRelease();
+      buzzerSocketService.sendBuzzerRelease(macs: macs);
     } else if (Global.buzzerType == BuzzerType.udp) {
-      buzzerUdpService.sendBuzzerRelease();
+      buzzerUdpService.sendBuzzerRelease(macs: macs);
     }
   }
 
