@@ -76,22 +76,16 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
             const SizedBox(height: 20),
             const Text('Wenn alle Buzzer verbunden sind, drücke auf "Weiter".'),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
-              ),
-              onPressed: () => Navigator.popAndPushNamed(
-                  context, '/einrichtung/buzzer_assignment'),
-              child: const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Weiter',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          Navigator.of(context)
+              .popAndPushNamed('/einrichtung/buzzer_assignment');
+        },
+        icon: const Icon(Icons.save),
+        label: const Text('Weiter'),
       ),
     );
   }

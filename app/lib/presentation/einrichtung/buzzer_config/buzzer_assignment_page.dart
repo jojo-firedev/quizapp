@@ -27,30 +27,31 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Buzzer zuordnen'),
-          actions: const [
-            Text('Tippe auf das Icon und betätige dann den Buzzer.'),
-            SizedBox(width: 10)
-          ],
-        ),
-        body: ListView.builder(
-          itemCount: Global.sockets.length,
-          itemBuilder: (context, index) => ListTile(
-            title: Text('Platz ${index + 1}'),
-            trailing: const Icon(Icons.link, color: Colors.red),
-            onTap: () {
-              Global.currentAssignmentData = index + 1;
-            },
-            // subtitle: Text('Buzzer ${index + 1}'),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Global.assignedBuzzer.clear();
-            Global.buzzerManagerService.sendBuzzerRelease();
+      appBar: AppBar(
+        title: const Text('Buzzer zuordnen'),
+        actions: const [
+          Text('Tippe auf das Icon und betätige dann den Buzzer.'),
+          SizedBox(width: 10)
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: Global.sockets.length,
+        itemBuilder: (context, index) => ListTile(
+          title: Text('Platz ${index + 1}'),
+          trailing: const Icon(Icons.link, color: Colors.red),
+          onTap: () {
+            Global.currentAssignmentData = index + 1;
           },
-          child: const Icon(Icons.delete),
-        ));
+          subtitle: Text(Global.jugendfeuerwehren[index].name),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          Navigator.of(context).pop();
+        },
+        icon: const Icon(Icons.save),
+        label: const Text('Abschließen'),
+      ),
+    );
   }
 }
