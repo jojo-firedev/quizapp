@@ -37,6 +37,8 @@ class BuzzerManagerService {
   void handleMessage(String message, Socket senderSocket) {
     Map<String, dynamic> jsonObject = jsonDecode(message);
 
+    Global.streamController.add(jsonObject);
+
     Global.logger.d(
         'Received message from ${senderSocket.remoteAddress}:${senderSocket.remotePort}: $message');
 
