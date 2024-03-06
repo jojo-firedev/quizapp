@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
+
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_paring_page.dart';
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_assignment_page.dart';
+import 'package:quizapp/presentation/einrichtung/buzzer_config/jf_assignment_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
 import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
 import 'package:quizapp/presentation/quiz/quiz_page.dart';
 import 'package:quizapp/presentation/quiz_master/quiz_master_page.dart';
+
 import 'package:quizapp/service/buzzer_manager_service.dart';
 import 'package:quizapp/style.dart';
 
@@ -28,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/einrichtung': (context) => const EinrichtungPage(),
+        '/einrichtung/jf_assignment': (context) => const JfAssignmentPage(),
         '/einrichtung/buzzer_paring': (context) => const BuzzerParingPage(),
         '/einrichtung/buzzer_assignment': (context) =>
             const BuzzerAssignmentPage(),

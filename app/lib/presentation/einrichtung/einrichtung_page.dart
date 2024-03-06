@@ -12,6 +12,13 @@ class EinrichtungPage extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
+            title: const Text('Jugendfeuerwehren importieren'),
+            subtitle: const Text(
+                'Jugendfeuerwehren für den Wettbewerb aus JSON importieren'),
+            onTap: () =>
+                Navigator.of(context).pushNamed('/einrichtung/jf_assignment'),
+          ),
+          ListTile(
             title: const Text('Buzzer verbinden'),
             subtitle: const Text('Verbindung mit allen Buzzer herstellen'),
             onTap: () =>
