@@ -53,10 +53,8 @@ class BuzzerUdpListenerService {
                 } else if (Global.currentAssignmentData == null) {
                   break;
                 }
-
                 Global.assignedBuzzer.add(BuzzerAssignment(
-                    gemeinde: Global.currentAssignmentData!.gemeinde,
-                    name: Global.currentAssignmentData!.name,
+                    tisch: Global.currentAssignmentData!,
                     mac: jsonObject.keys.first));
                 Global.logger.d(Global.assignedBuzzer.toString());
                 Global.currentAssignmentData = null;
@@ -75,7 +73,7 @@ class BuzzerUdpListenerService {
                     if (!Global.macs.contains(mac)) {
                       Global.macs.add(mac);
                     }
-                    Global.buzzerManagerService.sendBuzzerLock(winnerMac: mac);
+                    Global.buzzerManagerService.sendBuzzerLock(mac: mac);
                     break;
                   default:
                     break;
