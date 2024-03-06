@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/file_manager_service.dart';
 
-class JfAssignmentPage extends StatefulWidget {
-  const JfAssignmentPage({Key? key}) : super(key: key);
+class JfImportPage extends StatefulWidget {
+  const JfImportPage({Key? key}) : super(key: key);
 
   @override
-  State<JfAssignmentPage> createState() => _JfAssignmentPageState();
+  State<JfImportPage> createState() => _JfImportPageState();
 }
 
-class _JfAssignmentPageState extends State<JfAssignmentPage> {
+class _JfImportPageState extends State<JfImportPage> {
   FileManagerService fileManagerService = const FileManagerService();
 
   @override
@@ -42,6 +43,15 @@ class _JfAssignmentPageState extends State<JfAssignmentPage> {
             );
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          Global.jugendfeuerwehren =
+              await fileManagerService.readAllJFsFromJson();
+          Navigator.of(context).popAndPushNamed('/einrichtung/buzzer_paring');
+        },
+        icon: const Icon(Icons.save),
+        label: const Text('Speichern und weiter'),
       ),
     );
   }
