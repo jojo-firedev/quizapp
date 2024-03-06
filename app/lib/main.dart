@@ -3,7 +3,7 @@ import 'package:quizapp/globals.dart';
 
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_paring_page.dart';
 import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_assignment_page.dart';
-import 'package:quizapp/presentation/einrichtung/buzzer_config/jf_assignment_page.dart';
+import 'package:quizapp/presentation/einrichtung/buzzer_config/jf_import_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
 import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/einrichtung': (context) => const EinrichtungPage(),
-        '/einrichtung/jf_assignment': (context) => const JfAssignmentPage(),
+        '/einrichtung/jf_assignment': (context) => const JfImportPage(),
         '/einrichtung/buzzer_paring': (context) => const BuzzerParingPage(),
         '/einrichtung/buzzer_assignment': (context) =>
             const BuzzerAssignmentPage(),
