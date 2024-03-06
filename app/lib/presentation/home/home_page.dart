@@ -69,53 +69,31 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Card(
-              child: InkWell(
-                onTap: () => Navigator.pushNamed(context, '/teilnehmer'),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Icon(
-                          Icons.group,
-                          size: MediaQuery.of(context).size.width / 10,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'Teilnehmer Übersicht',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              child: InkWell(
-                onTap: () => Global.buzzerManagerService.sendPing(),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Icon(
-                          Icons.send,
-                          size: MediaQuery.of(context).size.width / 10,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'Send Ping to Buzzer',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Card(
+            //   child: InkWell(
+            //     onTap: () => Navigator.pushNamed(context, '/teilnehmer'),
+            //     child: Center(
+            //       child: Column(
+            //         children: [
+            //           Expanded(
+            //             child: Icon(
+            //               Icons.group,
+            //               size: MediaQuery.of(context).size.width / 10,
+            //             ),
+            //           ),
+            //           const Padding(
+            //             padding: EdgeInsets.all(20.0),
+            //             child: Text(
+            //               'Teilnehmer Übersicht',
+            //               style: TextStyle(fontSize: 20),
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+
             Card(
               child: InkWell(
                 onTap: () {},
