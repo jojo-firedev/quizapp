@@ -80,7 +80,7 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
               ),
-              onPressed: () => Navigator.pushNamed(
+              onPressed: () => Navigator.popAndPushNamed(
                   context, '/einrichtung/buzzer_assignment'),
               child: const Padding(
                 padding: EdgeInsets.all(20.0),
