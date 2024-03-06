@@ -7,7 +7,6 @@ import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
 import 'package:quizapp/presentation/quiz/quiz_page.dart';
 import 'package:quizapp/presentation/quiz_master/quiz_master_page.dart';
-import 'package:quizapp/presentation/teilnehmer_uebersicht/teilnehmer_uebersicht_page.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 import 'package:quizapp/style.dart';
 
@@ -34,7 +33,6 @@ class MyApp extends StatelessWidget {
             const BuzzerAssignmentPage(),
         '/quiz': (context) => const QuizPage(),
         '/quiz-master': (context) => const QuizMasterPage(),
-        '/teilnehmer': (context) => const TeilnehmerUebersichtPage(),
         '/einstellungen': (context) => const EinstellungPage(),
       },
       initialRoute: '/',
