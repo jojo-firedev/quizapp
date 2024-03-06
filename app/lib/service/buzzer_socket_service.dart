@@ -21,7 +21,7 @@ class BuzzerSocketService {
 
   BuzzerSocketService() {
     _startServer();
-    _startKeepAlive();
+    // _startKeepAlive();
   }
 
   void _startServer() async {
