@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
-import 'package:quizapp/service/csv_service.dart';
+import 'package:quizapp/service/file_manager_service.dart';
 
 class BuzzerAssignmentPage extends StatefulWidget {
   const BuzzerAssignmentPage({super.key});
@@ -12,7 +11,7 @@ class BuzzerAssignmentPage extends StatefulWidget {
 }
 
 class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
-  final CsvService csvService = const CsvService();
+  final FileManagerService csvService = const FileManagerService();
 
   @override
   void initState() {
@@ -20,46 +19,36 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
 
     Global.buzzerManagerService.sendBuzzerRelease();
 
+    print(Global.connectionMode);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Buzzer zuordnen'),
-        actions: const [
-          Text('Tippe auf das Icon und betätige dann den Buzzer.'),
-          SizedBox(width: 10)
-        ],
-      ),
-      body: FutureBuilder<List<Jugendfeuerwehr>>(
-        future: csvService.readCsv(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final data = snapshot.data!;
-            return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                final gemeinde = data[index].gemeinde;
-                final name = data[index].name;
-                return ListTile(
-                  title: Text(name),
-                  subtitle: Text(gemeinde),
-                  trailing: const Icon(Icons.link, color: Colors.red),
-                  onTap: () {
-                    Global.currentAssignmentData = data[index];
-                  },
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Buzzer zuordnen'),
+          actions: const [
+            Text('Tippe auf das Icon und betätige dann den Buzzer.'),
+            SizedBox(width: 10)
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: Global.sockets.length,
+          itemBuilder: (context, index) => ListTile(
+            title: Text('Platz ${index + 1}'),
+            onTap: () {
+              Global.currentAssignmentData = index + 1;
+            },
+            // subtitle: Text('Buzzer ${index + 1}'),
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Global.assignedBuzzer.clear();
+          },
+          child: const Icon(Icons.delete),
+        ));
   }
 }
