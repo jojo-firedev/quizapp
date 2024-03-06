@@ -38,6 +38,7 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
           itemCount: Global.sockets.length,
           itemBuilder: (context, index) => ListTile(
             title: Text('Platz ${index + 1}'),
+            trailing: const Icon(Icons.link, color: Colors.red),
             onTap: () {
               Global.currentAssignmentData = index + 1;
             },
@@ -47,6 +48,7 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Global.assignedBuzzer.clear();
+            Global.buzzerManagerService.sendBuzzerRelease();
           },
           child: const Icon(Icons.delete),
         ));
