@@ -1,11 +1,11 @@
 [
     {
-        "reihnfolge": 1,
+        "reihenfolge": 1,
         "name": "Test",
         "tisch": 1
     },
     {
-        "reihnfolge": 2,
+        "reihenfolge": 2,
         "name": "Test2",
         "tisch": 2
     }
