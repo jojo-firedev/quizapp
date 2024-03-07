@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
@@ -72,7 +71,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
     on<WrongAnswer>((event, emit) async {
       Global.buzzerManagerService.sendBuzzerRelease();
-      await Global.streamController.stream.listen((event) {
+      Global.buzzerManagerService.stream.listen((event) {
         if (event.values.first == 'ButtonPressed') {
           print('Button pressed');
           int pressedJfIndex = buzzerAssignments
