@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
 
-import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_paring_page.dart';
-import 'package:quizapp/presentation/einrichtung/buzzer_config/buzzer_assignment_page.dart';
-import 'package:quizapp/presentation/einrichtung/buzzer_config/jf_import_page.dart';
+import 'package:quizapp/presentation/einrichtung/components/buzzer_paring_page.dart';
+import 'package:quizapp/presentation/einrichtung/components/buzzer_assignment_page.dart';
+import 'package:quizapp/presentation/einrichtung/components/jf_import_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
 import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
