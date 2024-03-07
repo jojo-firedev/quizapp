@@ -18,6 +18,10 @@ class _JfImportPageState extends State<JfImportPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Jugendfeuerwehren importieren'),
+        actions: const [
+          Text(
+              'Wenn die Liste der Jugendfeuerwehren stimmt, drücke auf "Speichern und weiter"')
+        ],
       ),
       body: FutureBuilder(
         future: fileManagerService.readAllJFsFromJson(),
@@ -48,6 +52,8 @@ class _JfImportPageState extends State<JfImportPage> {
         onPressed: () async {
           Global.jugendfeuerwehren =
               await fileManagerService.readAllJFsFromJson();
+
+          if (!context.mounted) return;
           Navigator.of(context).popAndPushNamed('/einrichtung/buzzer_paring');
         },
         icon: const Icon(Icons.save),
