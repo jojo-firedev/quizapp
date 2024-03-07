@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 class Jugendfeuerwehr {
-  final int reihenfolge;
-  final String name;
-  final int tisch;
+  int reihenfolge;
+  String name;
+  int tisch;
 
   Jugendfeuerwehr({
     required this.reihenfolge,
@@ -9,19 +11,21 @@ class Jugendfeuerwehr {
     required this.tisch,
   });
 
-  factory Jugendfeuerwehr.fromJson(Map<String, dynamic> json) {
-    return Jugendfeuerwehr(
-      reihenfolge: json['reihnfolge'],
-      name: json['name'],
-      tisch: json['tisch'],
-    );
-  }
+  factory Jugendfeuerwehr.fromRawJson(String str) =>
+      Jugendfeuerwehr.fromJson(json.decode(str));
 
-  Map<String, dynamic> toJson() {
-    return {
-      'reihnfolge': reihenfolge,
-      'name': name,
-      'tisch': tisch,
-    };
-  }
+  String toRawJson() => json.encode(toJson());
+
+  factory Jugendfeuerwehr.fromJson(Map<String, dynamic> json) =>
+      Jugendfeuerwehr(
+        reihenfolge: json["reihenfolge"],
+        name: json["name"],
+        tisch: json["tisch"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "reihenfolge": reihenfolge,
+        "name": name,
+        "tisch": tisch,
+      };
 }
