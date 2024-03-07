@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/globals.dart';
+import 'package:quizapp/models/jf_buzzer_assignment.dart';
+import 'package:quizapp/models/jugendfeuerwehr.dart';
 
 class EinrichtungPage extends StatelessWidget {
   const EinrichtungPage({Key? key}) : super(key: key);
@@ -36,7 +39,18 @@ class EinrichtungPage extends StatelessWidget {
                 ),
                 ListTile(
                   title: const Text('Einrichtung abschließen'),
-                  onTap: () {},
+                  onTap: () {
+                    for (Jugendfeuerwehr jf in Global.jugendfeuerwehren) {
+                      Global.jfBuzzerAssignments.add(
+                        JfBuzzerAssignment(
+                          jugendfeuerwehr: jf,
+                          buzzerAssignment: Global.assignedBuzzer.firstWhere(
+                              (element) => element.tisch == jf.tisch),
+                        ),
+                      );
+                    }
+                    print(Global.jfBuzzerAssignments);
+                  },
                   enabled: false,
                 ),
               ],
