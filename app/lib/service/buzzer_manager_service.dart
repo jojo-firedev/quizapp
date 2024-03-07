@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/buzzer_assignment.dart';
@@ -12,9 +12,10 @@ class BuzzerManagerService {
   late BuzzerUdpListenerService buzzerUdpListenerService;
   late BuzzerSocketService buzzerSocketService;
 
-	final _streamController = StreamController<Map<String, dynamic>>();
+  final _streamController = StreamController<Map<String, dynamic>>();
 
-	Stream<Map<String, dynamic>> get stream => _streamController.stream.asBroadcast();
+  Stream<Map<String, dynamic>> get stream =>
+      _streamController.stream.asBroadcastStream();
 
   BuzzerManagerService() {
     setup();
@@ -38,15 +39,12 @@ class BuzzerManagerService {
     }
   }
 
-  void handleMessage(String message, Socket senderSocket) {
+  void handleMessage(String message, String senderAddress, int senderPort) {
     Map<String, dynamic> jsonObject = jsonDecode(message);
 
     _streamController.sink.add(jsonObject);
-
-    Global.logger.d(
-        'Received message from ${senderSocket.remoteAddress}:${senderSocket.remotePort}: $message');
-
-    print(Global.connectionMode);
+    Global.logger
+        .d('Received message from $senderAddress:$senderPort: $message');
 
     switch (Global.connectionMode) {
       case ConnectionMode.idle:
