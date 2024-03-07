@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
