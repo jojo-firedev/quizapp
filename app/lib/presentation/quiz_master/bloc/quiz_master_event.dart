@@ -9,11 +9,7 @@ class CorrectAnswer extends QuizMasterEvent {}
 
 class WrongAnswer extends QuizMasterEvent {}
 
-class ShowAnswer extends QuizMasterEvent {
-  final int questionIndex;
-
-  ShowAnswer(this.questionIndex);
-}
+class ShowAnswer extends QuizMasterEvent {}
 
 class EndQuiz extends QuizMasterEvent {}
 
