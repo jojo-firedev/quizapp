@@ -52,7 +52,8 @@ class BuzzerSocketService {
 
     clientSocket.listen((List<int> data) {
       String message = utf8.decode(data);
-      Global.buzzerManagerService.handleMessage(message, clientSocket);
+      Global.buzzerManagerService.handleMessage(
+          message, clientSocket.address.address, clientSocket.port);
     }, onError: (error) {
       Global.logger.d('Error with client: $error');
       Global.sockets.remove(clientSocket);
