@@ -34,6 +34,11 @@ class EinrichtungPage extends StatelessWidget {
                   onTap: () => Navigator.of(context)
                       .pushNamed('/einrichtung/buzzer_assignment'),
                 ),
+                ListTile(
+                  title: const Text('Einrichtung abschließen'),
+                  onTap: () {},
+                  enabled: false,
+                ),
               ],
             ),
           ),
@@ -42,6 +47,7 @@ class EinrichtungPage extends StatelessWidget {
             title: const Text('Quiz starten',
                 style: TextStyle(color: Colors.white)),
             tileColor: Colors.red,
+            enabled: false,
             trailing: const Icon(Icons.arrow_forward, color: Colors.white),
           ),
         ],
