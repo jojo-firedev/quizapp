@@ -6,6 +6,7 @@ import 'package:quizapp/presentation/einrichtung/components/buzzer_assignment_pa
 import 'package:quizapp/presentation/einrichtung/components/jf_import_page.dart';
 import 'package:quizapp/presentation/einrichtung/einrichtung_page.dart';
 import 'package:quizapp/presentation/einstellungen/einstellung_page.dart';
+import 'package:quizapp/presentation/fragen_katalog/fragen_katalog_page.dart';
 import 'package:quizapp/presentation/home/home_page.dart';
 import 'package:quizapp/presentation/quiz/quiz_page.dart';
 import 'package:quizapp/presentation/quiz_master/quiz_master_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/einrichtung/buzzer_paring': (context) => const BuzzerParingPage(),
         '/einrichtung/buzzer_assignment': (context) =>
             const BuzzerAssignmentPage(),
+        '/fragen_katalog': (context) => const FragenKatalogPage(),
         '/quiz': (context) => const QuizPage(),
         '/quiz-master': (context) => const QuizMasterPage(),
         '/einstellungen': (context) => const EinstellungPage(),
