@@ -3,16 +3,14 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/buzzer_assignment.dart';
-import 'package:quizapp/models/jugendfeuerwehr.dart';
+import 'package:quizapp/models/jf_buzzer_assignment.dart';
 import 'package:quizapp/models/question.dart';
 
 part 'quiz_master_event.dart';
 part 'quiz_master_state.dart';
 
 class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
-  List<Jugendfeuerwehr> jugendfeuerwehren = Global.jugendfeuerwehren;
-  List<BuzzerAssignment> buzzerAssignments = Global.assignedBuzzer;
+  List<JfBuzzerAssignment> jfBuzzerAssignments = Global.jfBuzzerAssignments;
   List<Question> questions = [
     Question('Fra4erh<ge 1', 'Antworfgyjten'),
     Question('Frawhege 2', 'Antwort<rdfhen'),
@@ -35,15 +33,15 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       print('Random Index: $randomIndex');
       currentQuestionIndex = randomIndex;
 
-      currentJfIndex = (currentJfIndex + 1) % jugendfeuerwehren.length;
-      Global.buzzerManagerService
-          .sendBuzzerLock(mac: buzzerAssignments[currentJfIndex].mac);
+      currentJfIndex = (currentJfIndex + 1) % jfBuzzerAssignments.length;
+      Global.buzzerManagerService.sendBuzzerLock(
+          mac: jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac);
 
       emit(QuizMasterQuestion(
         questions[currentQuestionIndex].question,
         questions[currentQuestionIndex].correctAnswer,
-        jugendfeuerwehren[currentJfIndex].name,
-        jugendfeuerwehren[currentJfIndex].name,
+        jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+        jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
       ));
     });
 
@@ -58,15 +56,15 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       print('Random Index: $randomIndex');
       currentQuestionIndex = randomIndex;
 
-      currentJfIndex = (currentJfIndex + 1) % jugendfeuerwehren.length;
-      Global.buzzerManagerService
-          .sendBuzzerLock(mac: buzzerAssignments[currentJfIndex].mac);
+      currentJfIndex = (currentJfIndex + 1) % jfBuzzerAssignments.length;
+      Global.buzzerManagerService.sendBuzzerLock(
+          mac: jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac);
 
       emit(QuizMasterQuestion(
         questions[currentQuestionIndex].question,
         questions[currentQuestionIndex].correctAnswer,
-        jugendfeuerwehren[currentJfIndex].name,
-        jugendfeuerwehren[currentJfIndex].name,
+        jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+        jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
       ));
     });
 
@@ -75,14 +73,14 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       Global.buzzerManagerService.stream.listen((event) {
         if (event.values.first == 'ButtonPressed') {
           print('Button pressed');
-          int pressedJfIndex = buzzerAssignments
-              .indexWhere((assignment) => assignment.mac == event.keys.first);
+          int pressedJfIndex = jfBuzzerAssignments.indexWhere((assignment) =>
+              assignment.buzzerAssignment.mac == event.keys.first);
 
           emit(QuizMasterQuestion(
             questions[currentQuestionIndex].question,
             questions[currentQuestionIndex].correctAnswer,
-            jugendfeuerwehren[currentJfIndex].name,
-            jugendfeuerwehren[pressedJfIndex].name,
+            jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+            jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
           ));
         }
       });
