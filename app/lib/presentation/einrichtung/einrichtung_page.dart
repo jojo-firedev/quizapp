@@ -52,7 +52,6 @@ class EinrichtungPage extends StatelessWidget {
                     }
                     print(Global.jfBuzzerAssignments);
                   },
-                  enabled: false,
                 ),
               ],
             ),
@@ -74,7 +73,6 @@ class EinrichtungPage extends StatelessWidget {
                 title: const Text('Quiz starten',
                     style: TextStyle(color: Colors.white)),
                 tileColor: Colors.red,
-                enabled: false,
                 trailing: const Icon(Icons.arrow_forward, color: Colors.white),
               ),
             ],
