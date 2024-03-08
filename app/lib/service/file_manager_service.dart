@@ -13,7 +13,7 @@ class FileManagerService {
     File('assets/data/jugendfeuerwehren.json').writeAsString(jfString);
   }
 
-  Future<List<Jugendfeuerwehr>> readAllJFsFromJson() async {
+  Future<List<Jugendfeuerwehr>> readJFsFromJson() async {
     final jsonString =
         await File('assets/data/jugendfeuerwehren.json').readAsString();
     final jfJson = jsonDecode(jsonString);
