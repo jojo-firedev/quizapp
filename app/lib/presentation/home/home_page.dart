@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
 
             Card(
               child: InkWell(
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, '/fragen_katalog'),
                 child: Center(
                   child: Column(
                     children: [
