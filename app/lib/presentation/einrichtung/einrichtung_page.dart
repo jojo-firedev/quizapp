@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/jf_buzzer_assignment.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
+import 'package:quizapp/service/file_manager_service.dart';
 
 class EinrichtungPage extends StatelessWidget {
   const EinrichtungPage({Key? key}) : super(key: key);
@@ -56,13 +57,27 @@ class EinrichtungPage extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            onTap: () => Navigator.of(context).popAndPushNamed('/quiz-master'),
-            title: const Text('Quiz starten',
-                style: TextStyle(color: Colors.white)),
-            tileColor: Colors.red,
-            enabled: false,
-            trailing: const Icon(Icons.arrow_forward, color: Colors.white),
+          Column(
+            children: [
+              ListTile(
+                title: const Text('Load sample'),
+                onTap: () async {
+                  Global.jugendfeuerwehren =
+                      await const FileManagerService().readJFsFromJson();
+                  Global.assignedBuzzer = await const FileManagerService()
+                      .readBuzzerAssignmentFromJson();
+                },
+              ),
+              ListTile(
+                onTap: () =>
+                    Navigator.of(context).popAndPushNamed('/quiz-master'),
+                title: const Text('Quiz starten',
+                    style: TextStyle(color: Colors.white)),
+                tileColor: Colors.red,
+                enabled: false,
+                trailing: const Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ],
           ),
         ],
       ),
