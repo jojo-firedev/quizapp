@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:quizapp/models/buzzer_assignment.dart';
+import 'package:quizapp/models/fragen.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 
 class FileManagerService {
@@ -39,5 +40,12 @@ class FileManagerService {
         .map<BuzzerAssignment>((e) => BuzzerAssignment.fromJson(e))
         .toList();
     return buzzerAssignment;
+  }
+
+  Future<Fragen> readFragenFromJson() async {
+    final jsonString = await File('assets/data/fragen.json').readAsString();
+    final fragenJson = jsonDecode(jsonString);
+    final fragen = Fragen.fromJson(fragenJson);
+    return fragen;
   }
 }

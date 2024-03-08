@@ -1,8 +1,9 @@
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class Fragen {
   Map<String, String> themen;
-  Map<String, List<FragenElement>> fragen;
+  FragenClass fragen;
 
   Fragen({
     required this.themen,
@@ -16,34 +17,73 @@ class Fragen {
   factory Fragen.fromJson(Map<String, dynamic> json) => Fragen(
         themen: Map.from(json["themen"])
             .map((k, v) => MapEntry<String, String>(k, v)),
-        fragen: Map.from(json["fragen"]).map((k, v) => MapEntry<String,
-                List<FragenElement>>(k,
-            List<FragenElement>.from(v.map((x) => FragenElement.fromJson(x))))),
+        fragen: FragenClass.fromJson(json["fragen"]),
       );
 
   Map<String, dynamic> toJson() => {
         "themen":
             Map.from(themen).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "fragen": Map.from(fragen).map((k, v) => MapEntry<String, dynamic>(
-            k, List<dynamic>.from(v.map((x) => x.toJson())))),
+        "fragen": fragen.toJson(),
       };
 }
 
-class FragenElement {
+class FragenClass {
+  List<Feuerwehr> wirtschaft;
+  List<Feuerwehr> politik;
+  List<Feuerwehr> sport;
+  List<Feuerwehr> feuerwehr;
+  List<Feuerwehr> technik;
+
+  FragenClass({
+    required this.wirtschaft,
+    required this.politik,
+    required this.sport,
+    required this.feuerwehr,
+    required this.technik,
+  });
+
+  factory FragenClass.fromRawJson(String str) =>
+      FragenClass.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory FragenClass.fromJson(Map<String, dynamic> json) => FragenClass(
+        wirtschaft: List<Feuerwehr>.from(
+            json["wirtschaft"].map((x) => Feuerwehr.fromJson(x))),
+        politik: List<Feuerwehr>.from(
+            json["politik"].map((x) => Feuerwehr.fromJson(x))),
+        sport: List<Feuerwehr>.from(
+            json["sport"].map((x) => Feuerwehr.fromJson(x))),
+        feuerwehr: List<Feuerwehr>.from(
+            json["feuerwehr"].map((x) => Feuerwehr.fromJson(x))),
+        technik: List<Feuerwehr>.from(
+            json["technik"].map((x) => Feuerwehr.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "wirtschaft": List<dynamic>.from(wirtschaft.map((x) => x.toJson())),
+        "politik": List<dynamic>.from(politik.map((x) => x.toJson())),
+        "sport": List<dynamic>.from(sport.map((x) => x.toJson())),
+        "feuerwehr": List<dynamic>.from(feuerwehr.map((x) => x.toJson())),
+        "technik": List<dynamic>.from(technik.map((x) => x.toJson())),
+      };
+}
+
+class Feuerwehr {
   String frage;
   String antwort;
 
-  FragenElement({
+  Feuerwehr({
     required this.frage,
     required this.antwort,
   });
 
-  factory FragenElement.fromRawJson(String str) =>
-      FragenElement.fromJson(json.decode(str));
+  factory Feuerwehr.fromRawJson(String str) =>
+      Feuerwehr.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory FragenElement.fromJson(Map<String, dynamic> json) => FragenElement(
+  factory Feuerwehr.fromJson(Map<String, dynamic> json) => Feuerwehr(
         frage: json["frage"],
         antwort: json["antwort"],
       );
