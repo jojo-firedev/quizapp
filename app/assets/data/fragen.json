@@ -1,101 +1,114 @@
 {
-    "themen": {
-        "1": "Wirtschaft",
-        "2": "Politik",
-        "3": "Sport",
-        "4": "Feuerwehr",
-        "5": "Technik"
-    },
-    "fragen": {
-        "wirtschaft": [
-            {
-                "frage": "Was ist das Bruttoinlandsprodukt?",
-                "antwort": "Wert aller Waren und Dienstleistungen, die in einem Land in einem Jahr hergestellt werden."
-            },
-            {
-                "frage": "Was ist die Inflation?",
-                "antwort": "Preisanstieg von Waren und Dienstleistungen."
-            },
-            {
-                "frage": "Was ist die Arbeitslosenquote?",
-                "antwort": "Anteil der Arbeitslosen an der Gesamtbevölkerung."
-            }
-        ],
-        "politik": [
-            {
-                "frage": "Wer ist der aktuelle Bundeskanzler?",
-                "antwort": "Angela Merkel"
-            },
-            {
-                "frage": "Wer ist der aktuelle Bundespräsident?",
-                "antwort": "Joachim Gauck"
-            },
-            {
-                "frage": "Wer ist der aktuelle Außenminister?",
-                "antwort": "Frank-Walter Steinmeier"
-            }
-        ],
-        "sport": [
-            {
-                "frage": "Wer ist der aktuelle Weltmeister im Fußball?",
-                "antwort": "Deutschland"
-            },
-            {
-                "frage": "Wer ist der aktuelle Weltmeister im Handball?",
-                "antwort": "Frankreich"
-            },
-            {
-                "frage": "Wer ist der aktuelle Weltmeister im Basketball?",
-                "antwort": "USA"
-            },
-            {
-                "frage": "Wer ist der aktuelle Weltmeister im Eishockey?",
-                "antwort": "Kanada"
-            },
-            {
-                "frage": "Wer ist der aktuelle Weltmeister im Volleyball?",
-                "antwort": "Polen"
-            }
-        ],
-        "feuerwehr": [
-            {
-                "frage": "Was ist die Aufgabe der Feuerwehr?",
-                "antwort": "Menschen, Tiere, Sachwerte und die Umwelt vor Bränden, Explosionen, Überschwemmungen, Unfällen und ähnlichen Ereignissen zu schützen."
-            },
-            {
-                "frage": "Was ist ein Löschangriff?",
-                "antwort": "Ein Löschangriff ist eine Übung, bei der die Feuerwehr einen Brand löscht."
-            },
-            {
-                "frage": "Was ist ein Atemschutzgerät?",
-                "antwort": "Ein Atemschutzgerät ist eine Vorrichtung, die es ermöglicht, in verrauchten Räumen zu atmen."
-            },
-            {
-                "frage": "Was ist ein Feuerlöscher?",
-                "antwort": "Ein Feuerlöscher ist ein tragbares Gerät, das zur Bekämpfung von Bränden eingesetzt wird."
-            },
-            {
-                "frage": "Was ist ein Feuerwehrschlauch?",
-                "antwort": "Ein Feuerwehrschlauch ist ein Schlauch, der zur Bekämpfung von Bränden eingesetzt wird."
-            },
-            {
-                "frage": "Was ist ein Feuerwehrfahrzeug?",
-                "antwort": "Ein Feuerwehrfahrzeug ist ein Fahrzeug, das zur Bekämpfung von Bränden eingesetzt wird."
-            }
-        ],
-        "technik": [
-            {
-                "frage": "Was ist ein Elektromotor?",
-                "antwort": "Ein Elektromotor ist ein Motor, der elektrische Energie in mechanische Energie umwandelt."
-            },
-            {
-                "frage": "Was ist ein Verbrennungsmotor?",
-                "antwort": "Ein Verbrennungsmotor ist ein Motor, der chemische Energie in mechanische Energie umwandelt."
-            },
-            {
-                "frage": "Was ist ein Generator?",
-                "antwort": "Ein Generator ist eine Maschine, die mechanische Energie in elektrische Energie umwandelt."
-            }
-        ]
-    }
+    "fragen": [
+        {
+            "thema": "Wirtschaft",
+            "reihenfolge": 1,
+            "fragen": [
+                {
+                    "frage": "Was ist das Bruttoinlandsprodukt?",
+                    "antwort": "Wert aller Waren und Dienstleistungen, die in einem Land in einem Jahr hergestellt werden."
+                },
+                {
+                    "frage": "Was ist die Inflation?",
+                    "antwort": "Preisanstieg von Waren und Dienstleistungen."
+                },
+                {
+                    "frage": "Was ist die Arbeitslosenquote?",
+                    "antwort": "Anteil der Arbeitslosen an der Gesamtbevölkerung."
+                }
+            ]
+        },
+        {
+            "thema": "Politik",
+            "reihenfolge": 2,
+            "fragen": [
+                {
+                    "frage": "Wer ist der aktuelle Bundeskanzler?",
+                    "antwort": "Angela Merkel"
+                },
+                {
+                    "frage": "Wer ist der aktuelle Bundespräsident?",
+                    "antwort": "Joachim Gauck"
+                },
+                {
+                    "frage": "Wer ist der aktuelle Außenminister?",
+                    "antwort": "Frank-Walter Steinmeier"
+                }
+            ]
+        },
+        {
+            "thema": "Sport",
+            "reihenfolge": 3,
+            "fragen": [
+                {
+                    "frage": "Wer ist der aktuelle Weltmeister im Fußball?",
+                    "antwort": "Deutschland"
+                },
+                {
+                    "frage": "Wer ist der aktuelle Weltmeister im Handball?",
+                    "antwort": "Frankreich"
+                },
+                {
+                    "frage": "Wer ist der aktuelle Weltmeister im Basketball?",
+                    "antwort": "USA"
+                },
+                {
+                    "frage": "Wer ist der aktuelle Weltmeister im Eishockey?",
+                    "antwort": "Kanada"
+                },
+                {
+                    "frage": "Wer ist der aktuelle Weltmeister im Volleyball?",
+                    "antwort": "Polen"
+                }
+            ]
+        },
+        {
+            "thema": "Feuerwehr",
+            "reihenfolge": 4,
+            "fragen": [
+                {
+                    "frage": "Was ist die Aufgabe der Feuerwehr?",
+                    "antwort": "Menschen, Tiere, Sachwerte und die Umwelt vor Bränden, Explosionen, Überschwemmungen, Unfällen und ähnlichen Ereignissen zu schützen."
+                },
+                {
+                    "frage": "Was ist ein Löschangriff?",
+                    "antwort": "Ein Löschangriff ist eine Übung, bei der die Feuerwehr einen Brand löscht."
+                },
+                {
+                    "frage": "Was ist ein Atemschutzgerät?",
+                    "antwort": "Ein Atemschutzgerät ist eine Vorrichtung, die es ermöglicht, in verrauchten Räumen zu atmen."
+                },
+                {
+                    "frage": "Was ist ein Feuerlöscher?",
+                    "antwort": "Ein Feuerlöscher ist ein tragbares Gerät, das zur Bekämpfung von Bränden eingesetzt wird."
+                },
+                {
+                    "frage": "Was ist ein Feuerwehrschlauch?",
+                    "antwort": "Ein Feuerwehrschlauch ist ein Schlauch, der zur Bekämpfung von Bränden eingesetzt wird."
+                },
+                {
+                    "frage": "Was ist ein Feuerwehrfahrzeug?",
+                    "antwort": "Ein Feuerwehrfahrzeug ist ein Fahrzeug, das zur Bekämpfung von Bränden eingesetzt wird."
+                }
+            ]
+        },
+        {
+            "thema": "Technik",
+            "reihenfolge": 5,
+            "fragen": [
+                {
+                    "frage": "Was ist ein Elektromotor?",
+                    "antwort": "Ein Elektromotor ist ein Motor, der elektrische Energie in mechanische Energie umwandelt."
+                },
+                {
+                    "frage": "Was ist ein Verbrennungsmotor?",
+                    "antwort": "Ein Verbrennungsmotor ist ein Motor, der chemische Energie in mechanische Energie umwandelt."
+                },
+                {
+                    "frage": "Was ist ein Generator?",
+                    "antwort": "Ein Generator ist eine Maschine, die mechanische Energie in elektrische Energie umwandelt."
+                }
+            ]
+        }
+    ]
 }
