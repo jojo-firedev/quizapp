@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width / 4.5,
-      height: MediaQuery.of(context).size.height / 5,
+      height: MediaQuery.of(context).size.height / 4.5,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(20),

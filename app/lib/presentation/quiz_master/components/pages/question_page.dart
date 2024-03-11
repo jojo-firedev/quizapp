@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
 import 'package:quizapp/presentation/quiz_master/components/custom_button.dart';
 
-class QuizQuestionPage extends StatelessWidget {
+class QuestionPage extends StatelessWidget {
   final QuizMasterQuestion state;
 
-  const QuizQuestionPage({
+  const QuestionPage({
     required this.state,
     super.key,
   });
@@ -25,19 +25,23 @@ class QuizQuestionPage extends StatelessWidget {
                 const Text(
                   'Frage:',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 Text(
-                  state.question,
+                  state.frage.frage,
                   style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
                 const Text(
                   'Antwort:',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
                 Text(
-                  state.answer,
+                  state.frage.antwort,
                   style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
@@ -53,10 +57,12 @@ class QuizQuestionPage extends StatelessWidget {
                       'Runde für:',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     ),
                     Text(
                       state.currentJf,
                       style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -66,10 +72,12 @@ class QuizQuestionPage extends StatelessWidget {
                       'Gedrückt:',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     ),
                     Text(
                       state.pressedJf,
                       style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),

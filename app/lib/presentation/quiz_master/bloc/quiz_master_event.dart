@@ -16,3 +16,11 @@ class EndQuiz extends QuizMasterEvent {}
 class LockAllBuzzers extends QuizMasterEvent {}
 
 class ReleaseAllBuzzers extends QuizMasterEvent {}
+
+class CategorySelected extends QuizMasterEvent {
+  final int categoryReihenfolge;
+
+  CategorySelected(this.categoryReihenfolge);
+}
+
+class SavePoints extends QuizMasterEvent {}

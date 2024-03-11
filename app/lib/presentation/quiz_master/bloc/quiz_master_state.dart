@@ -6,11 +6,19 @@ sealed class QuizMasterState {}
 final class QuizMasterInitial extends QuizMasterState {}
 
 final class QuizMasterQuestion extends QuizMasterState {
-  final String question;
-  final String answer;
+  final FragenFrage frage;
   final String currentJf;
   final String pressedJf;
 
-  QuizMasterQuestion(
-      this.question, this.answer, this.currentJf, this.pressedJf);
+  QuizMasterQuestion(this.frage, this.currentJf, this.pressedJf);
+}
+
+final class QuizMasterPoints extends QuizMasterState {
+  QuizMasterPoints();
+}
+
+final class QuizMasterCategorySelection extends QuizMasterState {
+  final FragenList fragenList;
+
+  QuizMasterCategorySelection(this.fragenList);
 }
