@@ -89,6 +89,54 @@
                 {
                     "frage": "Was ist ein Feuerwehrfahrzeug?",
                     "antwort": "Ein Feuerwehrfahrzeug ist ein Fahrzeug, das zur Bekämpfung von Bränden eingesetzt wird."
+                },
+                {
+                    "frage": "wie vielen Feuerwehrleuten muss ein B- Strahlrohr im Betrieb gehalten werden?",
+                    "antwort": "3"
+                },
+                {
+                    "frage": "Nennt die Durchflussmenge eines C- Strahlrohres mit und ohne Mundstück in l/min?",
+                    "antwort": "100 / 200 l/min"
+                },
+                {
+                    "frage": "Welche Arten von Feuerwehren gibt es in Deutschland?",
+                    "antwort": "Freiwillige Feuerwehr Berufsfeuerwehr Werksfeuerwehr Pflichtfeuerwehr"
+                },
+                {
+                    "frage": "In welchen 3 Erscheinungsformen kann uns ein Feuer begegnen?",
+                    "antwort": "Flamme Glut Flamme und Glut"
+                },
+                {
+                    "frage": "Worauf ist zu achten, falls Schläuche über die Straße verlegt werden?",
+                    "antwort": "Schlauchbrücken verwenden"
+                },
+                {
+                    "frage": "Was bedeutet die Abkürzung P12?",
+                    "antwort": "Pulverlöscher mit 12 Kg Füllung"
+                },
+                {
+                    "frage": "In welchem Gesetz ist der Brandschutz in Niedersachsen geregelt?",
+                    "antwort": "Niedersächsisches Brandschutzgesetz"
+                },
+                {
+                    "frage": "Was bedeutet die Abkürzung TS 8/8",
+                    "antwort": "Tragkraftspritze mit einer Förderleistung von 800 l/min bei 8 bar Ausgangsdruck"
+                },
+                {
+                    "frage": "Was bedeutet die Abkürzung DLK?",
+                    "antwort": "Drehleiter mit Korb"
+                },
+                {
+                    "frage": "Worin besteht die Abhängigkeit bei der abhängigen/zentralen Wasserversorgung?",
+                    "antwort": "Leitungsdruck in der zentralen Wasserversorgung muss vorhanden sein."
+                },
+                {
+                    "frage": "Was bedeutet die Abkürzung FTZ?",
+                    "antwort": "Feuerwehrtechnische Zentrale"
+                },
+                {
+                    "frage": "Welches sind die Aufgaben der Feuerwehr?",
+                    "antwort": "Retten Löschen Bergen Schützen"
                 }
             ]
         },
