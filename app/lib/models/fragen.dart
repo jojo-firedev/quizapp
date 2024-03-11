@@ -1,19 +1,20 @@
 import 'dart:convert';
 
-class Fragen {
-  final List<FragenFragen> fragen;
+class FragenList {
+  final List<FragenKategorie> fragen;
 
-  Fragen({
+  FragenList({
     required this.fragen,
   });
 
-  factory Fragen.fromRawJson(String str) => Fragen.fromJson(json.decode(str));
+  factory FragenList.fromRawJson(String str) =>
+      FragenList.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Fragen.fromJson(Map<String, dynamic> json) => Fragen(
-        fragen: List<FragenFragen>.from(
-            json["fragen"].map((x) => FragenFragen.fromJson(x))),
+  factory FragenList.fromJson(Map<String, dynamic> json) => FragenList(
+        fragen: List<FragenKategorie>.from(
+            json["fragen"].map((x) => FragenKategorie.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -21,58 +22,66 @@ class Fragen {
       };
 }
 
-class FragenFragen {
+class FragenKategorie {
   final String thema;
   final int reihenfolge;
-  final List<FragenFragenClass> fragen;
+  final List<FragenFrage> fragen;
+  bool abgeschlossen;
 
-  FragenFragen({
+  FragenKategorie({
     required this.thema,
     required this.reihenfolge,
     required this.fragen,
+    this.abgeschlossen = false,
   });
 
-  factory FragenFragen.fromRawJson(String str) =>
-      FragenFragen.fromJson(json.decode(str));
+  factory FragenKategorie.fromRawJson(String str) =>
+      FragenKategorie.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory FragenFragen.fromJson(Map<String, dynamic> json) => FragenFragen(
+  factory FragenKategorie.fromJson(Map<String, dynamic> json) =>
+      FragenKategorie(
         thema: json["thema"],
         reihenfolge: json["reihenfolge"],
-        fragen: List<FragenFragenClass>.from(
-            json["fragen"].map((x) => FragenFragenClass.fromJson(x))),
+        fragen: List<FragenFrage>.from(
+            json["fragen"].map((x) => FragenFrage.fromJson(x))),
+        abgeschlossen: json["abgeschlossen"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
         "thema": thema,
         "reihenfolge": reihenfolge,
         "fragen": List<dynamic>.from(fragen.map((x) => x.toJson())),
+        "abgeschlossen": abgeschlossen,
       };
 }
 
-class FragenFragenClass {
+class FragenFrage {
   final String frage;
   final String antwort;
+  bool abgeschlossen;
 
-  FragenFragenClass({
+  FragenFrage({
     required this.frage,
     required this.antwort,
+    this.abgeschlossen = false,
   });
 
-  factory FragenFragenClass.fromRawJson(String str) =>
-      FragenFragenClass.fromJson(json.decode(str));
+  factory FragenFrage.fromRawJson(String str) =>
+      FragenFrage.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory FragenFragenClass.fromJson(Map<String, dynamic> json) =>
-      FragenFragenClass(
+  factory FragenFrage.fromJson(Map<String, dynamic> json) => FragenFrage(
         frage: json["frage"],
         antwort: json["antwort"],
+        abgeschlossen: json["abgeschlossen"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
         "frage": frage,
         "antwort": antwort,
+        "abgeschlossen": abgeschlossen,
       };
 }
