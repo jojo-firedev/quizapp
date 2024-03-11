@@ -1,12 +1,42 @@
 [
     {
         "reihenfolge": 1,
-        "name": "Test",
+        "name": "JF Adendorf",
         "tisch": 1
     },
     {
         "reihenfolge": 2,
-        "name": "Test2",
+        "name": "JF Erbstorf",
         "tisch": 2
+    },
+    {
+        "reihenfolge": 3,
+        "name": "JF Embsen",
+        "tisch": 3
+    },
+    {
+        "reihenfolge": 4,
+        "name": "JF Bardowick",
+        "tisch": 4
+    },
+    {
+        "reihenfolge": 5,
+        "name": "JF Vögelsen",
+        "tisch": 5
+    },
+    {
+        "reihenfolge": 6,
+        "name": "JF Reppenstedt",
+        "tisch": 6
+    },
+    {
+        "reihenfolge": 7,
+        "name": "JF Scharnebeck",
+        "tisch": 7
+    },
+    {
+        "reihenfolge": 8,
+        "name": "JF Brietlingen",
+        "tisch": 8
     }
 ]
