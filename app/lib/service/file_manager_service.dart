@@ -8,13 +8,13 @@ import 'package:quizapp/models/jugendfeuerwehr.dart';
 class FileManagerService {
   const FileManagerService();
 
-  void saveJFsToJson(List<Jugendfeuerwehr> jf) {
+  void saveJFs(List<Jugendfeuerwehr> jf) {
     final jfJson = jf.map((e) => e.toJson()).toList();
     final jfString = jsonEncode(jfJson);
     File('assets/data/jugendfeuerwehren.json').writeAsString(jfString);
   }
 
-  Future<List<Jugendfeuerwehr>> readJFsFromJson() async {
+  Future<List<Jugendfeuerwehr>> readJFs() async {
     final jsonString =
         await File('assets/data/jugendfeuerwehren.json').readAsString();
     final jfJson = jsonDecode(jsonString);
@@ -24,7 +24,7 @@ class FileManagerService {
     return jf;
   }
 
-  void saveBuzzerAssignmentToJson(List<BuzzerAssignment> buzzerAssignment) {
+  void saveBuzzerAssignment(List<BuzzerAssignment> buzzerAssignment) {
     final buzzerAssignmentJson =
         buzzerAssignment.map((e) => e.toJson()).toList();
     final buzzerAssignmentString = jsonEncode(buzzerAssignmentJson);
@@ -32,7 +32,7 @@ class FileManagerService {
         .writeAsString(buzzerAssignmentString);
   }
 
-  Future<List<BuzzerAssignment>> readBuzzerAssignmentFromJson() async {
+  Future<List<BuzzerAssignment>> readBuzzerAssignment() async {
     final jsonString =
         await File('assets/data/buzzer_assignment.json').readAsString();
     final buzzerAssignmentJson = jsonDecode(jsonString);
@@ -42,10 +42,10 @@ class FileManagerService {
     return buzzerAssignment;
   }
 
-  Future<Fragen> readFragenFromJson() async {
+  Future<FragenList> readFragen() async {
     final jsonString = await File('assets/data/fragen.json').readAsString();
     final fragenJson = jsonDecode(jsonString);
-    final fragen = Fragen.fromJson(fragenJson);
+    final fragen = FragenList.fromJson(fragenJson);
     return fragen;
   }
 }
