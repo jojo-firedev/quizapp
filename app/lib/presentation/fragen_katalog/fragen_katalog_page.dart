@@ -10,18 +10,18 @@ class FragenKatalogPage extends StatefulWidget {
 }
 
 class _FragenKatalogPageState extends State<FragenKatalogPage> {
-  FileManagerService fileManagerService = FileManagerService();
+  FileManagerService fileManagerService = const FileManagerService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Fragen Katalog')),
       body: FutureBuilder(
-        future: fileManagerService.readFragenFromJson(),
+        future: fileManagerService.readFragen(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-          Fragen data = snapshot.data!;
+          FragenList data = snapshot.data!;
           return ListView.builder(
             itemCount: data.fragen.length,
             itemBuilder: (context, index) => ListTile(

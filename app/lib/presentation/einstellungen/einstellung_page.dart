@@ -27,12 +27,12 @@ class _EinstellungPageState extends State<EinstellungPage> {
           child: Column(
         children: [
           ElevatedButton(
-            onPressed: () => fileManagerService.saveJFsToJson([
+            onPressed: () => fileManagerService.saveJFs([
               Jugendfeuerwehr(reihenfolge: 1, name: 'Test', tisch: 1),
               Jugendfeuerwehr(reihenfolge: 2, name: 'Test2', tisch: 2),
               Jugendfeuerwehr(reihenfolge: 3, name: 'pwerigj', tisch: 3),
             ]),
-            child: Text('Save JF to CSV'),
+            child: const Text('Save JF to CSV'),
           )
         ],
       )),

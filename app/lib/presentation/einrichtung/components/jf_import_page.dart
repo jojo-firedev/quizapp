@@ -24,7 +24,7 @@ class _JfImportPageState extends State<JfImportPage> {
         ],
       ),
       body: FutureBuilder(
-        future: fileManagerService.readJFsFromJson(),
+        future: fileManagerService.readJFs(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -50,7 +50,7 @@ class _JfImportPageState extends State<JfImportPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          Global.jugendfeuerwehren = await fileManagerService.readJFsFromJson();
+          Global.jugendfeuerwehren = await fileManagerService.readJFs();
 
           if (!context.mounted) return;
           Navigator.of(context).popAndPushNamed('/einrichtung/buzzer_paring');
