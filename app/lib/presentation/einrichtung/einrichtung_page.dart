@@ -41,14 +41,25 @@ class EinrichtungPage extends StatelessWidget {
                 ListTile(
                   title: const Text('Einrichtung abschließen'),
                   onTap: () {
+                    Global.jfBuzzerAssignments = [];
                     for (Jugendfeuerwehr jf in Global.jugendfeuerwehren) {
-                      Global.jfBuzzerAssignments.add(
-                        JfBuzzerAssignment(
-                          jugendfeuerwehr: jf,
-                          buzzerAssignment: Global.assignedBuzzer.firstWhere(
-                              (element) => element.tisch == jf.tisch),
-                        ),
-                      );
+                      try {
+                        if (Global.assignedBuzzer
+                            .where((element) => element.tisch == jf.tisch)
+                            .isEmpty) {
+                          continue;
+                        }
+                        Global.jfBuzzerAssignments.add(
+                          JfBuzzerAssignment(
+                            jugendfeuerwehr: jf,
+                            buzzerAssignment: Global.assignedBuzzer
+                                .where((element) => element.tisch == jf.tisch)
+                                .first,
+                          ),
+                        );
+                      } catch (e) {
+                        print(e);
+                      }
                     }
                     print(Global.jfBuzzerAssignments);
                   },
@@ -62,9 +73,9 @@ class EinrichtungPage extends StatelessWidget {
                 title: const Text('Load sample'),
                 onTap: () async {
                   Global.jugendfeuerwehren =
-                      await const FileManagerService().readJFsFromJson();
-                  Global.assignedBuzzer = await const FileManagerService()
-                      .readBuzzerAssignmentFromJson();
+                      await const FileManagerService().readJFs();
+                  Global.assignedBuzzer =
+                      await const FileManagerService().readBuzzerAssignment();
                 },
               ),
               ListTile(
