@@ -40,10 +40,13 @@ class _QuizMasterPageState extends State<QuizMasterPage>
             );
           } else if (state is QuizMasterPoints) {
             return PointsPage(
-                state: state, bloc: context.read<QuizMasterBloc>());
+              state: state,
+              bloc: context.read<QuizMasterBloc>(),
+            );
           } else {
             return const Scaffold(
-                body: Center(child: CircularProgressIndicator()));
+              body: Center(child: CircularProgressIndicator()),
+            );
           }
         },
       ),

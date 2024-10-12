@@ -15,7 +15,12 @@ final class QuizMasterQuestion extends QuizMasterState {
 
 final class QuizMasterPoints extends QuizMasterState {
   final List<JfBuzzerAssignment> jfBuzzerAssignments;
-  QuizMasterPoints(this.jfBuzzerAssignments);
+  final int currentCategoryReihenfolge;
+
+  QuizMasterPoints(
+    this.jfBuzzerAssignments,
+    this.currentCategoryReihenfolge,
+  );
 }
 
 final class QuizMasterCategorySelection extends QuizMasterState {

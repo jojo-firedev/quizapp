@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:quizapp/globals.dart';
 import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
 
 class PointsPage extends StatelessWidget {
@@ -21,27 +22,41 @@ class PointsPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title:
-                  Text(state.jfBuzzerAssignments[index].jugendfeuerwehr.name),
-              trailing: SizedBox(
-                width: 100,
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  decoration:
-                      const InputDecoration(border: OutlineInputBorder()),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  onChanged: (value) {
-                    bloc.add(PointsUpdated(
-                      jfTisch: state
-                          .jfBuzzerAssignments[index].jugendfeuerwehr.tisch,
-                      points: int.parse(value),
-                    ));
-                  },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(state.jfBuzzerAssignments[index].jugendfeuerwehr.name),
+                Text(
+                    'Aktuelle Punkte: ${Global.jfBuzzerAssignments[index].gesamtPunkte}'),
+                SizedBox(
+                  width: 100,
+                  child: TextField(
+                    controller: TextEditingController(
+                        text: state.jfBuzzerAssignments[index].points
+                            .where((element) =>
+                                element.kategorieReihenfolge ==
+                                state.currentCategoryReihenfolge)
+                            .first
+                            .gesetztePunkte
+                            .toString()),
+                    keyboardType: TextInputType.number,
+                    decoration:
+                        const InputDecoration(border: OutlineInputBorder()),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    onChanged: (value) {
+                      if (value != '') {
+                        bloc.add(PointsUpdated(
+                          jfTisch: state
+                              .jfBuzzerAssignments[index].jugendfeuerwehr.tisch,
+                          points: int.parse(value),
+                        ));
+                      }
+                    },
+                  ),
                 ),
-              ),
+              ],
             ),
           );
         },
