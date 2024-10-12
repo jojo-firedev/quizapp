@@ -77,23 +77,31 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
     on<WrongAnswer>((event, emit) async {
       Global.buzzerManagerService.sendBuzzerRelease();
-      Global.buzzerManagerService.stream.listen((event) {
-        if (event.values.first == 'ButtonPressed') {
-          print('Button pressed');
-          int pressedJfIndex = jfBuzzerAssignments.indexWhere((assignment) =>
-              assignment.buzzerAssignment.mac == event.keys.first);
 
-          emit(QuizMasterQuestion(
-            fragenList.fragen
-                .where((element) =>
-                    element.reihenfolge == currentCategoryReihenfolge)
-                .first
-                .fragen[currentQuestionIndex],
-            jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-            jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
-          ));
-        }
-      });
+      // Listen to the buzzerManagerService stream
+      await emit.forEach(
+        Global.buzzerManagerService.stream,
+        onData: (streamEvent) {
+          if (streamEvent.values.first == 'ButtonPressed') {
+            print('Button pressed');
+            int pressedJfIndex = jfBuzzerAssignments.indexWhere((assignment) =>
+                assignment.buzzerAssignment.mac == streamEvent.keys.first);
+
+            // Emit the QuizMasterQuestion state with the appropriate pressed button index
+            return QuizMasterQuestion(
+              fragenList.fragen
+                  .where((element) =>
+                      element.reihenfolge == currentCategoryReihenfolge)
+                  .first
+                  .fragen[currentQuestionIndex],
+              jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+              jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
+            );
+          }
+
+          return state; // Return the current state if no button press event is detected
+        },
+      );
     });
 
     on<LockAllBuzzers>((event, emit) {
@@ -113,6 +121,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
       emit(QuizMasterPoints());
     });
+
     on<SavePoints>((event, emit) {
       if (checkIfAllQuestionsAnswered()) {
         fragenList.fragen

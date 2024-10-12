@@ -14,12 +14,17 @@ class BuzzerManagerService {
 
   final _streamController = StreamController<Map<String, dynamic>>();
 
-  Stream<Map<String, dynamic>> get stream =>
-      _streamController.stream.asBroadcastStream();
+  // Create a broadcast stream once at initialization
+  late final Stream<Map<String, dynamic>> _broadcastStream;
 
   BuzzerManagerService() {
+    // Convert the original stream to a broadcast stream once
+    _broadcastStream = _streamController.stream.asBroadcastStream();
     setup();
   }
+
+  // Expose the broadcast stream
+  Stream<Map<String, dynamic>> get stream => _broadcastStream;
 
   void setup() {
     buzzerUdpService = BuzzerUdpService();
@@ -32,6 +37,7 @@ class BuzzerManagerService {
   }
 
   void close() {
+    _streamController.close(); // Close the stream controller
     if (Global.buzzerType == BuzzerType.udp) {
       buzzerUdpListenerService.stopListening();
     } else {
