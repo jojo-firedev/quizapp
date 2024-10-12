@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/models/jf_buzzer_assignment.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
+import 'package:quizapp/models/punkte.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class Global {
@@ -14,6 +15,7 @@ class Global {
   static List<BuzzerAssignment> assignedBuzzer = [];
   static List<Jugendfeuerwehr> jugendfeuerwehren = [];
   static List<JfBuzzerAssignment> jfBuzzerAssignments = [];
+  static List<GlobalerPunkteSpeicher> globalerPunkteSpeicher = [];
   static int? currentAssignmentData;
   static BuzzerManagerService buzzerManagerService = BuzzerManagerService();
 
