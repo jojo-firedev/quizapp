@@ -17,10 +17,17 @@ class LockAllBuzzers extends QuizMasterEvent {}
 
 class ReleaseAllBuzzers extends QuizMasterEvent {}
 
-class CategorySelected extends QuizMasterEvent {
+class SelectCategory extends QuizMasterEvent {
   final int categoryReihenfolge;
 
-  CategorySelected(this.categoryReihenfolge);
+  SelectCategory(this.categoryReihenfolge);
 }
 
-class SavePoints extends QuizMasterEvent {}
+class ConfirmPoints extends QuizMasterEvent {}
+
+class PointsUpdated extends QuizMasterEvent {
+  final int jfTisch;
+  final int points;
+
+  PointsUpdated({required this.jfTisch, required this.points});
+}

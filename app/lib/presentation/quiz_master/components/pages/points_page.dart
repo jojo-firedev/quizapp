@@ -28,15 +28,17 @@ class PointsPage extends StatelessWidget {
                 width: 100,
                 child: TextField(
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  decoration:
+                      const InputDecoration(border: OutlineInputBorder()),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                   ],
                   onChanged: (value) {
-                    // bloc.add(UpdatePoints(
-                    //   index: index,
-                    //   points: int.parse(value),
-                    // ));
+                    bloc.add(PointsUpdated(
+                      jfTisch: state
+                          .jfBuzzerAssignments[index].jugendfeuerwehr.tisch,
+                      points: int.parse(value),
+                    ));
                   },
                 ),
               ),
@@ -46,7 +48,7 @@ class PointsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          bloc.add(SavePoints());
+          bloc.add(ConfirmPoints());
         },
         child: const Icon(Icons.arrow_forward_ios),
       ),

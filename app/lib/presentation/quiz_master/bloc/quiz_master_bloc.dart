@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/fragen.dart';
 import 'package:quizapp/models/jf_buzzer_assignment.dart';
+import 'package:quizapp/models/punkte.dart';
 import 'package:quizapp/service/file_manager_service.dart';
 
 part 'quiz_master_event.dart';
@@ -12,7 +13,6 @@ part 'quiz_master_state.dart';
 
 class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
   FileManagerService fileManagerService = const FileManagerService();
-  List<JfBuzzerAssignment> jfBuzzerAssignments = Global.jfBuzzerAssignments;
   late FragenList fragenList;
   int currentJfIndex = 0;
   int currentQuestionIndex = 0;
@@ -35,7 +35,6 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       randomIndex = Random().nextInt(currentCategory.fragen.length);
     } while (currentCategory.fragen[randomIndex].abgeschlossen);
 
-    print('Random Index: $randomIndex');
     currentQuestionIndex = randomIndex;
 
     fragenList.fragen
@@ -55,9 +54,9 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     });
 
     on<CorrectAnswer>((event, emit) {
-      currentJfIndex = (currentJfIndex + 1) % jfBuzzerAssignments.length;
+      currentJfIndex = (currentJfIndex + 1) % Global.jfBuzzerAssignments.length;
       Global.buzzerManagerService.sendBuzzerLock(
-          mac: jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac);
+          mac: Global.jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac);
 
       if (checkIfAllQuestionsAnswered()) {
         fragenList.fragen
@@ -69,13 +68,30 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       } else {
         emit(QuizMasterQuestion(
           getNextFrage(),
-          jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+          Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
           "",
         ));
       }
     });
 
     on<WrongAnswer>((event, emit) async {
+      int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].punkte
+          .where(
+            (element) =>
+                element.kategorieReihenfolge == currentCategoryReihenfolge,
+          )
+          .first
+          .gesetztePunkte;
+
+      Global.jfBuzzerAssignments[currentJfIndex].punkte
+          .where(
+            (element) =>
+                element.kategorieReihenfolge == currentCategoryReihenfolge,
+          )
+          .first
+          .erhaltenePunkte
+          .add(-gesetztePunkte);
+
       Global.buzzerManagerService.sendBuzzerRelease();
 
       // Listen to the buzzerManagerService stream
@@ -83,9 +99,9 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         Global.buzzerManagerService.stream,
         onData: (streamEvent) {
           if (streamEvent.values.first == 'ButtonPressed') {
-            print('Button pressed');
-            int pressedJfIndex = jfBuzzerAssignments.indexWhere((assignment) =>
-                assignment.buzzerAssignment.mac == streamEvent.keys.first);
+            int pressedJfIndex = Global.jfBuzzerAssignments.indexWhere(
+                (assignment) =>
+                    assignment.buzzerAssignment.mac == streamEvent.keys.first);
 
             // Emit the QuizMasterQuestion state with the appropriate pressed button index
             return QuizMasterQuestion(
@@ -94,8 +110,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
                       element.reihenfolge == currentCategoryReihenfolge)
                   .first
                   .fragen[currentQuestionIndex],
-              jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-              jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
+              Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+              Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
             );
           }
 
@@ -112,17 +128,17 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       Global.buzzerManagerService.sendBuzzerRelease();
     });
 
-    on<CategorySelected>((event, emit) {
+    on<SelectCategory>((event, emit) {
       currentCategoryReihenfolge = fragenList.fragen
           .where((element) => element.reihenfolge == event.categoryReihenfolge)
           .first
           .reihenfolge;
       currentJfIndex = 0;
 
-      emit(QuizMasterPoints(jfBuzzerAssignments));
+      emit(QuizMasterPoints(Global.jfBuzzerAssignments));
     });
 
-    on<SavePoints>((event, emit) {
+    on<ConfirmPoints>((event, emit) {
       if (checkIfAllQuestionsAnswered()) {
         fragenList.fragen
             .where(
@@ -133,10 +149,22 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       } else {
         emit(QuizMasterQuestion(
           getNextFrage(),
-          jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-          jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+          Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+          Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
         ));
       }
+    });
+
+    // Listen to the PointsUpdated event and update the points list of the respective Jugendfeuerwehr by Tisch number
+    on<PointsUpdated>((event, emit) {
+      Global.jfBuzzerAssignments
+          .where((element) => element.jugendfeuerwehr.tisch == event.jfTisch)
+          .first
+          .punkte
+          .add(Punkte(
+            kategorieReihenfolge: currentCategoryReihenfolge,
+            gesetztePunkte: event.points,
+          ));
     });
   }
 }

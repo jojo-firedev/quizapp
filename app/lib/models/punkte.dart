@@ -1,31 +1,13 @@
-class RundenPunkte {
-  int startPunkte;
-  int gesetztePunkte;
-  List<int> erhaltenePunkte;
-  int gehoertZuJfTisch;
-
-  int get endpunkte => startPunkte + erhaltenePunkte.fold(0, (a, b) => a + b);
-
-  RundenPunkte({
-    required this.startPunkte,
-    required this.gesetztePunkte,
-    required this.gehoertZuJfTisch,
-    this.erhaltenePunkte = const [],
-  });
-}
-
-class GlobalerPunkteSpeicher {
+class Punkte {
   int kategorieReihenfolge;
-  List<RundenPunkte> rundenPunkte;
+  int gesetztePunkte;
+  List<int> erhaltenePunkte = [];
 
-  int punkteStandFuerJfTisch(int jfTisch) {
-    return rundenPunkte
-        .where((element) => element.gehoertZuJfTisch == jfTisch)
-        .fold(0, (a, b) => a + b.endpunkte);
-  }
+  int get endpunkte =>
+      gesetztePunkte + erhaltenePunkte.fold(0, (a, b) => a + b);
 
-  GlobalerPunkteSpeicher({
+  Punkte({
     required this.kategorieReihenfolge,
-    this.rundenPunkte = const [],
+    required this.gesetztePunkte,
   });
 }
