@@ -16,21 +16,33 @@ class PointsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Punktevergabe')),
-      body: ListView(
-        children: const [
-          ListTile(
-            title: Text('JF Adendorf'),
-            subtitle: Text('Aktuell: -20'),
-            trailing: SizedBox(
-              width: 100,
-              // height: 20,
-              child: TextField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(border: OutlineInputBorder()),
+      body: ListView.builder(
+        itemCount: state.jfBuzzerAssignments.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title:
+                  Text(state.jfBuzzerAssignments[index].jugendfeuerwehr.name),
+              trailing: SizedBox(
+                width: 100,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(border: OutlineInputBorder()),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  onChanged: (value) {
+                    // bloc.add(UpdatePoints(
+                    //   index: index,
+                    //   points: int.parse(value),
+                    // ));
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

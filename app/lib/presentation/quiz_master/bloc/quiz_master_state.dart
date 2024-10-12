@@ -14,7 +14,8 @@ final class QuizMasterQuestion extends QuizMasterState {
 }
 
 final class QuizMasterPoints extends QuizMasterState {
-  QuizMasterPoints();
+  final List<JfBuzzerAssignment> jfBuzzerAssignments;
+  QuizMasterPoints(this.jfBuzzerAssignments);
 }
 
 final class QuizMasterCategorySelection extends QuizMasterState {

@@ -119,7 +119,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           .reihenfolge;
       currentJfIndex = 0;
 
-      emit(QuizMasterPoints());
+      emit(QuizMasterPoints(jfBuzzerAssignments));
     });
 
     on<SavePoints>((event, emit) {
