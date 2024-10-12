@@ -70,7 +70,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         emit(QuizMasterQuestion(
           getNextFrage(),
           jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-          jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+          "",
         ));
       }
     });
