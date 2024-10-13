@@ -231,6 +231,11 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
             kategorieReihenfolge: currentCategoryReihenfolge,
             gesetztePunkte: event.points,
           ));
+
+      emit(QuizMasterPoints(
+        Global.jfBuzzerAssignments,
+        currentCategoryReihenfolge,
+      ));
     });
   }
 }
