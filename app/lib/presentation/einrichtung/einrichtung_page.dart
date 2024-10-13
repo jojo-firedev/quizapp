@@ -83,7 +83,7 @@ class EinrichtungPage extends StatelessWidget {
                     Navigator.of(context).popAndPushNamed('/quiz-master'),
                 title: const Text('Quiz starten',
                     style: TextStyle(color: Colors.white)),
-                tileColor: Colors.red,
+                tileColor: Theme.of(context).colorScheme.primary,
                 trailing: const Icon(Icons.arrow_forward, color: Colors.white),
               ),
             ],

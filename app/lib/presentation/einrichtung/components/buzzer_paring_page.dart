@@ -32,16 +32,13 @@ class _BuzzerParingPageState extends State<BuzzerParingPage> {
             const Text(
                 'Schließe alle Buzzer an die Stromversorgung an und drücke auf "Buzzer konfigurieren".'),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
-              ),
+            FilledButton(
               onPressed: () => Global.buzzerManagerService.sendConfig(),
               child: const Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
                   'Buzzer konfigurieren',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),

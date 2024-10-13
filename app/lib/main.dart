@@ -12,7 +12,6 @@ import 'package:quizapp/presentation/quiz/quiz_page.dart';
 import 'package:quizapp/presentation/quiz_master/quiz_master_page.dart';
 
 import 'package:quizapp/service/buzzer_manager_service.dart';
-import 'package:quizapp/style.dart';
 
 void main() {
   Global.buzzerType = BuzzerType.socket;
@@ -27,7 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Quiz Turnier',
-      theme: getLightThemeData(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
       themeMode: ThemeMode.light,
       routes: {
         '/': (context) => const HomePage(),

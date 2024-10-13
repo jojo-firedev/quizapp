@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Colors.red,
+              color: Theme.of(context).colorScheme.primary,
               child: InkWell(
                 onTap: () => Global.buzzerManagerService.sendConfig(),
                 child: Center(
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Colors.red,
+              color: Theme.of(context).colorScheme.primary,
               child: InkWell(
                 onTap: () => Global.buzzerManagerService.sendBuzzerLock(),
                 child: Center(
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Colors.red,
+              color: Theme.of(context).colorScheme.primary,
               child: InkWell(
                 onTap: () => Global.buzzerManagerService.sendBuzzerRelease(),
                 child: Center(
