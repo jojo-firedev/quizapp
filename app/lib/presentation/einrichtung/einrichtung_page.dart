@@ -19,6 +19,7 @@ class EinrichtungPage extends StatelessWidget {
             child: ListView(
               children: [
                 ListTile(
+                  leading: const Text('1'),
                   title: const Text('Jugendfeuerwehren importieren'),
                   subtitle: const Text(
                       'Jugendfeuerwehren für den Wettbewerb aus JSON importieren'),
@@ -26,6 +27,7 @@ class EinrichtungPage extends StatelessWidget {
                       .pushNamed('/einrichtung/jf_assignment'),
                 ),
                 ListTile(
+                  leading: const Text('2'),
                   title: const Text('Buzzer verbinden'),
                   subtitle:
                       const Text('Verbindung mit allen Buzzer herstellen'),
@@ -33,12 +35,14 @@ class EinrichtungPage extends StatelessWidget {
                       .pushNamed('/einrichtung/buzzer_paring'),
                 ),
                 ListTile(
+                  leading: const Text('3'),
                   title: const Text('Buzzer zuordnen'),
                   subtitle: const Text('Buzzer den Jugendfeuerwehren zuordnen'),
                   onTap: () => Navigator.of(context)
                       .pushNamed('/einrichtung/buzzer_assignment'),
                 ),
                 ListTile(
+                  leading: const Text('4'),
                   title: const Text('Einrichtung abschließen'),
                   onTap: () {
                     Global.jfBuzzerAssignments = [];
