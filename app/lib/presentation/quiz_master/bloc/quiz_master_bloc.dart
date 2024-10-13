@@ -200,6 +200,10 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
           Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
         ));
+
+        Global.buzzerManagerService.sendBuzzerLock(
+          mac: Global.jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac,
+        );
       }
     });
 
