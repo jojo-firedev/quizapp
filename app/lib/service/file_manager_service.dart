@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/models/fragen.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
+import 'package:quizapp/models/points.dart';
 
 class FileManagerService {
   const FileManagerService();
@@ -62,5 +63,15 @@ class FileManagerService {
   Future<void> saveFragen(FragenList fragenList) async {
     final fragenString = fragenList.toRawJson();
     await File('assets/data/fragen.json').writeAsString(fragenString);
+  }
+
+  // Save Points to a file
+  Future<void> savePoints(List<Points> points) async {
+    await _saveToFile('assets/data/points.json', points, (e) => e.toJson());
+  }
+
+  // Read Points from a file
+  Future<List<Points>> readPoints() async {
+    return _readFromFile('assets/data/points.json', Points.fromJson);
   }
 }

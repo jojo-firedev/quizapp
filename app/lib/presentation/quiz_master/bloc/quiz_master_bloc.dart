@@ -59,7 +59,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       emit(QuizMasterCategorySelection(fragenList));
     });
 
-    on<CorrectAnswer>((event, emit) {
+    on<CorrectAnswer>((event, emit) async {
       // Get point number of the origin Jugendfeuerwehr
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
@@ -77,17 +77,22 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           .erhaltenePunkte
           .add(gesetztePunkte);
 
+      // Save points after update
+      await fileManagerService.savePoints(
+        Global.jfBuzzerAssignments
+            .expand((assignment) => assignment.points)
+            .toList(),
+      );
+
       if (currentJfIndex + 1 == Global.jfBuzzerAssignments.length) {
         currentJfIndex = 0;
-
         fragenList.fragen
             .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
             .abgeschlossen = true;
 
-        // Speichern der aktualisierten Fragenliste
-        fileManagerService.saveFragen(fragenList);
-
+        // Save questions after update
+        await fileManagerService.saveFragen(fragenList);
         emit(QuizMasterCategorySelection(fragenList));
         return;
       } else {
@@ -106,8 +111,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
             .abgeschlossen = true;
 
-        // Speichern der aktualisierten Fragenliste
-        fileManagerService.saveFragen(fragenList);
+        await fileManagerService.saveFragen(fragenList);
 
         for (JfBuzzerAssignment element in Global.jfBuzzerAssignments) {
           element.logPointsPerCategory(currentCategoryReihenfolge);
@@ -124,7 +128,6 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     });
 
     on<WrongAnswer>((event, emit) async {
-      // Get point number of the origin Jugendfeuerwehr
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
             (element) =>
@@ -132,7 +135,6 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           )
           .gesetztePunkte;
 
-      // Add the negative points to the origin Jugendfeuerwehr
       Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
             (element) =>
@@ -140,6 +142,12 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           )
           .erhaltenePunkte
           .add(-gesetztePunkte);
+
+      await fileManagerService.savePoints(
+        Global.jfBuzzerAssignments
+            .expand((assignment) => assignment.points)
+            .toList(),
+      );
 
       Global.buzzerManagerService.sendBuzzerRelease();
 
