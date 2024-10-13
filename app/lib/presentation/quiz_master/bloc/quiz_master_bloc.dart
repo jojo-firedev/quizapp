@@ -53,14 +53,20 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
   }
 
   QuizMasterBloc() : super(QuizMasterInitial()) {
+    // Load Page with JfBuzzerAssignments
     on<LoadPage>((event, emit) async {
       fragenList = await fileManagerService.readFragen();
+
+      // Load JfBuzzerAssignments
+      List<JfBuzzerAssignment> loadedAssignments =
+          await fileManagerService.readJfBuzzerAssignments();
+      Global.jfBuzzerAssignments = loadedAssignments;
 
       emit(QuizMasterCategorySelection(fragenList));
     });
 
+    // Handle correct answer
     on<CorrectAnswer>((event, emit) async {
-      // Get point number of the origin Jugendfeuerwehr
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
             (element) =>
@@ -68,7 +74,6 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           )
           .gesetztePunkte;
 
-      // Add the positive points to pressed Jugendfeuerwehr
       Global.jfBuzzerAssignments[pressedJfIndex].points
           .firstWhere(
             (element) =>
@@ -77,12 +82,9 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           .erhaltenePunkte
           .add(gesetztePunkte);
 
-      // Save points after update
-      await fileManagerService.savePoints(
-        Global.jfBuzzerAssignments
-            .expand((assignment) => assignment.points)
-            .toList(),
-      );
+      // Save JfBuzzerAssignments after update
+      await fileManagerService
+          .saveJfBuzzerAssignments(Global.jfBuzzerAssignments);
 
       if (currentJfIndex + 1 == Global.jfBuzzerAssignments.length) {
         currentJfIndex = 0;
@@ -127,6 +129,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       }
     });
 
+    // Handle wrong answer
     on<WrongAnswer>((event, emit) async {
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
@@ -143,11 +146,9 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           .erhaltenePunkte
           .add(-gesetztePunkte);
 
-      await fileManagerService.savePoints(
-        Global.jfBuzzerAssignments
-            .expand((assignment) => assignment.points)
-            .toList(),
-      );
+      // Save JfBuzzerAssignments after update
+      await fileManagerService
+          .saveJfBuzzerAssignments(Global.jfBuzzerAssignments);
 
       Global.buzzerManagerService.sendBuzzerRelease();
 

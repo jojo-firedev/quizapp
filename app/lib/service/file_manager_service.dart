@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/models/fragen.dart';
+import 'package:quizapp/models/jf_buzzer_assignment.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/models/points.dart';
 
@@ -73,5 +74,18 @@ class FileManagerService {
   // Read Points from a file
   Future<List<Points>> readPoints() async {
     return _readFromFile('assets/data/points.json', Points.fromJson);
+  }
+
+  // Save JfBuzzerAssignment list to a JSON file
+  Future<void> saveJfBuzzerAssignments(
+      List<JfBuzzerAssignment> assignments) async {
+    await _saveToFile('assets/data/jf_buzzer_assignments.json', assignments,
+        (e) => e.toJson());
+  }
+
+  // Read JfBuzzerAssignment list from a JSON file
+  Future<List<JfBuzzerAssignment>> readJfBuzzerAssignments() async {
+    return _readFromFile(
+        'assets/data/jf_buzzer_assignments.json', JfBuzzerAssignment.fromJson);
   }
 }
