@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quizapp/globals.dart';
+import 'package:quizapp/models/points.dart';
 import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
 
 class PointsPage extends StatelessWidget {
@@ -32,13 +33,16 @@ class PointsPage extends StatelessWidget {
                   width: 100,
                   child: TextField(
                     controller: TextEditingController(
-                        text: state.jfBuzzerAssignments[index].points
-                            .where((element) =>
-                                element.kategorieReihenfolge ==
-                                state.currentCategoryReihenfolge)
-                            .first
-                            .gesetztePunkte
-                            .toString()),
+                      text: state.jfBuzzerAssignments[index].points
+                          .firstWhere(
+                              (element) =>
+                                  element.kategorieReihenfolge ==
+                                  state.currentCategoryReihenfolge,
+                              orElse: () => Points(
+                                  kategorieReihenfolge: 0, gesetztePunkte: 0))
+                          .gesetztePunkte
+                          .toString(),
+                    ),
                     keyboardType: TextInputType.number,
                     decoration:
                         const InputDecoration(border: OutlineInputBorder()),

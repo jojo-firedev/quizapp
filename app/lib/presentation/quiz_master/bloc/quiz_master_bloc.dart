@@ -74,7 +74,21 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           .erhaltenePunkte
           .add(gesetztePunkte);
 
-      currentJfIndex = (currentJfIndex + 1) % Global.jfBuzzerAssignments.length;
+      if (currentJfIndex + 1 == Global.jfBuzzerAssignments.length) {
+        currentJfIndex = 0;
+
+        fragenList.fragen
+            .where(
+                (element) => currentCategoryReihenfolge == element.reihenfolge)
+            .first
+            .abgeschlossen = true;
+
+        emit(QuizMasterCategorySelection(fragenList));
+        return;
+      } else {
+        currentJfIndex++;
+      }
+
       pressedJfIndex = currentJfIndex;
 
       Global.buzzerManagerService.sendBuzzerLock(
