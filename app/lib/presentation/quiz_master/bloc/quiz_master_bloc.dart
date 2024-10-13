@@ -57,11 +57,6 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     on<LoadPage>((event, emit) async {
       fragenList = await fileManagerService.readFragen();
 
-      // Load JfBuzzerAssignments
-      List<JfBuzzerAssignment> loadedAssignments =
-          await fileManagerService.readJfBuzzerAssignments();
-      Global.jfBuzzerAssignments = loadedAssignments;
-
       emit(QuizMasterCategorySelection(fragenList));
     });
 

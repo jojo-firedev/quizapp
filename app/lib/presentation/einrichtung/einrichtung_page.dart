@@ -65,7 +65,8 @@ class EinrichtungPage extends StatelessWidget {
                         print(e);
                       }
                     }
-                    print(Global.jfBuzzerAssignments);
+                    const FileManagerService()
+                        .saveJfBuzzerAssignments(Global.jfBuzzerAssignments);
                   },
                 ),
               ],
@@ -74,17 +75,16 @@ class EinrichtungPage extends StatelessWidget {
           Column(
             children: [
               ListTile(
-                title: const Text('Load sample'),
+                title: const Text('Lade von JSON Datei'),
                 onTap: () async {
-                  Global.jugendfeuerwehren =
-                      await const FileManagerService().readJFs();
-                  Global.assignedBuzzer =
-                      await const FileManagerService().readBuzzerAssignment();
+                  Global.jfBuzzerAssignments = await const FileManagerService()
+                      .readJfBuzzerAssignments();
                 },
               ),
               ListTile(
-                onTap: () =>
-                    Navigator.of(context).popAndPushNamed('/quiz-master'),
+                onTap: () {
+                  Navigator.of(context).popAndPushNamed('/quiz-master');
+                },
                 title: const Text('Quiz starten',
                     style: TextStyle(color: Colors.white)),
                 tileColor: Theme.of(context).colorScheme.primary,
