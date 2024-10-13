@@ -48,4 +48,9 @@ class FileManagerService {
     final fragen = FragenList.fromJson(fragenJson);
     return fragen;
   }
+
+  void saveFragen(FragenList fragenList) {
+    final fragenString = fragenList.toRawJson();
+    File('assets/data/fragen.json').writeAsString(fragenString);
+  }
 }

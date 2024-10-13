@@ -21,30 +21,35 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
   bool checkIfAllQuestionsAnswered() {
     return fragenList.fragen
-        .where((element) => currentCategoryReihenfolge == element.reihenfolge)
-        .first
+        .firstWhere(
+            (element) => currentCategoryReihenfolge == element.reihenfolge)
         .fragen
         .every((element) => element.abgeschlossen);
   }
 
   FragenFrage getNextFrage() {
-    int randomIndex;
-    FragenKategorie currentCategory = fragenList.fragen
-        .where((element) => currentCategoryReihenfolge == element.reihenfolge)
-        .first;
-    do {
-      randomIndex = Random().nextInt(currentCategory.fragen.length);
-    } while (currentCategory.fragen[randomIndex].abgeschlossen);
+    FragenKategorie currentCategory = fragenList.fragen.firstWhere(
+        (element) => currentCategoryReihenfolge == element.reihenfolge);
 
-    currentQuestionIndex = randomIndex;
+    List<FragenFrage> offeneFragen =
+        currentCategory.fragen.where((frage) => !frage.abgeschlossen).toList();
 
-    fragenList.fragen
-        .where((element) => currentCategoryReihenfolge == element.reihenfolge)
-        .first
-        .fragen[currentQuestionIndex]
-        .abgeschlossen = true;
+    // Falls keine offenen Fragen vorhanden sind, returne eine Fehlerbehandlung (kann je nach App-Logik angepasst werden)
+    if (offeneFragen.isEmpty) {
+      throw Exception("Es sind keine offenen Fragen mehr in dieser Kategorie.");
+    }
 
-    return currentCategory.fragen[currentQuestionIndex];
+    // Wähle eine zufällige Frage aus den offenen Fragen aus
+    int randomIndex = Random().nextInt(offeneFragen.length);
+    FragenFrage ausgewaehlteFrage = offeneFragen[randomIndex];
+
+    // Setze die ausgewählte Frage auf abgeschlossen
+    ausgewaehlteFrage.abgeschlossen = true;
+
+    // Speichere den neuen Status in der JSON-Datei
+    fileManagerService.saveFragen(fragenList);
+
+    return ausgewaehlteFrage;
   }
 
   QuizMasterBloc() : super(QuizMasterInitial()) {
@@ -57,20 +62,18 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     on<CorrectAnswer>((event, emit) {
       // Get point number of the origin Jugendfeuerwehr
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
-          .where(
+          .firstWhere(
             (element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge,
           )
-          .first
           .gesetztePunkte;
 
       // Add the positive points to pressed Jugendfeuerwehr
       Global.jfBuzzerAssignments[pressedJfIndex].points
-          .where(
+          .firstWhere(
             (element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge,
           )
-          .first
           .erhaltenePunkte
           .add(gesetztePunkte);
 
@@ -78,10 +81,12 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         currentJfIndex = 0;
 
         fragenList.fragen
-            .where(
+            .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
-            .first
             .abgeschlossen = true;
+
+        // Speichern der aktualisierten Fragenliste
+        fileManagerService.saveFragen(fragenList);
 
         emit(QuizMasterCategorySelection(fragenList));
         return;
@@ -97,10 +102,12 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
       if (checkIfAllQuestionsAnswered()) {
         fragenList.fragen
-            .where(
+            .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
-            .first
             .abgeschlossen = true;
+
+        // Speichern der aktualisierten Fragenliste
+        fileManagerService.saveFragen(fragenList);
 
         for (JfBuzzerAssignment element in Global.jfBuzzerAssignments) {
           element.logPointsPerCategory(currentCategoryReihenfolge);
@@ -119,20 +126,18 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     on<WrongAnswer>((event, emit) async {
       // Get point number of the origin Jugendfeuerwehr
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
-          .where(
+          .firstWhere(
             (element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge,
           )
-          .first
           .gesetztePunkte;
 
       // Add the negative points to the origin Jugendfeuerwehr
       Global.jfBuzzerAssignments[currentJfIndex].points
-          .where(
+          .firstWhere(
             (element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge,
           )
-          .first
           .erhaltenePunkte
           .add(-gesetztePunkte);
 
@@ -150,9 +155,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
             // Emit the QuizMasterQuestion state with the appropriate pressed button index
             return QuizMasterQuestion(
               fragenList.fragen
-                  .where((element) =>
+                  .firstWhere((element) =>
                       element.reihenfolge == currentCategoryReihenfolge)
-                  .first
                   .fragen[currentQuestionIndex],
               Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
               Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
@@ -188,10 +192,12 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     on<ConfirmPoints>((event, emit) {
       if (checkIfAllQuestionsAnswered()) {
         fragenList.fragen
-            .where(
+            .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
-            .first
             .abgeschlossen = true;
+
+        // Speichern der aktualisierten Fragenliste
+        fileManagerService.saveFragen(fragenList);
 
         emit(QuizMasterCategorySelection(fragenList));
       } else {
@@ -210,22 +216,22 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     // Listen to the PointsUpdated event and update the points list of the respective Jugendfeuerwehr by Tisch number
     on<PointsUpdated>((event, emit) {
       if (Global.jfBuzzerAssignments
-          .where((element) => element.jugendfeuerwehr.tisch == event.jfTisch)
-          .first
+          .firstWhere(
+              (element) => element.jugendfeuerwehr.tisch == event.jfTisch)
           .points
           .where((element) =>
               element.kategorieReihenfolge == currentCategoryReihenfolge)
           .isNotEmpty) {
         Global.jfBuzzerAssignments
-            .where((element) => element.jugendfeuerwehr.tisch == event.jfTisch)
-            .first
+            .firstWhere(
+                (element) => element.jugendfeuerwehr.tisch == event.jfTisch)
             .points
             .removeWhere((element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge);
       }
       Global.jfBuzzerAssignments
-          .where((element) => element.jugendfeuerwehr.tisch == event.jfTisch)
-          .first
+          .firstWhere(
+              (element) => element.jugendfeuerwehr.tisch == event.jfTisch)
           .points
           .add(Points(
             kategorieReihenfolge: currentCategoryReihenfolge,
