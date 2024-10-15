@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/points.dart';
 import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
