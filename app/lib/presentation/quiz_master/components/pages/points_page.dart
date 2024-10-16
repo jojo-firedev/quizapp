@@ -35,6 +35,7 @@ class PointsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
+                  flex: 2,
                   child: Text(
                     state.jfBuzzerAssignments[index].jugendfeuerwehr.name,
                     style: const TextStyle(
@@ -54,7 +55,9 @@ class PointsPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                  flex: 4,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       NumKey(
                         text: '1',
