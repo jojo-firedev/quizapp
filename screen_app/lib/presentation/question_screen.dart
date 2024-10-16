@@ -22,11 +22,11 @@ class QuestionScreen extends StatelessWidget {
         body: Stack(
       children: [
         Positioned(
+            top: 20,
             child: Text(
               jugendfeuerwehr,
               textAlign: TextAlign.center,
-            ),
-            top: 20),
+            )),
         Center(
           child: Column(
             children: [
