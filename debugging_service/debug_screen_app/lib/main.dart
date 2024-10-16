@@ -82,10 +82,30 @@ class _ServerHomePageState extends State<ServerHomePage> {
               onPressed: () {
                 _sendData({
                   'type': 'categories',
-                  'categories': ['Science', 'Math', 'History']
+                  'categories': {
+                    'Science': true,
+                    'Math': true,
+                    'Geography': false,
+                    'Politics': false,
+                  },
                 });
               },
               child: const Text('Send Categories'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _sendData({
+                  'type': 'categories',
+                  'categories': {
+                    'Science': true,
+                    'Math': true,
+                    'Geography': false,
+                    'Politics': false,
+                  },
+                  'selectedCategory': 'Geography',
+                });
+              },
+              child: const Text('Send Categories with focus'),
             ),
             ElevatedButton(
               onPressed: () {
