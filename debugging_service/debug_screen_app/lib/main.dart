@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'socket_service.dart'; // Import the newly created service class
 
 void main() {
   runApp(ServerApp());
@@ -21,48 +20,25 @@ class ServerHomePage extends StatefulWidget {
 }
 
 class _ServerHomePageState extends State<ServerHomePage> {
-  ServerSocket? _serverSocket;
-  Socket? _connectedSocket;
-  final int _port = 4040;
+  late SocketService _socketService;
   String _statusMessage = 'No client connected';
 
   @override
   void initState() {
     super.initState();
-    _startServer();
+    _socketService = SocketService(onStatusChange: _updateStatus);
+    _socketService.startServer();
   }
 
-  void _startServer() async {
-    _serverSocket =
-        await ServerSocket.bind(InternetAddress.loopbackIPv4, _port);
-    _serverSocket?.listen((Socket clientSocket) {
-      setState(() {
-        _statusMessage = 'Client connected!';
-        _connectedSocket = clientSocket;
-      });
-
-      clientSocket.listen((data) {
-        print('Received data: ${utf8.decode(data)}');
-      });
-    });
+  void _updateStatus(String message) {
     setState(() {
-      _statusMessage = 'Waiting for client connection on port $_port...';
+      _statusMessage = message;
     });
-  }
-
-  void _sendData(Map<String, dynamic> data) {
-    if (_connectedSocket != null) {
-      String jsonData = jsonEncode(data);
-      _connectedSocket?.write(jsonData);
-      print('Sent: $jsonData');
-    } else {
-      print('No client connected!');
-    }
   }
 
   @override
   void dispose() {
-    _serverSocket?.close();
+    _socketService.closeServer();
     super.dispose();
   }
 
@@ -80,14 +56,11 @@ class _ServerHomePageState extends State<ServerHomePage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                _sendData({
-                  'type': 'categories',
-                  'categories': {
-                    'Science': true,
-                    'Math': true,
-                    'Geography': false,
-                    'Politics': false,
-                  },
+                _socketService.sendCategories({
+                  'Science': true,
+                  'Math': true,
+                  'Geography': false,
+                  'Politics': false,
                 });
               },
               child: const Text('Send Categories'),
@@ -95,72 +68,64 @@ class _ServerHomePageState extends State<ServerHomePage> {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                _sendData({
-                  'type': 'categories',
-                  'categories': {
-                    'Science': true,
-                    'Math': true,
-                    'Geography': false,
-                    'Politics': false,
-                  },
-                  'selectedCategory': 'Geography',
-                });
+                _socketService.sendCategoriesWithFocus({
+                  'Science': true,
+                  'Math': true,
+                  'Geography': false,
+                  'Politics': false,
+                }, 'Geography');
               },
               child: const Text('Send Categories with focus'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                _sendData({
-                  'type': 'question',
-                  'question': 'What is the capital of France?',
-                  'category': 'Geography',
-                  'jugendfeuerwehr': 'Team A'
-                });
+                _socketService.sendQuestion(
+                  'What is the capital of France?',
+                  'Geography',
+                  'Team A',
+                );
               },
               child: const Text('Send Question'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                _sendData({
-                  'type': 'countdown',
-                  'question': 'What is the capital of France?',
-                  'category': 'Geography',
-                  'countdown': 10
-                });
+                _socketService.sendCountdown(
+                  'What is the capital of France?',
+                  'Geography',
+                  10,
+                );
               },
               child: const Text('Send Countdown'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                _sendData({
-                  'type': 'answer',
-                  'question': 'What is the capital of France?',
-                  'answer': 'Paris',
-                  'category': 'Geography',
-                  'jugendfeuerwehr': 'Team A'
-                });
+                _socketService.sendAnswer(
+                  'What is the capital of France?',
+                  'Paris',
+                  'Geography',
+                  'Team A',
+                );
               },
               child: const Text('Send Answer'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                _sendData({'type': 'score', 'score': 42});
+                _socketService.sendScore(42);
               },
               child: const Text('Send Score'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                _sendData({
-                  'type': 'point_input',
-                  'jugendfeuerwehren': ['Team A', 'Team B'],
-                  'currentPoints': [3, 2],
-                  'inputPoints': [-1, 3],
-                });
+                _socketService.sendPointInput(
+                  ['Team A', 'Team B'],
+                  [3, 2],
+                  [-1, 3],
+                );
               },
               child: const Text('Send Point Input'),
             ),
