@@ -55,7 +55,11 @@ class MainPage extends StatelessWidget {
         } else if (state is ScreenAppShowScore) {
           return const Scaffold();
         } else if (state is ScreenAppShowPointInput) {
-          return const PointInputScreen();
+          return PointInputScreen(
+            jugendfeuerwehren: state.jugendfeuerwehren,
+            currentPoints: state.currentPoints,
+            inputPoints: state.inputPoints,
+          );
         }
         return const Scaffold();
       },

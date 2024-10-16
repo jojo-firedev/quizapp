@@ -67,8 +67,9 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
       add(DisplayScore(score: data['score']));
     } else if (data['type'] == 'point_input') {
       add(DisplayPointInput(
-        jugendfeuerwehrPoints:
-            Map<String, int>.from(data['jugendfeuerwehrPoints']),
+        jugendfeuerwehren: List<String>.from(data['jugendfeuerwehren']),
+        currentPoints: List<int>.from(data['currentPoints']),
+        inputPoints: List<int>.from(data['inputPoints']),
       ));
     }
   }
@@ -106,6 +107,10 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
   // Event handler for DisplayPointInput
   void _onDisplayPointInput(
       DisplayPointInput event, Emitter<ScreenAppState> emit) {
-    emit(ScreenAppShowPointInput(event.jugendfeuerwehrPoints));
+    emit(ScreenAppShowPointInput(
+      event.jugendfeuerwehren,
+      event.currentPoints,
+      event.inputPoints,
+    ));
   }
 }

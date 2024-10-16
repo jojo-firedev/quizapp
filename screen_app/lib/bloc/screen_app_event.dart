@@ -49,6 +49,13 @@ class DisplayScore extends ScreenAppEvent {
 }
 
 class DisplayPointInput extends ScreenAppEvent {
-  final Map<String, int> jugendfeuerwehrPoints;
-  DisplayPointInput({required this.jugendfeuerwehrPoints});
+  final List<String> jugendfeuerwehren;
+  final List<int> currentPoints;
+  final List<int> inputPoints;
+
+  DisplayPointInput({
+    required this.jugendfeuerwehren,
+    required this.currentPoints,
+    required this.inputPoints,
+  });
 }

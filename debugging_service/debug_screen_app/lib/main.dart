@@ -151,7 +151,9 @@ class _ServerHomePageState extends State<ServerHomePage> {
               onPressed: () {
                 _sendData({
                   'type': 'point_input',
-                  'jugendfeuerwehrPoints': {'Team A': 5, 'Team B': 3}
+                  'jugendfeuerwehren': ['Team A', 'Team B'],
+                  'currentPoints': [3, 2],
+                  'inputPoints': [-1, 3],
                 });
               },
               child: const Text('Send Point Input'),
