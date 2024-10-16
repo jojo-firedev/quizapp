@@ -10,9 +10,10 @@ final class ScreenAppConnecting extends ScreenAppState {}
 final class ScreenAppWaitingForData extends ScreenAppState {}
 
 final class ScreenAppShowCategory extends ScreenAppState {
-  final List<String> categories;
+  final Map<String, bool> categories;
+  final String? selectedCategory;
 
-  ScreenAppShowCategory(this.categories);
+  ScreenAppShowCategory(this.categories, this.selectedCategory);
 }
 
 final class ScreenAppShowQuestion extends ScreenAppState {
