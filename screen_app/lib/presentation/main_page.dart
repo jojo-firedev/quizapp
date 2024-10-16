@@ -15,53 +15,41 @@ class MainPage extends StatelessWidget {
       bloc: BlocProvider.of<ScreenAppBloc>(context),
       builder: (BuildContext context, state) {
         if (state is ScreenAppInitial) {
-          return const LoadingScreen();
+          return LoadingScreen();
         } else if (state is ScreenAppConnecting) {
-          return const LoadingScreen();
+          return LoadingScreen();
         } else if (state is ScreenAppWaitingForData) {
-          return const LoadingScreen();
+          return LoadingScreen();
         } else if (state is ScreenAppShowCategory) {
-          return const CategoryScreen(
-            categories: {
-              'Kategorie 1': true,
-              'Kategorie 2': true,
-              'Kategorie 3': false,
-              'Kategorie 4': false,
-              'Kategorie 5': false,
-              'Kategorie 6': false,
-              'Kategorie 7': false,
-              'Kategorie 8': false,
-              'Kategorie 9': false,
-              'Kategorie 10': false,
-            },
-            selectedCategory: 'Kategorie 3',
+          return CategoryScreen(
+            categories: state.categories,
+            selectedCategory: state.selectedCategory,
           );
         } else if (state is ScreenAppShowQuestion) {
-          return const QuestionScreen(
-            question: 'Frage',
-            category: 'Kategorie',
-            jugendfeuerwehr: 'Jugendfeuerwehr',
+          return QuestionScreen(
+            question: state.question,
+            category: state.category,
+            jugendfeuerwehr: state.jugendfeuerwehr,
           );
         } else if (state is ScreenAppShowCountdown) {
-          return const QuestionScreen(
-            question: 'Frage',
-            category: 'Kategorie',
-            jugendfeuerwehr: 'Jugendfeuerwehr',
-            countdown: 10,
+          return QuestionScreen(
+            question: state.question,
+            category: state.category,
+            countdown: state.countdown,
           );
         } else if (state is ScreenAppShowAnswer) {
-          return const QuestionScreen(
-            question: 'Frage',
-            category: 'Kategorie',
-            jugendfeuerwehr: 'Jugendfeuerwehr',
-            answer: 'Antwort',
+          return QuestionScreen(
+            question: state.question,
+            category: state.category,
+            jugendfeuerwehr: state.jugendfeuerwehr,
+            answer: state.answer,
           );
         } else if (state is ScreenAppShowScore) {
-          return const Scaffold();
+          return Scaffold();
         } else if (state is ScreenAppShowPointInput) {
-          return const PointInputScreen();
+          return PointInputScreen();
         }
-        return const Scaffold();
+        return Scaffold();
       },
     );
   }
