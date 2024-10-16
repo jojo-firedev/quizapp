@@ -19,6 +19,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
   int currentCategoryReihenfolge = 0;
   int pressedJfIndex = 0;
 
+  FragenFrage? currentFrage;
+
   bool checkIfAllQuestionsAnswered() {
     return fragenList.fragen
         .firstWhere(
@@ -49,6 +51,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     // Speichere den neuen Status in der JSON-Datei
     fileManagerService.saveFragen(fragenList);
 
+    currentFrage = ausgewaehlteFrage;
     return ausgewaehlteFrage;
   }
 
@@ -57,11 +60,26 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     on<LoadPage>((event, emit) async {
       fragenList = await fileManagerService.readFragen();
 
+      // Erstelle eine Map aus 'Frage' und 'abgeschlossen' für alle offenen Fragen
+      Map<String, bool> categories = Map.fromEntries(fragenList.fragen
+          .map((element) => MapEntry(element.thema, element.abgeschlossen)));
+
+      Global.socketService.sendCategories(categories);
+
       emit(QuizMasterCategorySelection(fragenList));
     });
 
     // Handle correct answer
     on<CorrectAnswer>((event, emit) async {
+      Global.socketService.sendAnswer(
+          currentFrage!.frage,
+          currentFrage!.antwort,
+          fragenList.fragen
+              .firstWhere((element) =>
+                  currentCategoryReihenfolge == element.reihenfolge)
+              .thema,
+          Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name);
+
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
             (element) =>
@@ -90,6 +108,13 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
         // Save questions after update
         await fileManagerService.saveFragen(fragenList);
+
+        // Erstelle eine Map aus 'Frage' und 'abgeschlossen' für alle offenen Fragen
+        Map<String, bool> categories = Map.fromEntries(fragenList.fragen
+            .map((element) => MapEntry(element.thema, element.abgeschlossen)));
+
+        Global.socketService.sendCategories(categories);
+
         emit(QuizMasterCategorySelection(fragenList));
         return;
       } else {
@@ -114,6 +139,12 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           element.logPointsPerCategory(currentCategoryReihenfolge);
         }
 
+        // Erstelle eine Map aus 'Frage' und 'abgeschlossen' für alle offenen Fragen
+        Map<String, bool> categories = Map.fromEntries(fragenList.fragen
+            .map((element) => MapEntry(element.thema, element.abgeschlossen)));
+
+        Global.socketService.sendCategories(categories);
+
         emit(QuizMasterCategorySelection(fragenList));
       } else {
         emit(QuizMasterQuestion(
@@ -121,11 +152,28 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
           Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
         ));
+
+        Global.socketService.sendCountdown(
+            currentFrage!.frage,
+            fragenList.fragen
+                .firstWhere((element) =>
+                    currentCategoryReihenfolge == element.reihenfolge)
+                .thema,
+            30);
       }
     });
 
     // Handle wrong answer
     on<WrongAnswer>((event, emit) async {
+      Global.socketService.sendQuestion(
+        currentFrage!.frage,
+        fragenList.fragen
+            .firstWhere(
+                (element) => currentCategoryReihenfolge == element.reihenfolge)
+            .thema,
+        '',
+      );
+
       int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
           .firstWhere(
             (element) =>
@@ -156,6 +204,15 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
                 (assignment) =>
                     assignment.buzzerAssignment.mac == streamEvent.keys.first);
 
+            Global.socketService.sendQuestion(
+              currentFrage!.frage,
+              fragenList.fragen
+                  .firstWhere((element) =>
+                      currentCategoryReihenfolge == element.reihenfolge)
+                  .thema,
+              Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
+            );
+
             // Emit the QuizMasterQuestion state with the appropriate pressed button index
             return QuizMasterQuestion(
               fragenList.fragen
@@ -180,12 +237,44 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       Global.buzzerManagerService.sendBuzzerRelease();
     });
 
-    on<SelectCategory>((event, emit) {
+    on<SelectCategory>((event, emit) async {
       currentCategoryReihenfolge = fragenList.fragen
           .where((element) => element.reihenfolge == event.categoryReihenfolge)
           .first
           .reihenfolge;
       currentJfIndex = 0;
+
+      Global.socketService.sendCategoriesWithFocus(
+        Map.fromEntries(fragenList.fragen
+            .map((element) => MapEntry(element.thema, element.abgeschlossen))),
+        fragenList.fragen
+            .firstWhere(
+                (element) => currentCategoryReihenfolge == element.reihenfolge)
+            .thema,
+      );
+      await Future.delayed(Duration(seconds: 2));
+
+      Global.socketService.sendPointInput(
+        Global.jfBuzzerAssignments
+            .map((element) => element.jugendfeuerwehr.name)
+            .toList(),
+        Global.jfBuzzerAssignments
+            .map((element) => element.gesamtPunkte)
+            .toList(),
+        Global.jfBuzzerAssignments
+            .map((element) => element.points
+                .firstWhere(
+                  (element) =>
+                      element.kategorieReihenfolge ==
+                      currentCategoryReihenfolge,
+                  orElse: () => Points(
+                    kategorieReihenfolge: currentCategoryReihenfolge,
+                    gesetztePunkte: 0,
+                  ),
+                )
+                .gesetztePunkte)
+            .toList(),
+      );
 
       emit(QuizMasterPoints(
         Global.jfBuzzerAssignments,
@@ -203,6 +292,11 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         // Speichern der aktualisierten Fragenliste
         fileManagerService.saveFragen(fragenList);
 
+        Global.socketService.sendCategories(
+          Map.fromEntries(fragenList.fragen.map(
+              (element) => MapEntry(element.thema, element.abgeschlossen))),
+        );
+
         emit(QuizMasterCategorySelection(fragenList));
       } else {
         emit(QuizMasterQuestion(
@@ -210,6 +304,14 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
           Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
           Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
         ));
+
+        Global.socketService.sendCountdown(
+            currentFrage!.frage,
+            fragenList.fragen
+                .firstWhere((element) =>
+                    currentCategoryReihenfolge == element.reihenfolge)
+                .thema,
+            30);
 
         Global.buzzerManagerService.sendBuzzerLock(
           mac: Global.jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac,
@@ -241,6 +343,36 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
             kategorieReihenfolge: currentCategoryReihenfolge,
             gesetztePunkte: event.points,
           ));
+
+      List<String> jugendfeuerwehren = Global.jfBuzzerAssignments
+          .map((element) => element.jugendfeuerwehr.name)
+          .toList();
+
+      List<int> currentPoints = Global.jfBuzzerAssignments
+          .map((element) => element.gesamtPunkte)
+          .toList();
+
+      List<int> inputPoints = Global.jfBuzzerAssignments
+          .map(
+            (element) => element.points
+                .firstWhere(
+                  (element) =>
+                      element.kategorieReihenfolge ==
+                      currentCategoryReihenfolge,
+                  orElse: () => Points(
+                    kategorieReihenfolge: currentCategoryReihenfolge,
+                    gesetztePunkte: 0,
+                  ),
+                )
+                .gesetztePunkte,
+          )
+          .toList();
+
+      Global.socketService.sendPointInput(
+        jugendfeuerwehren,
+        currentPoints,
+        inputPoints,
+      );
 
       emit(QuizMasterPoints(
         Global.jfBuzzerAssignments,

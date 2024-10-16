@@ -16,6 +16,8 @@ import 'package:quizapp/service/buzzer_manager_service.dart';
 void main() {
   Global.buzzerType = BuzzerType.socket;
 
+  Global.socketService.startServer();
+
   runApp(const MyApp());
 }
 

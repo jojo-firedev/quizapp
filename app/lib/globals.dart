@@ -5,6 +5,7 @@ import 'package:quizapp/models/buzzer_assignment.dart';
 import 'package:quizapp/models/jf_buzzer_assignment.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
+import 'package:quizapp/service/screen_socket_service.dart';
 
 class Global {
   static List<Socket> sockets = [];
@@ -16,6 +17,7 @@ class Global {
   static List<JfBuzzerAssignment> jfBuzzerAssignments = [];
   static int? currentAssignmentData;
   static BuzzerManagerService buzzerManagerService = BuzzerManagerService();
+  static SocketService socketService = SocketService();
 
   static Logger logger = Logger(
     printer: PrettyPrinter(),
