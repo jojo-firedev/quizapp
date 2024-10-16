@@ -21,11 +21,12 @@ class MainPage extends StatelessWidget {
       bloc: BlocProvider.of<ScreenAppBloc>(context),
       builder: (BuildContext context, state) {
         if (state is ScreenAppInitial) {
-          return const LoadingScreen();
+          return const LoadingScreen(infoText: 'Initialisiere...');
         } else if (state is ScreenAppConnecting) {
-          return const LoadingScreen();
+          return const LoadingScreen(infoText: 'Verbinde mit Server...');
         } else if (state is ScreenAppWaitingForData) {
-          return const LoadingScreen();
+          return const LoadingScreen(
+              infoText: 'Mit Server verbunden! Warte auf Daten...');
         } else if (state is ScreenAppShowCategory) {
           return CategoryScreen(
             key: ValueKey(state.selectedCategory),
