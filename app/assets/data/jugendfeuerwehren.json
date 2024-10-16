@@ -38,5 +38,50 @@
         "reihenfolge": 8,
         "name": "JF Brietlingen",
         "tisch": 8
+    },
+    {
+        "reihenfolge": 9,
+        "name": "JF Mechtersen",
+        "tisch": 9
+    },
+    {
+        "reihenfolge": 10,
+        "name": "JF Reinstorf",
+        "tisch": 10
+    },
+    {
+        "reihenfolge": 11,
+        "name": "JF Rullstorf",
+        "tisch": 11
+    },
+    {
+        "reihenfolge": 12,
+        "name": "JF Deutsch Evern",
+        "tisch": 12
+    },
+    {
+        "reihenfolge": 13,
+        "name": "JF Kirchgellersen",
+        "tisch": 13
+    },
+    {
+        "reihenfolge": 14,
+        "name": "JF Ochtmissen",
+        "tisch": 14
+    },
+    {
+        "reihenfolge": 15,
+        "name": "JF Lüneburg",
+        "tisch": 15
+    },
+    {
+        "reihenfolge": 16,
+        "name": "JF Häcklingen",
+        "tisch": 16
+    },
+    {
+        "reihenfolge": 17,
+        "name": "JF Bardowick",
+        "tisch": 17
     }
 ]
