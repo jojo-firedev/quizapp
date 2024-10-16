@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:quizapp/globals.dart';
 import 'package:udp/udp.dart';
 
@@ -11,8 +12,13 @@ class BuzzerUdpService {
 
   void _sendUdpMessage(String message) async {
     List<int> data = utf8.encode(message);
-    var sender = await UDP.bind(Endpoint.any(port: _localUdpPort));
-    await sender.send(data, Endpoint.broadcast(port: _buzzerUdpPort));
+    var sender = await UDP.bind(Endpoint.any());
+
+    await sender.send(
+        data,
+        Endpoint.broadcast(
+          port: _buzzerUdpPort,
+        ));
     Global.logger.d('Sent udp message: $message');
   }
 

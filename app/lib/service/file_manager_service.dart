@@ -32,17 +32,17 @@ class FileManagerService {
 
   Future<void> saveJFs(List<Jugendfeuerwehr> jf) async {
     await _saveToFile(
-        'assets/data/jugendfeuerwehren.json', jf, (e) => e.toJson());
+        './assets/data/jugendfeuerwehren.json', jf, (e) => e.toJson());
   }
 
   Future<List<Jugendfeuerwehr>> readJFs() async {
     return _readFromFile(
-        'assets/data/jugendfeuerwehren.json', Jugendfeuerwehr.fromJson);
+        './assets/data/jugendfeuerwehren.json', Jugendfeuerwehr.fromJson);
   }
 
   Future<void> saveBuzzerAssignment(
       List<BuzzerAssignment> buzzerAssignment) async {
-    await _saveToFile('assets/data/buzzer_assignment.json', buzzerAssignment,
+    await _saveToFile('./assets/data/buzzer_assignment.json', buzzerAssignment,
         (e) => e.toJson());
   }
 
