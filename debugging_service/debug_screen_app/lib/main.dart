@@ -92,6 +92,7 @@ class _ServerHomePageState extends State<ServerHomePage> {
               },
               child: const Text('Send Categories'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _sendData({
@@ -107,6 +108,7 @@ class _ServerHomePageState extends State<ServerHomePage> {
               },
               child: const Text('Send Categories with focus'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _sendData({
@@ -118,6 +120,7 @@ class _ServerHomePageState extends State<ServerHomePage> {
               },
               child: const Text('Send Question'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _sendData({
@@ -129,6 +132,7 @@ class _ServerHomePageState extends State<ServerHomePage> {
               },
               child: const Text('Send Countdown'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _sendData({
@@ -141,12 +145,14 @@ class _ServerHomePageState extends State<ServerHomePage> {
               },
               child: const Text('Send Answer'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _sendData({'type': 'score', 'score': 42});
               },
               child: const Text('Send Score'),
             ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 _sendData({
