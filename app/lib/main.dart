@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:quizapp/globals.dart';
 
 import 'package:quizapp/presentation/einrichtung/components/buzzer_paring_page.dart';
