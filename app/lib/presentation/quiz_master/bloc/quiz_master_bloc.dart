@@ -310,7 +310,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     currentJfReihenfolge++;
     pressedJfReihenfolge = currentJfReihenfolge;
 
-    if (currentJfReihenfolge > Global.teilnehmer.length) {
+    if (currentJfReihenfolge >= Global.teilnehmer.length) {
       Global.kategorien
           .firstWhere(
               (element) => currentCategoryReihenfolge == element.reihenfolge)
@@ -325,6 +325,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       Global.screenAppService.sendCategories(
         getKategorienThemaAbgeschlossen(Global.kategorien),
       );
+
+      Global.buzzerManagerService.sendBuzzerLock();
 
       emit(QuizMasterCategorySelection(Global.kategorien));
     } else {
