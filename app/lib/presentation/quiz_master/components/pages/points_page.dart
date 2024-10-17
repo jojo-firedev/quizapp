@@ -62,7 +62,7 @@ class PointsPage extends StatelessWidget {
                       NumKey(
                         text: '1',
                         isSelected: currentPoints == 1,
-                        onTap: () => bloc.add(PointsUpdated(
+                        onTap: () => bloc.add(AktualisierePunkte(
                           jfTisch: state
                               .jfBuzzerAssignments[index].jugendfeuerwehr.tisch,
                           points: 1,
@@ -71,7 +71,7 @@ class PointsPage extends StatelessWidget {
                       NumKey(
                           text: '2',
                           isSelected: currentPoints == 2,
-                          onTap: () => bloc.add(PointsUpdated(
+                          onTap: () => bloc.add(AktualisierePunkte(
                                 jfTisch: state.jfBuzzerAssignments[index]
                                     .jugendfeuerwehr.tisch,
                                 points: 2,
@@ -79,7 +79,7 @@ class PointsPage extends StatelessWidget {
                       NumKey(
                           text: '3',
                           isSelected: currentPoints == 3,
-                          onTap: () => bloc.add(PointsUpdated(
+                          onTap: () => bloc.add(AktualisierePunkte(
                                 jfTisch: state.jfBuzzerAssignments[index]
                                     .jugendfeuerwehr.tisch,
                                 points: 3,
@@ -87,7 +87,7 @@ class PointsPage extends StatelessWidget {
                       NumKey(
                           text: '4',
                           isSelected: currentPoints == 4,
-                          onTap: () => bloc.add(PointsUpdated(
+                          onTap: () => bloc.add(AktualisierePunkte(
                                 jfTisch: state.jfBuzzerAssignments[index]
                                     .jugendfeuerwehr.tisch,
                                 points: 4,
@@ -95,7 +95,7 @@ class PointsPage extends StatelessWidget {
                       NumKey(
                         text: '5',
                         isSelected: currentPoints == 5,
-                        onTap: () => bloc.add(PointsUpdated(
+                        onTap: () => bloc.add(AktualisierePunkte(
                           jfTisch: state
                               .jfBuzzerAssignments[index].jugendfeuerwehr.tisch,
                           points: 5,
@@ -104,7 +104,7 @@ class PointsPage extends StatelessWidget {
                       NumKey(
                         text: '6',
                         isSelected: currentPoints == 6,
-                        onTap: () => bloc.add(PointsUpdated(
+                        onTap: () => bloc.add(AktualisierePunkte(
                           jfTisch: state
                               .jfBuzzerAssignments[index].jugendfeuerwehr.tisch,
                           points: 6,
@@ -120,7 +120,7 @@ class PointsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          bloc.add(ConfirmPoints());
+          bloc.add(BestaetigePunkte());
         },
         child: const Icon(Icons.arrow_forward_ios),
       ),

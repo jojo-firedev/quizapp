@@ -23,7 +23,7 @@ class CategoriesPage extends StatelessWidget {
           trailing: const Icon(Icons.arrow_forward_ios),
           enabled: !fragenList[index].abgeschlossen,
           onTap: () {
-            bloc.add(SelectCategory(fragenList[index].reihenfolge));
+            bloc.add(SelectKategorie(fragenList[index].reihenfolge));
           },
         ),
       ),

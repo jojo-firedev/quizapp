@@ -11,23 +11,25 @@ class WrongAnswer extends QuizMasterEvent {}
 
 class ShowAnswer extends QuizMasterEvent {}
 
+class ShowNextQuestion extends QuizMasterEvent {}
+
 class EndQuiz extends QuizMasterEvent {}
 
 class LockAllBuzzers extends QuizMasterEvent {}
 
 class ReleaseAllBuzzers extends QuizMasterEvent {}
 
-class SelectCategory extends QuizMasterEvent {
+class SelectKategorie extends QuizMasterEvent {
   final int categoryReihenfolge;
 
-  SelectCategory(this.categoryReihenfolge);
+  SelectKategorie(this.categoryReihenfolge);
 }
 
-class ConfirmPoints extends QuizMasterEvent {}
+class BestaetigePunkte extends QuizMasterEvent {}
 
-class PointsUpdated extends QuizMasterEvent {
+class AktualisierePunkte extends QuizMasterEvent {
   final int jfTisch;
   final int points;
 
-  PointsUpdated({required this.jfTisch, required this.points});
+  AktualisierePunkte({required this.jfTisch, required this.points});
 }

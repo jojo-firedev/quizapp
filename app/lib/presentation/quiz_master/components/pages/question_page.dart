@@ -84,58 +84,164 @@ class QuestionPage extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        CustomButton(
-                          icon: Icons.done,
-                          color: Colors.green,
-                          // text: 'Richtig',
-                          text: '',
-                          onPressed: () => context
-                              .read<QuizMasterBloc>()
-                              .add(CorrectAnswer()),
-                        ),
-                        CustomButton(
-                          icon: Icons.close,
-                          color: Colors.red,
-                          // text: 'Falsch',
-                          text: '',
-                          onPressed: () =>
-                              context.read<QuizMasterBloc>().add(WrongAnswer()),
-                        ),
-                        CustomButton(
-                          icon: Icons.lock,
-                          color: Colors.grey.shade800,
-                          text: '',
-                          onPressed: () => context
-                              .read<QuizMasterBloc>()
-                              .add(LockAllBuzzers()),
-                        ),
-                        CustomButton(
-                          icon: Icons.lock_open,
-                          color: Colors.grey.shade800,
-                          text: '',
-                          onPressed: () => context
-                              .read<QuizMasterBloc>()
-                              .add(ReleaseAllBuzzers()),
-                        ),
-                      ],
+          if (state is QuizMasterQuestionConfirmShowAnswer)
+            Expanded(
+              flex: 3,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          CustomButton(
+                            icon: Icons.done,
+                            color: Colors.green,
+                            text: 'Antwort anzeigen',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(ShowAnswer()),
+                          ),
+                          CustomButton(
+                            icon: Icons.fast_forward,
+                            color: Colors.blue,
+                            text: 'Nächste Frage',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(ShowNextQuestion()),
+                          ),
+                          CustomButton(
+                            icon: Icons.lock,
+                            color: Colors.grey.shade800,
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(LockAllBuzzers()),
+                          ),
+                          CustomButton(
+                            icon: Icons.lock_open,
+                            color: Colors.grey.shade800,
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(ReleaseAllBuzzers()),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            )
+          else if (state is QuizMasterQuestionShowAnswer)
+            Expanded(
+              flex: 3,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          CustomButton(
+                            icon: Icons.fast_forward,
+                            color: Colors.blue,
+                            text: 'Nächste Frage',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(ShowNextQuestion()),
+                          ),
+                          // CustomButton(
+                          //   icon: Icons.close,
+                          //   color: Colors.red,
+                          //   text: 'Antwort nicht anzeigen',
+                          //   onPressed: () => context
+                          //       .read<QuizMasterBloc>()
+                          //       .add(WrongAnswer()),
+                          // ),
+                          CustomButton(
+                            icon: Icons.lock,
+                            color: Colors.grey.shade800,
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(LockAllBuzzers()),
+                          ),
+                          CustomButton(
+                            icon: Icons.lock_open,
+                            color: Colors.grey.shade800,
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(ReleaseAllBuzzers()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            Expanded(
+              flex: 3,
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          CustomButton(
+                            icon: Icons.done,
+                            color: Colors.green,
+                            // text: 'Richtig',
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(CorrectAnswer()),
+                          ),
+                          CustomButton(
+                            icon: Icons.close,
+                            color: Colors.red,
+                            // text: 'Falsch',
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(WrongAnswer()),
+                          ),
+                          CustomButton(
+                            icon: Icons.lock,
+                            color: Colors.grey.shade800,
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(LockAllBuzzers()),
+                          ),
+                          CustomButton(
+                            icon: Icons.lock_open,
+                            color: Colors.grey.shade800,
+                            text: '',
+                            onPressed: () => context
+                                .read<QuizMasterBloc>()
+                                .add(ReleaseAllBuzzers()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

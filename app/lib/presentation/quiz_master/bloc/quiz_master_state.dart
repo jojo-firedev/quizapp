@@ -13,6 +13,22 @@ final class QuizMasterQuestion extends QuizMasterState {
   QuizMasterQuestion(this.frage, this.currentJf, this.pressedJf);
 }
 
+final class QuizMasterQuestionConfirmShowAnswer extends QuizMasterQuestion {
+  QuizMasterQuestionConfirmShowAnswer(
+    super.frage,
+    super.currentJf,
+    super.pressedJf,
+  );
+}
+
+final class QuizMasterQuestionShowAnswer extends QuizMasterQuestion {
+  QuizMasterQuestionShowAnswer(
+    super.frage,
+    super.currentJf,
+    super.pressedJf,
+  );
+}
+
 final class QuizMasterPoints extends QuizMasterState {
   final List<Teilnehmer> jfBuzzerAssignments;
   final int currentCategoryReihenfolge;
