@@ -6,7 +6,7 @@ sealed class QuizMasterState {}
 final class QuizMasterInitial extends QuizMasterState {}
 
 final class QuizMasterQuestion extends QuizMasterState {
-  final FragenFrage frage;
+  final Frage frage;
   final String currentJf;
   final String pressedJf;
 
@@ -14,7 +14,7 @@ final class QuizMasterQuestion extends QuizMasterState {
 }
 
 final class QuizMasterPoints extends QuizMasterState {
-  final List<JfBuzzerAssignment> jfBuzzerAssignments;
+  final List<Teilnehmer> jfBuzzerAssignments;
   final int currentCategoryReihenfolge;
 
   QuizMasterPoints(
@@ -24,7 +24,7 @@ final class QuizMasterPoints extends QuizMasterState {
 }
 
 final class QuizMasterCategorySelection extends QuizMasterState {
-  final FragenList fragenList;
+  final List<Kategorie> kategorieList;
 
-  QuizMasterCategorySelection(this.fragenList);
+  QuizMasterCategorySelection(this.kategorieList);
 }

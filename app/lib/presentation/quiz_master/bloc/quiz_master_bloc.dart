@@ -1,197 +1,143 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/fragen.dart';
-import 'package:quizapp/models/jf_buzzer_assignment.dart';
-import 'package:quizapp/models/points.dart';
+import 'package:quizapp/models/frage.dart';
+import 'package:quizapp/models/kategorie.dart';
+import 'package:quizapp/models/teilnehmer.dart';
+import 'package:quizapp/models/punkte.dart';
 import 'package:quizapp/service/file_manager_service.dart';
+import 'package:quizapp/service/json_storage_service.dart';
 
 part 'quiz_master_event.dart';
 part 'quiz_master_state.dart';
 
 class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
   FileManagerService fileManagerService = const FileManagerService();
-  late FragenList fragenList;
-  int currentJfIndex = 0;
+  JsonStorageService jsonStorageService = const JsonStorageService();
+  int currentJfReihenfolge = 0;
   int currentQuestionIndex = 0;
   int currentCategoryReihenfolge = 0;
-  int pressedJfIndex = 0;
+  int pressedJfReihenfolge = 0;
 
-  FragenFrage? currentFrage;
-
-  bool checkIfAllQuestionsAnswered() {
-    return fragenList.fragen
-        .firstWhere(
-            (element) => currentCategoryReihenfolge == element.reihenfolge)
-        .fragen
-        .every((element) => element.abgeschlossen);
-  }
-
-  FragenFrage getNextFrage() {
-    FragenKategorie currentCategory = fragenList.fragen.firstWhere(
-        (element) => currentCategoryReihenfolge == element.reihenfolge);
-
-    List<FragenFrage> offeneFragen =
-        currentCategory.fragen.where((frage) => !frage.abgeschlossen).toList();
-
-    // Falls keine offenen Fragen vorhanden sind, returne eine Fehlerbehandlung (kann je nach App-Logik angepasst werden)
-    if (offeneFragen.isEmpty) {
-      throw Exception("Es sind keine offenen Fragen mehr in dieser Kategorie.");
-    }
-
-    // Wähle eine zufällige Frage aus den offenen Fragen aus
-    int randomIndex = Random().nextInt(offeneFragen.length);
-    FragenFrage ausgewaehlteFrage = offeneFragen[randomIndex];
-
-    // Setze die ausgewählte Frage auf abgeschlossen
-    ausgewaehlteFrage.abgeschlossen = true;
-
-    // Speichere den neuen Status in der JSON-Datei
-    fileManagerService.saveFragen(fragenList);
-
-    currentFrage = ausgewaehlteFrage;
-    return ausgewaehlteFrage;
-  }
+  Frage? currentFrage;
 
   QuizMasterBloc() : super(QuizMasterInitial()) {
-    // Load Page with JfBuzzerAssignments
+    // Seite laden mit JfBuzzerAssignments
     on<LoadPage>((event, emit) async {
-      fragenList = await fileManagerService.readFragen();
+      Global.screenAppService.sendCategories(
+        getKategorienThemaAbgeschlossen(Global.kategorien),
+      );
 
-      // Erstelle eine Map aus 'Frage' und 'abgeschlossen' für alle offenen Fragen
-      Map<String, bool> categories = Map.fromEntries(fragenList.fragen
-          .map((element) => MapEntry(element.thema, element.abgeschlossen)));
-
-      Global.socketService.sendCategories(categories);
-
-      emit(QuizMasterCategorySelection(fragenList));
+      emit(QuizMasterCategorySelection(Global.kategorien));
     });
 
-    // Handle correct answer
+    // Richtige Antwort
     on<CorrectAnswer>((event, emit) async {
-      Global.socketService.sendAnswer(
-          currentFrage!.frage,
-          currentFrage!.antwort,
-          fragenList.fragen
-              .firstWhere((element) =>
-                  currentCategoryReihenfolge == element.reihenfolge)
-              .thema,
-          Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name);
+      Global.screenAppService.sendAnswer(
+        currentFrage!.frage,
+        currentFrage!.antwort,
+        getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
+        getTeilnehmerByReihenfolge(pressedJfReihenfolge).jugendfeuerwehr.name,
+      );
 
-      int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
-          .firstWhere(
-            (element) =>
-                element.kategorieReihenfolge == currentCategoryReihenfolge,
-          )
-          .gesetztePunkte;
-
-      Global.jfBuzzerAssignments[pressedJfIndex].points
+      Global.teilnehmer
+          .firstWhere((element) =>
+              element.jugendfeuerwehr.reihenfolge == pressedJfReihenfolge)
+          .punkte
           .firstWhere(
             (element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge,
           )
           .erhaltenePunkte
-          .add(gesetztePunkte);
+          .add(getGesetztePunkte(
+            currentJfReihenfolge,
+            currentCategoryReihenfolge,
+          ));
 
-      // Save JfBuzzerAssignments after update
-      await fileManagerService
-          .saveJfBuzzerAssignments(Global.jfBuzzerAssignments);
+      await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
 
-      if (currentJfIndex + 1 == Global.jfBuzzerAssignments.length) {
-        currentJfIndex = 0;
-        fragenList.fragen
+      if (currentJfReihenfolge + 1 == Global.teilnehmer.length) {
+        currentJfReihenfolge = 0;
+        Global.kategorien
             .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
             .abgeschlossen = true;
 
-        // Save questions after update
-        await fileManagerService.saveFragen(fragenList);
+        await jsonStorageService.saveKategorien(Global.kategorien);
 
-        // Erstelle eine Map aus 'Frage' und 'abgeschlossen' für alle offenen Fragen
-        Map<String, bool> categories = Map.fromEntries(fragenList.fragen
-            .map((element) => MapEntry(element.thema, element.abgeschlossen)));
+        Global.screenAppService.sendCategories(
+          getKategorienThemaAbgeschlossen(Global.kategorien),
+        );
 
-        Global.socketService.sendCategories(categories);
-
-        emit(QuizMasterCategorySelection(fragenList));
+        emit(QuizMasterCategorySelection(Global.kategorien));
         return;
       } else {
-        currentJfIndex++;
+        currentJfReihenfolge++;
       }
 
-      pressedJfIndex = currentJfIndex;
+      pressedJfReihenfolge = currentJfReihenfolge;
 
       Global.buzzerManagerService.sendBuzzerLock(
-        mac: Global.jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac,
+        mac: getBuzzerMacByTisch(
+          getTeilnehmerByReihenfolge(currentJfReihenfolge)
+              .jugendfeuerwehr
+              .tisch,
+        ),
       );
 
-      if (checkIfAllQuestionsAnswered()) {
-        fragenList.fragen
+      if (currentJfReihenfolge > Global.teilnehmer.length) {
+        Global.kategorien
             .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
             .abgeschlossen = true;
 
-        await fileManagerService.saveFragen(fragenList);
+        await jsonStorageService.saveKategorien(Global.kategorien);
 
-        for (JfBuzzerAssignment element in Global.jfBuzzerAssignments) {
+        for (Teilnehmer element in Global.teilnehmer) {
           element.logPointsPerCategory(currentCategoryReihenfolge);
         }
 
-        // Erstelle eine Map aus 'Frage' und 'abgeschlossen' für alle offenen Fragen
-        Map<String, bool> categories = Map.fromEntries(fragenList.fragen
-            .map((element) => MapEntry(element.thema, element.abgeschlossen)));
+        Global.screenAppService.sendCategories(
+          getKategorienThemaAbgeschlossen(Global.kategorien),
+        );
 
-        Global.socketService.sendCategories(categories);
-
-        emit(QuizMasterCategorySelection(fragenList));
+        emit(QuizMasterCategorySelection(Global.kategorien));
       } else {
         emit(QuizMasterQuestion(
-          getNextFrage(),
-          Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-          Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
+          naechsteFrage(),
+          getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
+          Global.teilnehmer[pressedJfReihenfolge].jugendfeuerwehr.name,
         ));
 
-        Global.socketService.sendCountdown(
+        Global.screenAppService.sendCountdown(
             currentFrage!.frage,
-            fragenList.fragen
-                .firstWhere((element) =>
-                    currentCategoryReihenfolge == element.reihenfolge)
-                .thema,
+            getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
             30);
       }
     });
 
     // Handle wrong answer
     on<WrongAnswer>((event, emit) async {
-      Global.socketService.sendQuestion(
+      Global.screenAppService.sendQuestion(
         currentFrage!.frage,
-        fragenList.fragen
-            .firstWhere(
-                (element) => currentCategoryReihenfolge == element.reihenfolge)
-            .thema,
+        getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
         '',
       );
 
-      int gesetztePunkte = Global.jfBuzzerAssignments[currentJfIndex].points
-          .firstWhere(
-            (element) =>
-                element.kategorieReihenfolge == currentCategoryReihenfolge,
-          )
-          .gesetztePunkte;
-
-      Global.jfBuzzerAssignments[currentJfIndex].points
+      Global.teilnehmer
+          .firstWhere((element) =>
+              element.jugendfeuerwehr.reihenfolge == currentJfReihenfolge)
+          .punkte
           .firstWhere(
             (element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge,
           )
           .erhaltenePunkte
-          .add(-gesetztePunkte);
+          .add(-getGesetztePunkte(
+              currentJfReihenfolge, currentCategoryReihenfolge));
 
       // Save JfBuzzerAssignments after update
-      await fileManagerService
-          .saveJfBuzzerAssignments(Global.jfBuzzerAssignments);
+      await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
 
       Global.buzzerManagerService.sendBuzzerRelease();
 
@@ -200,31 +146,29 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         Global.buzzerManagerService.stream,
         onData: (streamEvent) {
           if (streamEvent.values.first == 'ButtonPressed') {
-            pressedJfIndex = Global.jfBuzzerAssignments.indexWhere(
-                (assignment) =>
-                    assignment.buzzerAssignment.mac == streamEvent.keys.first);
+            int pressedTisch = getTischByBuzzerMac(streamEvent.keys.first);
+            pressedJfReihenfolge = getReihenfolgeByTisch(pressedTisch);
 
-            Global.socketService.sendQuestion(
+            Global.screenAppService.sendQuestion(
               currentFrage!.frage,
-              fragenList.fragen
-                  .firstWhere((element) =>
-                      currentCategoryReihenfolge == element.reihenfolge)
-                  .thema,
-              Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
+              getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
+              getTeilnehmerByReihenfolge(pressedJfReihenfolge)
+                  .jugendfeuerwehr
+                  .name,
             );
 
-            // Emit the QuizMasterQuestion state with the appropriate pressed button index
             return QuizMasterQuestion(
-              fragenList.fragen
-                  .firstWhere((element) =>
-                      element.reihenfolge == currentCategoryReihenfolge)
-                  .fragen[currentQuestionIndex],
-              Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-              Global.jfBuzzerAssignments[pressedJfIndex].jugendfeuerwehr.name,
+              currentFrage!,
+              getTeilnehmerByReihenfolge(currentJfReihenfolge)
+                  .jugendfeuerwehr
+                  .name,
+              getTeilnehmerByReihenfolge(pressedJfReihenfolge)
+                  .jugendfeuerwehr
+                  .name,
             );
           }
 
-          return state; // Return the current state if no button press event is detected
+          return state;
         },
       );
     });
@@ -238,146 +182,200 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     });
 
     on<SelectCategory>((event, emit) async {
-      currentCategoryReihenfolge = fragenList.fragen
+      currentCategoryReihenfolge = Global.kategorien
           .where((element) => element.reihenfolge == event.categoryReihenfolge)
           .first
           .reihenfolge;
-      currentJfIndex = 0;
+      currentJfReihenfolge = 0;
 
-      Global.socketService.sendCategoriesWithFocus(
-        Map.fromEntries(fragenList.fragen
-            .map((element) => MapEntry(element.thema, element.abgeschlossen))),
-        fragenList.fragen
-            .firstWhere(
-                (element) => currentCategoryReihenfolge == element.reihenfolge)
-            .thema,
+      Global.screenAppService.sendCategoriesWithFocus(
+        getKategorienThemaAbgeschlossen(Global.kategorien),
+        getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
       );
       await Future.delayed(Duration(seconds: 2));
 
-      Global.socketService.sendPointInput(
-        Global.jfBuzzerAssignments
+      Global.screenAppService.sendPointInput(
+        Global.teilnehmer
             .map((element) => element.jugendfeuerwehr.name)
             .toList(),
-        Global.jfBuzzerAssignments
-            .map((element) => element.gesamtPunkte)
-            .toList(),
-        Global.jfBuzzerAssignments
-            .map((element) => element.points
-                .firstWhere(
-                  (element) =>
-                      element.kategorieReihenfolge ==
-                      currentCategoryReihenfolge,
-                  orElse: () => Points(
-                    kategorieReihenfolge: currentCategoryReihenfolge,
-                    gesetztePunkte: 0,
-                  ),
-                )
-                .gesetztePunkte)
-            .toList(),
+        Global.teilnehmer.map((element) => element.gesamtPunkte).toList(),
+        getInputPoints(currentCategoryReihenfolge),
       );
 
       emit(QuizMasterPoints(
-        Global.jfBuzzerAssignments,
+        Global.teilnehmer,
         currentCategoryReihenfolge,
       ));
     });
 
     on<ConfirmPoints>((event, emit) {
-      if (checkIfAllQuestionsAnswered()) {
-        fragenList.fragen
+      if (currentJfReihenfolge > Global.teilnehmer.length) {
+        Global.kategorien
             .firstWhere(
                 (element) => currentCategoryReihenfolge == element.reihenfolge)
             .abgeschlossen = true;
 
-        // Speichern der aktualisierten Fragenliste
-        fileManagerService.saveFragen(fragenList);
+        jsonStorageService.saveKategorien(Global.kategorien);
 
-        Global.socketService.sendCategories(
-          Map.fromEntries(fragenList.fragen.map(
-              (element) => MapEntry(element.thema, element.abgeschlossen))),
+        Global.screenAppService.sendCategories(
+          getKategorienThemaAbgeschlossen(Global.kategorien),
         );
 
-        emit(QuizMasterCategorySelection(fragenList));
+        emit(QuizMasterCategorySelection(Global.kategorien));
       } else {
         emit(QuizMasterQuestion(
-          getNextFrage(),
-          Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
-          Global.jfBuzzerAssignments[currentJfIndex].jugendfeuerwehr.name,
+          naechsteFrage(),
+          getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
+          getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
         ));
 
-        Global.socketService.sendCountdown(
-            currentFrage!.frage,
-            fragenList.fragen
-                .firstWhere((element) =>
-                    currentCategoryReihenfolge == element.reihenfolge)
-                .thema,
-            30);
+        Global.screenAppService.sendCountdown(
+          currentFrage!.frage,
+          getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
+          30,
+        );
 
         Global.buzzerManagerService.sendBuzzerLock(
-          mac: Global.jfBuzzerAssignments[currentJfIndex].buzzerAssignment.mac,
+          mac: getBuzzerMacByTisch(
+            getTeilnehmerByReihenfolge(currentJfReihenfolge)
+                .jugendfeuerwehr
+                .tisch,
+          ),
         );
       }
     });
 
-    // Listen to the PointsUpdated event and update the points list of the respective Jugendfeuerwehr by Tisch number
+    // Listen des PointsUpdated-Ereignisses und Aktualisieren der Punkteliste der jeweiligen Jugendfeuerwehr nach Tischnummer
     on<PointsUpdated>((event, emit) {
-      if (Global.jfBuzzerAssignments
+      if (Global.teilnehmer
           .firstWhere(
               (element) => element.jugendfeuerwehr.tisch == event.jfTisch)
-          .points
+          .punkte
           .where((element) =>
               element.kategorieReihenfolge == currentCategoryReihenfolge)
           .isNotEmpty) {
-        Global.jfBuzzerAssignments
+        Global.teilnehmer
             .firstWhere(
                 (element) => element.jugendfeuerwehr.tisch == event.jfTisch)
-            .points
+            .punkte
             .removeWhere((element) =>
                 element.kategorieReihenfolge == currentCategoryReihenfolge);
       }
-      Global.jfBuzzerAssignments
+      Global.teilnehmer
           .firstWhere(
               (element) => element.jugendfeuerwehr.tisch == event.jfTisch)
-          .points
-          .add(Points(
+          .punkte
+          .add(Punkte(
             kategorieReihenfolge: currentCategoryReihenfolge,
             gesetztePunkte: event.points,
           ));
 
-      List<String> jugendfeuerwehren = Global.jfBuzzerAssignments
+      List<String> jugendfeuerwehren = Global.teilnehmer
           .map((element) => element.jugendfeuerwehr.name)
           .toList();
 
-      List<int> currentPoints = Global.jfBuzzerAssignments
-          .map((element) => element.gesamtPunkte)
-          .toList();
+      List<int> currentPoints =
+          Global.teilnehmer.map((element) => element.gesamtPunkte).toList();
 
-      List<int> inputPoints = Global.jfBuzzerAssignments
-          .map(
-            (element) => element.points
-                .firstWhere(
-                  (element) =>
-                      element.kategorieReihenfolge ==
-                      currentCategoryReihenfolge,
-                  orElse: () => Points(
-                    kategorieReihenfolge: currentCategoryReihenfolge,
-                    gesetztePunkte: 0,
-                  ),
-                )
-                .gesetztePunkte,
-          )
-          .toList();
-
-      Global.socketService.sendPointInput(
+      Global.screenAppService.sendPointInput(
         jugendfeuerwehren,
         currentPoints,
-        inputPoints,
+        getInputPoints(currentCategoryReihenfolge),
       );
 
       emit(QuizMasterPoints(
-        Global.jfBuzzerAssignments,
+        Global.teilnehmer,
         currentCategoryReihenfolge,
       ));
     });
+  }
+
+  Frage naechsteFrage() {
+    Kategorie currentCategory = Global.kategorien.firstWhere(
+        (element) => currentCategoryReihenfolge == element.reihenfolge);
+
+    currentFrage = getTeilnehmerByReihenfolge(currentJfReihenfolge)
+        .fragen
+        .firstWhere(
+            (element) => element.kategorie == currentCategory.reihenfolge);
+
+    return currentFrage!;
+  }
+
+  List<int> getInputPoints(int currentCategoryReihenfolge) {
+    return Global.teilnehmer
+        .map((element) => element.punkte
+            .firstWhere(
+              (element) =>
+                  element.kategorieReihenfolge == currentCategoryReihenfolge,
+              orElse: () => Punkte(
+                kategorieReihenfolge: currentCategoryReihenfolge,
+                gesetztePunkte: 0,
+              ),
+            )
+            .gesetztePunkte)
+        .toList();
+  }
+
+  Map<String, bool> getKategorienThemaAbgeschlossen(
+      List<Kategorie> kategorien) {
+    return Map.fromEntries(
+      kategorien.map(
+        (element) => MapEntry(element.thema, element.abgeschlossen),
+      ),
+    );
+  }
+
+  String getKategorieThema(
+    List<Kategorie> kategorien,
+    int currentCategoryReihenfolge,
+  ) {
+    return kategorien
+        .firstWhere(
+            (element) => currentCategoryReihenfolge == element.reihenfolge)
+        .thema;
+  }
+
+  String getBuzzerMacByTisch(int tisch) {
+    return Global.buzzerTischZuordnung
+        .firstWhere(
+          (element) => element.tisch == tisch,
+        )
+        .mac;
+  }
+
+  int getTischByBuzzerMac(String mac) {
+    return Global.buzzerTischZuordnung
+        .firstWhere(
+          (element) => element.mac == mac,
+        )
+        .tisch;
+  }
+
+  int getReihenfolgeByTisch(int tisch) {
+    return Global.teilnehmer
+        .firstWhere((element) => element.jugendfeuerwehr.tisch == tisch)
+        .jugendfeuerwehr
+        .reihenfolge;
+  }
+
+  Teilnehmer getTeilnehmerByTisch(int tisch) {
+    return Global.teilnehmer
+        .firstWhere((element) => element.jugendfeuerwehr.tisch == tisch);
+  }
+
+  Teilnehmer getTeilnehmerByReihenfolge(int reihenfolge) {
+    return Global.teilnehmer.firstWhere(
+        (element) => element.jugendfeuerwehr.reihenfolge == reihenfolge);
+  }
+
+  int getGesetztePunkte(int jfReihenfolge, int currentCategoryReihenfolge) {
+    return getTeilnehmerByReihenfolge(jfReihenfolge)
+        .punkte
+        .firstWhere(
+          (element) =>
+              element.kategorieReihenfolge == currentCategoryReihenfolge,
+        )
+        .gesetztePunkte;
   }
 }

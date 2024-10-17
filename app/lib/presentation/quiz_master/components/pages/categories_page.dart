@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/models/fragen.dart';
+import 'package:quizapp/models/kategorie.dart';
 import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -9,7 +9,7 @@ class CategoriesPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final FragenList fragenList;
+  final List<Kategorie> fragenList;
   final QuizMasterBloc bloc;
 
   @override
@@ -17,13 +17,13 @@ class CategoriesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Kategorien')),
       body: ListView.builder(
-        itemCount: fragenList.fragen.length,
+        itemCount: fragenList.length,
         itemBuilder: (context, index) => ListTile(
-          title: Text(fragenList.fragen[index].thema),
+          title: Text(fragenList[index].thema),
           trailing: const Icon(Icons.arrow_forward_ios),
-          enabled: !fragenList.fragen[index].abgeschlossen,
+          enabled: !fragenList[index].abgeschlossen,
           onTap: () {
-            bloc.add(SelectCategory(fragenList.fragen[index].reihenfolge));
+            bloc.add(SelectCategory(fragenList[index].reihenfolge));
           },
         ),
       ),

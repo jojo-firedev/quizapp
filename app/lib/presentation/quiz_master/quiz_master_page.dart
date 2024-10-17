@@ -35,7 +35,7 @@ class _QuizMasterPageState extends State<QuizMasterPage>
             return QuestionPage(state: state);
           } else if (state is QuizMasterCategorySelection) {
             return CategoriesPage(
-              fragenList: state.fragenList,
+              fragenList: state.kategorieList,
               bloc: context.read<QuizMasterBloc>(),
             );
           } else if (state is QuizMasterPoints) {

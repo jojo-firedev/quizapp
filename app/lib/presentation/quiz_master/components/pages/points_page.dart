@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/points.dart';
+import 'package:quizapp/models/punkte.dart';
 import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
 
 class PointsPage extends StatelessWidget {
@@ -20,13 +20,13 @@ class PointsPage extends StatelessWidget {
       body: ListView.builder(
         itemCount: state.jfBuzzerAssignments.length,
         itemBuilder: (context, index) {
-          int currentPoints = state.jfBuzzerAssignments[index].points
+          int currentPoints = state.jfBuzzerAssignments[index].punkte
               .firstWhere(
                   (element) =>
                       element.kategorieReihenfolge ==
                       state.currentCategoryReihenfolge,
                   orElse: () =>
-                      Points(kategorieReihenfolge: 0, gesetztePunkte: 0))
+                      Punkte(kategorieReihenfolge: 0, gesetztePunkte: 0))
               .gesetztePunkte;
 
           return Padding(
@@ -47,7 +47,7 @@ class PointsPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Aktuelle Punkte: ${Global.jfBuzzerAssignments[index].gesamtPunkte}',
+                    'Aktuelle Punkte: ${Global.teilnehmer[index].gesamtPunkte}',
                     style: const TextStyle(
                       fontSize: 20,
                     ),
