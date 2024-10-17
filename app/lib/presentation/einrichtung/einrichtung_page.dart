@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
+import 'package:quizapp/service/file_manager_service.dart';
 import 'package:quizapp/service/json_storage_service.dart';
 
 class EinrichtungPage extends StatelessWidget {
   const EinrichtungPage({super.key});
 
   final JsonStorageService jsonImportService = const JsonStorageService();
+  final FileManagerService fileManagerService = const FileManagerService();
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,11 @@ class EinrichtungPage extends StatelessWidget {
                   leading: Text('1'),
                   title: const Text('JSON importieren'),
                   subtitle: const Text(
-                      'JSON-Dateien für Voreinstellungen importieren'),
-                  onTap: () => jsonImportService.importCompleteJsonFile(),
+                      'Datei auswählen & JSON-Dateien für Voreinstellungen importieren'),
+                  onTap: () async {
+                    await fileManagerService.selectJsonConfigFile();
+                    await jsonImportService.importCompleteJsonFile();
+                  },
                 ),
                 ListTile(
                   leading: const Text('2'),
