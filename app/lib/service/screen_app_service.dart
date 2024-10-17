@@ -108,7 +108,7 @@ class ScreenAppService {
     // Start the Flutter app
     String appPath =
         '../screen_app/build/linux/arm64/release/bundle/quizapp_screen';
-    Process process = await Process.start(appPath, []);
+    await Process.start(appPath, []);
 
     // // Wait a few seconds for the app to launch
     // await Future.delayed(Duration(seconds: 3));
