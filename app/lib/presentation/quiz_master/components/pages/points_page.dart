@@ -55,7 +55,7 @@ class PointsPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 8,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -154,7 +154,7 @@ class NumKey extends StatelessWidget {
           border: Border.all(color: Theme.of(context).colorScheme.primary),
         ),
         padding: const EdgeInsets.all(25),
-        margin: const EdgeInsets.only(left: 4, right: 4),
+        margin: const EdgeInsets.only(left: 6, right: 6),
         child: Text(
           text,
           style: TextStyle(
