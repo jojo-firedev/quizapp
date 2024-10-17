@@ -67,32 +67,76 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
   }
 
   FutureOr<void> _bestaetigePunkte(event, emit) {
-    if (currentJfReihenfolge > Global.teilnehmer.length) {
-      Global.kategorien
-          .firstWhere(
-              (element) => currentCategoryReihenfolge == element.reihenfolge)
-          .abgeschlossen = true;
+    // Prüfe, ob es bereits Punkte für die aktuelle Kategorie gibt und überspringe die Frage, falls vorhanden
+    // Durchsucht alle Teilnehmer und prüft, ob bereits Punkte für die aktuelle Kategorie existieren
+    bool punkteVorhanden = Global.teilnehmer.any((teilnehmer) =>
+        teilnehmer.punkte.any((punkte) =>
+            punkte.kategorieReihenfolge == currentCategoryReihenfolge));
 
-      jsonStorageService.saveKategorien(Global.kategorien);
+    if (punkteVorhanden) {
+      // Falls Punkte für die aktuelle Kategorie bereits existieren, überspringe die Frage
+      currentJfReihenfolge++;
+      pressedJfReihenfolge = currentJfReihenfolge;
 
-      Global.screenAppService.sendCategories(
-        getKategorienThemaAbgeschlossen(Global.kategorien),
-      );
+      if (currentJfReihenfolge >= Global.teilnehmer.length) {
+        // Falls alle Teilnehmer bereits Punkte haben, markiere die Kategorie als abgeschlossen
+        Global.kategorien
+            .firstWhere(
+                (element) => currentCategoryReihenfolge == element.reihenfolge)
+            .abgeschlossen = true;
 
-      emit(QuizMasterCategorySelection(Global.kategorien));
+        // Speichere die aktualisierte Liste der Kategorien
+        jsonStorageService.saveKategorien(Global.kategorien);
+
+        // Sende die aktualisierte Kategorienliste an den ScreenAppService
+        Global.screenAppService.sendCategories(
+          getKategorienThemaAbgeschlossen(Global.kategorien),
+        );
+
+        // Setze den Zustand des QuizMasters zurück auf die Kategoriewahl
+        emit(QuizMasterCategorySelection(Global.kategorien));
+      } else {
+        // Ansonsten die nächste Frage überspringen und den nächsten Teilnehmer auswählen
+        emit(QuizMasterQuestion(
+          naechsteFrage(),
+          // Name der aktuellen Jugendfeuerwehr abrufen und für die Anzeige verwenden
+          getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
+          getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
+        ));
+
+        // Starte den Countdown für die nächste Frage
+        Global.screenAppService.sendCountdown(
+          currentFrage!.frage,
+          getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
+          30,
+        );
+
+        // Sperre den Buzzer für den aktuellen Tisch
+        Global.buzzerManagerService.sendBuzzerLock(
+          mac: getBuzzerMacByTisch(
+            getTeilnehmerByReihenfolge(currentJfReihenfolge)
+                .jugendfeuerwehr
+                .tisch,
+          ),
+        );
+      }
     } else {
+      // Wenn keine Punkte vorhanden sind, normaler Ablauf
       emit(QuizMasterQuestion(
         naechsteFrage(),
+        // Name der aktuellen Jugendfeuerwehr abrufen und für die Anzeige verwenden
         getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
         getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
       ));
 
+      // Starte den Countdown für die aktuelle Frage
       Global.screenAppService.sendCountdown(
         currentFrage!.frage,
         getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
         30,
       );
 
+      // Sperre den Buzzer für den aktuellen Tisch
       Global.buzzerManagerService.sendBuzzerLock(
         mac: getBuzzerMacByTisch(
           getTeilnehmerByReihenfolge(currentJfReihenfolge)
