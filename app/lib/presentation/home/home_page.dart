@@ -230,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Icon(
                           Icons.fullscreen,
-                          color: Colors.white,
+                          color: Colors.black,
                           size: MediaQuery.of(context).size.width / 10,
                         ),
                       ),
@@ -238,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(20.0),
                         child: Text(
                           'Vollbildmodus',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                       ),
                     ],
@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: Icon(
                           Icons.open_in_browser,
-                          color: Colors.white,
+                          color: Colors.black,
                           size: MediaQuery.of(context).size.width / 10,
                         ),
                       ),
@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(20.0),
                         child: Text(
                           'Starte Präsentation',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                       ),
                     ],
