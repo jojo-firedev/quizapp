@@ -150,6 +150,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         .first
         .reihenfolge;
     currentJfReihenfolge = 0;
+    pressedJfReihenfolge = currentJfReihenfolge;
 
     Global.screenAppService.sendCategoriesWithFocus(
       getKategorienThemaAbgeschlossen(Global.kategorien),
@@ -178,6 +179,10 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
   }
 
   FutureOr<void> _correctAnswer(event, emit) async {
+    int gesetztePunkte = getGesetztePunkte(
+      currentJfReihenfolge,
+      currentCategoryReihenfolge,
+    );
     Global.teilnehmer
         .firstWhere((element) =>
             element.jugendfeuerwehr.reihenfolge == pressedJfReihenfolge)
@@ -187,10 +192,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
               element.kategorieReihenfolge == currentCategoryReihenfolge,
         )
         .erhaltenePunkte
-        .add(getGesetztePunkte(
-          currentJfReihenfolge,
-          currentCategoryReihenfolge,
-        ));
+        .add(gesetztePunkte);
 
     await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
 
@@ -341,7 +343,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       emit(QuizMasterQuestion(
         naechsteFrage(),
         getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
-        Global.teilnehmer[pressedJfReihenfolge].jugendfeuerwehr.name,
+        getTeilnehmerByReihenfolge(pressedJfReihenfolge).jugendfeuerwehr.name,
       ));
 
       Global.screenAppService.sendCountdown(currentFrage!.frage,
