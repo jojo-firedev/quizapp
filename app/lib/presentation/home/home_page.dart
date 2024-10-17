@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
+import 'package:quizapp/service/json_storage_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -211,6 +212,84 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.all(20.0),
                         child: Text(
                           'Buzzer Farbinfo',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              child: InkWell(
+                onTap: () {},
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.fullscreen,
+                          color: Colors.white,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Vollbildmodus',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              color: Colors.white,
+              child: InkWell(
+                onTap: () {},
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.open_in_browser,
+                          color: Colors.white,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Starte Präsentation',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              color: Colors.red,
+              child: InkWell(
+                onTap: () => JsonStorageService().resetJsonStorage(),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.restore,
+                          color: Colors.white,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'JSON zurücksetzen',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
