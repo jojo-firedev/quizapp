@@ -6,7 +6,7 @@ import 'package:quizapp_screen/presentation/countdown_screen.dart';
 import 'package:quizapp_screen/presentation/loading_screen.dart';
 import 'package:quizapp_screen/presentation/point_input_screen.dart';
 import 'package:quizapp_screen/presentation/question_screen.dart';
-import 'package:quizapp_screen/presentation/winner_screen.dart';
+import 'package:quizapp_screen/presentation/leaderboard_screen.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});

@@ -31,7 +31,8 @@ class _LeaderboardPageState extends State<LeaderboardPage>
   // Function to add items to the AnimatedList with a delay
   void _addItems() async {
     for (int i = 0; i < _sortedEntries.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 200));
+      // Slower delay between items
+      await Future.delayed(const Duration(milliseconds: 400));
       _listKey.currentState?.insertItem(i);
     }
   }
@@ -58,23 +59,36 @@ class _LeaderboardPageState extends State<LeaderboardPage>
     return SizeTransition(
       sizeFactor: animation,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        // Max vertical spacing
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.blueAccent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
+            // Bigger avatar size
             leading: CircleAvatar(
-              child: Text(entry.value.toString()),
+              radius: 30, // Increased size of the avatar
+              child: Text(
+                entry.value.toString(),
+                style: TextStyle(fontSize: 20), // Larger text inside avatar
+              ),
             ),
             title: Text(
               entry.key,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30, // Larger font size for name
+                fontWeight: FontWeight.bold,
+              ),
             ),
             trailing: Text(
               '${entry.value} Punkte',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28, // Larger font size for score
+              ),
             ),
           ),
         ),
