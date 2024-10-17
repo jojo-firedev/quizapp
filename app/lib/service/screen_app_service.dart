@@ -117,36 +117,37 @@ class ScreenAppService {
     ProcessResult result = await Process.run('xrandr', ['--listmonitors']);
     String xrandrOutput = result.stdout;
 
-    // Parse xrandr output and find the monitor that is not 800x480
+    // Find the monitor with index 0
     List<String> lines = xrandrOutput.split('\n');
-    String targetMonitor = '';
+    String monitor0 = '';
     for (String line in lines) {
-      if (!line.contains('800/154x480')) {
-        // This is the monitor we want (the one that doesn't have 800x480 resolution)
-        targetMonitor = line;
+      if (line.startsWith(' 0:')) {
+        // This is the monitor at index 0
+        monitor0 = line;
         break;
       }
     }
 
-    if (targetMonitor.isNotEmpty) {
+    if (monitor0.isNotEmpty) {
       // Extract the position of the monitor
       // Example line: " 0: +XWAYLAND0 1920/530x1080/300+0+0  XWAYLAND0"
       // We need the position: "+0+0" means (x: 0, y: 0)
       RegExp positionPattern = RegExp(r'\+(\d+)\+(\d+)');
-      RegExpMatch? match = positionPattern.firstMatch(targetMonitor);
+      RegExpMatch? match = positionPattern.firstMatch(monitor0);
       if (match != null) {
         String xPos = match.group(1) ?? '0';
         String yPos = match.group(2) ?? '0';
 
-        // Use wmctrl to move the app to the correct monitor
+        // Use wmctrl to move the app to the correct monitor (index 0)
         String moveWindowCommand = 'wmctrl -r :ACTIVE: -e 0,$xPos,$yPos,-1,-1';
         await Process.run('bash', ['-c', moveWindowCommand]);
-        print('App launched and moved to monitor at position $xPos, $yPos.');
+        print(
+            'App launched and moved to monitor at position $xPos, $yPos (index 0).');
       } else {
         print('Could not extract position from xrandr output.');
       }
     } else {
-      print('No suitable monitor found.');
+      print('Monitor index 0 not found.');
     }
   }
 }
