@@ -1,0 +1,66 @@
+[
+    {
+        "frage": "Welche Telefonnummer sollte für einen Feuerwehreinsatz gewählt werden?",
+        "antwort": "112"
+    },
+    {
+        "frage": "Welcher Knoten wird verwendet, um eine Axt einzubinden?",
+        "antwort": "Mastwurf"
+    },
+    {
+        "frage": "Wo befinden sich am Verteiler die Abgänge?",
+        "antwort": "1. Rohr: links, 2. Rohr: rechts, 3. Rohr: mittig"
+    },
+    {
+        "frage": "Was geschieht mit einer nassen Feuerwehrleine?",
+        "antwort": "Sie wird gestopft und getrocknet."
+    },
+    {
+        "frage": "Wie lautet die richtige Handhabung eines doppelt gerollten C-Druckschlauchs?",
+        "antwort": "Der Schlauch wird ausgerollt, ohne Verdrehungen ausgelegt und an einer Festkupplung angekuppelt."
+    },
+    {
+        "frage": "Wie viele Abgänge hat ein Verteiler und wo befinden sie sich?",
+        "antwort": "Drei Abgänge – links, rechts und mittig."
+    },
+    {
+        "frage": "Nenne eine Sonderleitung, die am Verteiler angeschlossen werden kann.",
+        "antwort": "Schaumrohr"
+    },
+    {
+        "frage": "Welche Strahlrohrgrößen gibt es bei der Feuerwehr?",
+        "antwort": "D-, C-, B-Mehrzweckstrahlrohr"
+    },
+    {
+        "frage": "Welches Schild weist auf einen Unterflurhydranten hin?",
+        "antwort": "Das Hydrantenschild"
+    },
+    {
+        "frage": "Nenne ein Sanitätsgerät, das auf einem Feuerwehrfahrzeug mitgeführt wird.",
+        "antwort": "Krankentrage "
+    },
+    {
+        "frage": "Welche Mülltrennungskategorie gehört zu einer Pfandflasche?",
+        "antwort": "Pfandflaschen-Rückgabe"
+    },
+    {
+        "frage": "Welchen Durchmesser hat ein C-Druckschlauch?",
+        "antwort": "52 mm oder 42 mm"
+    },
+    {
+        "frage": "Welche Länge hat ein C-Druckschlauch?",
+        "antwort": "15 m oder 20 m"
+    },
+    {
+        "frage": "Wie viel Durchflussmenge hat ein B-Mehrzweckstrahlrohr ohne Mundstück?",
+        "antwort": "600 l/min"
+    },
+    {
+        "frage": "Wie viel Durchflussmenge hat ein C-Mehrzweckstrahlrohr mit Mundstück?",
+        "antwort": "100 l/min"
+    },
+    {
+        "frage": "Welchen Durchmesser hat ein D-Druckschlauch?",
+        "antwort": "25 mm"
+    }
+]
