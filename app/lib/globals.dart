@@ -9,6 +9,7 @@ import 'package:quizapp/service/buzzer_manager_service.dart';
 import 'package:quizapp/service/screen_app_service.dart';
 
 class Global {
+  static String jsonDateiPfad = '';
   static List<Socket> sockets = [];
   static List<String> macs = [];
   static ConnectionMode connectionMode = ConnectionMode.idle;
