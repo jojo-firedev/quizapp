@@ -16,10 +16,9 @@ class FileManagerService {
     List<T> data,
     Function(T) toJson,
   ) async {
-    String path = './assets/data/';
-    if (Platform.isLinux) {
-      path = '/home/pi/quizapp/data/';
-    }
+    String path =
+        Platform.isLinux ? '/home/pi/quizapp/data/' : './assets/data/';
+
     final jsonString = jsonEncode(data.map((e) => toJson(e)).toList());
     await File(path).writeAsString(jsonString);
   }
@@ -29,10 +28,8 @@ class FileManagerService {
     String fileName,
     T Function(Map<String, dynamic>) fromJson,
   ) async {
-    String path = './assets/data/';
-    if (Platform.isLinux) {
-      path = '/home/pi/quizapp/data/';
-    }
+    String path =
+        Platform.isLinux ? '/home/pi/quizapp/data/' : './assets/data/';
 
     try {
       final jsonString = await File(path).readAsString();
