@@ -7,27 +7,31 @@ import 'package:quizapp/models/json_storage_file.dart';
 class FileManagerService {
   const FileManagerService();
 
+  String get _path {
+    if (Platform.isLinux) {
+      return '/home/pi/quizapp/data/';
+    } else if (Platform.isWindows) {
+      return '${Directory.current.path}\\assets\\data\\';
+    } else if (Platform.isMacOS) {
+      return '${Directory.current.path}/assets/data/';
+    } else {
+      return 'assets/data/';
+    }
+  }
+
   // Generische Methode zum Speichern von JSON-Dateien
   Future<void> _saveToFile<T>(
     String fileName,
     List<T> data,
     Function(T) toJson,
   ) async {
-    String path = Platform.isLinux
-        ? '/home/pi/quizapp/data/$fileName'
-        : '${Directory.current.path}\\assets\\data\\$fileName';
-
     final jsonString = jsonEncode(data.map((e) => toJson(e)).toList());
-    await File(path).writeAsString(jsonString);
+    await File(_path + fileName).writeAsString(jsonString);
   }
 
   // Generische Methode zum Speichern von Rohdaten in einer Datei
   Future<void> _saveRawToFile(String fileName, String data) async {
-    String path = Platform.isLinux
-        ? '/home/pi/quizapp/data/$fileName'
-        : '${Directory.current.path}\\assets\\data\\$fileName';
-
-    await File(path).writeAsString(data);
+    await File(_path + fileName).writeAsString(data);
   }
 
   // Generische Methode zum Lesen von JSON-Dateien
@@ -35,12 +39,8 @@ class FileManagerService {
     String fileName,
     T Function(Map<String, dynamic>) fromJson,
   ) async {
-    String path = Platform.isLinux
-        ? '/home/pi/quizapp/data/$fileName'
-        : '${Directory.current.path}\\assets\\data\\$fileName';
-
     try {
-      final jsonString = await File(path).readAsString();
+      final jsonString = await File(_path + fileName).readAsString();
       final jsonData = jsonDecode(jsonString) as List;
       return jsonData.map<T>((json) => fromJson(json)).toList();
     } catch (e) {
@@ -51,12 +51,8 @@ class FileManagerService {
 
   // Generische Methode zum Lesen von Rohdaten aus einer Datei
   Future<String> _readRawFromFile(String fileName) async {
-    String path = Platform.isLinux
-        ? '/home/pi/quizapp/data/$fileName'
-        : '${Directory.current.path}\\assets\\data\\$fileName';
-
     try {
-      return await File(path).readAsString();
+      return await File(_path + fileName).readAsString();
     } catch (e) {
       print("Error reading file: $e");
       return '';
