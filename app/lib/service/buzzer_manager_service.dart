@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/buzzer_assignment.dart';
+import 'package:quizapp/models/buzzer_tisch_zuordnung.dart';
 import 'package:quizapp/service/buzzer_socket_service.dart';
 import 'package:quizapp/service/buzzer_udp_listener_service.dart';
 import 'package:quizapp/service/buzzer_udp_service.dart';
@@ -69,17 +69,18 @@ class BuzzerManagerService {
           break;
         } else if (Global.currentAssignmentData == null) {
           break;
-        } else if (Global.assignedBuzzer
+        } else if (Global.buzzerTischZuordnung
             .any((element) => element.tisch == Global.currentAssignmentData)) {
           break;
         }
 
-        Global.assignedBuzzer.add(BuzzerAssignment(
+        Global.buzzerTischZuordnung.add(BuzzerTischZuordnung(
             tisch: Global.currentAssignmentData!, mac: jsonObject.keys.first));
-        Global.logger.d(Global.assignedBuzzer.toString());
+        Global.logger.d(Global.buzzerTischZuordnung.toString());
         Global.currentAssignmentData = null;
 
-        List<String> macs = Global.assignedBuzzer.map((e) => e.mac).toList();
+        List<String> macs =
+            Global.buzzerTischZuordnung.map((e) => e.mac).toList();
         Global.buzzerManagerService.sendBuzzerRelease(macs: macs);
         break;
       case ConnectionMode.game:

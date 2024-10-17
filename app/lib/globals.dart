@@ -1,23 +1,25 @@
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:quizapp/models/buzzer_assignment.dart';
-import 'package:quizapp/models/jf_buzzer_assignment.dart';
+import 'package:quizapp/models/buzzer_tisch_zuordnung.dart';
+import 'package:quizapp/models/kategorie.dart';
+import 'package:quizapp/models/teilnehmer.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
-import 'package:quizapp/service/screen_socket_service.dart';
+import 'package:quizapp/service/screen_app_service.dart';
 
 class Global {
   static List<Socket> sockets = [];
   static List<String> macs = [];
   static ConnectionMode connectionMode = ConnectionMode.idle;
   static BuzzerType buzzerType = BuzzerType.socket;
-  static List<BuzzerAssignment> assignedBuzzer = [];
+  static List<BuzzerTischZuordnung> buzzerTischZuordnung = [];
   static List<Jugendfeuerwehr> jugendfeuerwehren = [];
-  static List<JfBuzzerAssignment> jfBuzzerAssignments = [];
+  static List<Teilnehmer> teilnehmer = [];
+  static List<Kategorie> kategorien = [];
   static int? currentAssignmentData;
   static BuzzerManagerService buzzerManagerService = BuzzerManagerService();
-  static SocketService socketService = SocketService();
+  static ScreenAppService screenAppService = ScreenAppService();
 
   static Logger logger = Logger(
     printer: PrettyPrinter(),
