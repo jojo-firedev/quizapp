@@ -55,7 +55,7 @@ class PointsPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 4,
+                  flex: 5,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
