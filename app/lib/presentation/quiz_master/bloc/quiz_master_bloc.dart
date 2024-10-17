@@ -240,7 +240,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     // Save JfBuzzerAssignments after update
     await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
 
-    if (fehlVersuche >= maxFehlVersuche) {
+    if (fehlVersuche > maxFehlVersuche) {
       emit(QuizMasterQuestionConfirmShowAnswer(
         currentFrage!,
         getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
