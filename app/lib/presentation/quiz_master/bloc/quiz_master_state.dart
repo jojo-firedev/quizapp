@@ -44,3 +44,9 @@ final class QuizMasterCategorySelection extends QuizMasterState {
 
   QuizMasterCategorySelection(this.kategorieList);
 }
+
+final class QuizMasterResults extends QuizMasterState {
+  final List<Teilnehmer> teilnehmerList;
+
+  QuizMasterResults(this.teilnehmerList);
+}

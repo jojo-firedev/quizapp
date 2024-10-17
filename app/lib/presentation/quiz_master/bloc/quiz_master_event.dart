@@ -33,3 +33,5 @@ class AktualisierePunkte extends QuizMasterEvent {
 
   AktualisierePunkte({required this.jfTisch, required this.points});
 }
+
+class ShowResults extends QuizMasterEvent {}

@@ -67,13 +67,6 @@ class ScreenAppService {
     });
   }
 
-  void sendScore(int score) {
-    sendData({
-      'type': 'score',
-      'score': score,
-    });
-  }
-
   void sendPointInput(
       List<String> teams, List<int> currentPoints, List<int> inputPoints) {
     sendData({
@@ -81,6 +74,13 @@ class ScreenAppService {
       'jugendfeuerwehren': teams,
       'currentPoints': currentPoints,
       'inputPoints': inputPoints,
+    });
+  }
+
+  void sendFinalScore(Map<String, int> points) {
+    sendData({
+      'type': 'final_score',
+      'points': points,
     });
   }
 

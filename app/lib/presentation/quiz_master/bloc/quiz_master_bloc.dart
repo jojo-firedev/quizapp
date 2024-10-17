@@ -56,6 +56,20 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
     // Aktualisiere einzelne Punkte
     on<AktualisierePunkte>(_aktualisierePunkte);
+
+    // Zeige die Ergebnisse an
+    on<ShowResults>((event, emit) {
+      Global.screenAppService.sendFinalScore(Map.fromEntries(
+        Global.teilnehmer.map(
+          (element) => MapEntry(
+            element.jugendfeuerwehr.name,
+            element.gesamtPunkte,
+          ),
+        ),
+      ));
+
+      emit(QuizMasterResults(Global.teilnehmer));
+    });
   }
 
   FutureOr<void> _loadPage(event, emit) async {

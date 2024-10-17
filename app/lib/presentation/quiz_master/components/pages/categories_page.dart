@@ -16,16 +16,35 @@ class CategoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kategorien')),
-      body: ListView.builder(
-        itemCount: fragenList.length,
-        itemBuilder: (context, index) => ListTile(
-          title: Text(fragenList[index].thema),
-          trailing: const Icon(Icons.arrow_forward_ios),
-          enabled: !fragenList[index].abgeschlossen,
-          onTap: () {
-            bloc.add(SelectKategorie(fragenList[index].reihenfolge));
-          },
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: fragenList.length,
+              itemBuilder: (context, index) => ListTile(
+                title: Text(fragenList[index].thema),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                enabled: !fragenList[index].abgeschlossen,
+                onTap: () {
+                  bloc.add(SelectKategorie(fragenList[index].reihenfolge));
+                },
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              ListTile(
+                onTap: () => bloc.add(ShowResults()),
+                title: const Text(
+                  'Ergebnisse anzeigen',
+                  style: TextStyle(color: Colors.white),
+                ),
+                tileColor: Theme.of(context).colorScheme.primary,
+                trailing: const Icon(Icons.arrow_forward, color: Colors.white),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
