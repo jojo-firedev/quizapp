@@ -103,4 +103,23 @@ class ScreenAppService {
   void closeServer() {
     _serverSocket?.close();
   }
+
+  void startScreenApp() async {
+    // Path to the other Flutter app binary
+    String appPath =
+        '../screen_app/build/linux/arm64/release/bundle/quizapp_screen';
+
+    // Check if the app exists at the specified path
+    if (await File(appPath).exists()) {
+      try {
+        // Launch the app as an external process
+        Process result = await Process.start(appPath, []);
+        print('Started quizapp_screen with pid: ${result.pid}');
+      } catch (e) {
+        print('Failed to start quizapp_screen: $e');
+      }
+    } else {
+      print('App not found at path: $appPath');
+    }
+  }
 }

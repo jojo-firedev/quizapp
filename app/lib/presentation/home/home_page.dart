@@ -253,7 +253,7 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.white,
               child: InkWell(
-                onTap: () {},
+                onTap: () => Global.screenAppService.startScreenApp(),
                 child: Center(
                   child: Column(
                     children: [
