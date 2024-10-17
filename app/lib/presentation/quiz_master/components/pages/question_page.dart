@@ -110,7 +110,7 @@ class QuestionPage extends StatelessWidget {
                             children: [
                               CustomButton(
                                 icon: Icons.done,
-                                color: Colors.green,
+                                color: Colors.orange,
                                 text: 'Antwort anzeigen',
                                 onPressed: () => context
                                     .read<QuizMasterBloc>()
