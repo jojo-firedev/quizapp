@@ -113,12 +113,40 @@ class ScreenAppService {
     // Wait a few seconds for the app to launch
     await Future.delayed(Duration(seconds: 3));
 
-    // Use wmctrl to move the app to the second monitor
-    // Adjust these coordinates to the resolution and offset of your second monitor
-    String moveWindowCommand =
-        'wmctrl -r :ACTIVE: -e 0,1920,0,-1,-1'; // Example moves the window to the right of a 1920x1080 first monitor
-    await Process.run('bash', ['-c', moveWindowCommand]);
+    // Get monitor info from xrandr
+    ProcessResult result = await Process.run('xrandr', ['--listmonitors']);
+    String xrandrOutput = result.stdout;
 
-    print('App launched and moved to second monitor.');
+    // Parse xrandr output and find the monitor that is not 800x480
+    List<String> lines = xrandrOutput.split('\n');
+    String targetMonitor = '';
+    for (String line in lines) {
+      if (!line.contains('800/154x480')) {
+        // This is the monitor we want (the one that doesn't have 800x480 resolution)
+        targetMonitor = line;
+        break;
+      }
+    }
+
+    if (targetMonitor.isNotEmpty) {
+      // Extract the position of the monitor
+      // Example line: " 0: +XWAYLAND0 1920/530x1080/300+0+0  XWAYLAND0"
+      // We need the position: "+0+0" means (x: 0, y: 0)
+      RegExp positionPattern = RegExp(r'\+(\d+)\+(\d+)');
+      RegExpMatch? match = positionPattern.firstMatch(targetMonitor);
+      if (match != null) {
+        String xPos = match.group(1) ?? '0';
+        String yPos = match.group(2) ?? '0';
+
+        // Use wmctrl to move the app to the correct monitor
+        String moveWindowCommand = 'wmctrl -r :ACTIVE: -e 0,$xPos,$yPos,-1,-1';
+        await Process.run('bash', ['-c', moveWindowCommand]);
+        print('App launched and moved to monitor at position $xPos, $yPos.');
+      } else {
+        print('Could not extract position from xrandr output.');
+      }
+    } else {
+      print('No suitable monitor found.');
+    }
   }
 }
