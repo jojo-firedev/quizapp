@@ -16,70 +16,69 @@ class PointInputScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Punktevergabe')),
-      body: ListView.builder(
-        itemCount: jugendfeuerwehren.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    jugendfeuerwehren[index],
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w500,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          spacing: 20.0,
+          runSpacing: 20.0,
+          children: List.generate(jugendfeuerwehren.length, (index) {
+            return SizedBox(
+              width: MediaQuery.of(context).size.width *
+                  0.45, // Half the screen width
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(
+                      jugendfeuerwehren[index],
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    'Aktuelle Punkte: ${currentPoints[index]}',
-                    style: const TextStyle(
-                      fontSize: 20,
+                    Text(
+                      'Aktuelle Punkte: ${currentPoints[index]}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        NumKey(
+                          text: '1',
+                          isSelected: inputPoints[index] == 1,
+                        ),
+                        NumKey(
+                          text: '2',
+                          isSelected: inputPoints[index] == 2,
+                        ),
+                        NumKey(
+                          text: '3',
+                          isSelected: inputPoints[index] == 3,
+                        ),
+                        NumKey(
+                          text: '4',
+                          isSelected: inputPoints[index] == 4,
+                        ),
+                        NumKey(
+                          text: '5',
+                          isSelected: inputPoints[index] == 5,
+                        ),
+                        NumKey(
+                          text: '6',
+                          isSelected: inputPoints[index] == 6,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Expanded(
-                  flex: 4,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      NumKey(
-                        text: '1',
-                        isSelected: inputPoints[index] == 1,
-                      ),
-                      NumKey(
-                        text: '2',
-                        isSelected: inputPoints[index] == 2,
-                      ),
-                      NumKey(
-                        text: '3',
-                        isSelected: inputPoints[index] == 3,
-                      ),
-                      NumKey(
-                        text: '4',
-                        isSelected: inputPoints[index] == 4,
-                      ),
-                      NumKey(
-                        text: '5',
-                        isSelected: inputPoints[index] == 5,
-                      ),
-                      NumKey(
-                        text: '6',
-                        isSelected: inputPoints[index] == 6,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
