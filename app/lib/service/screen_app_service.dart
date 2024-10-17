@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-class SocketService {
+class ScreenAppService {
   ServerSocket? _serverSocket;
   Socket? _connectedSocket;
   final int port;
   Function(String)? onStatusChange;
 
-  SocketService({this.port = 4040, this.onStatusChange});
+  ScreenAppService({this.port = 4040, this.onStatusChange});
 
   void startServer() async {
     _serverSocket = await ServerSocket.bind(InternetAddress.loopbackIPv4, port);
