@@ -154,7 +154,7 @@ class NumKey extends StatelessWidget {
           border: Border.all(color: Theme.of(context).colorScheme.primary),
         ),
         padding: const EdgeInsets.all(25),
-        margin: const EdgeInsets.only(left: 8, right: 8),
+        margin: const EdgeInsets.only(left: 4, right: 4),
         child: Text(
           text,
           style: TextStyle(
