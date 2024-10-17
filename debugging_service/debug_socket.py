@@ -26,6 +26,9 @@ def main():
 
     server_host = "localhost"
     server_port = 8082
+    
+    client1_mac = "3D:E9:BD:FB:FC:4B"
+    client2_mac = "AC:87:CA:64:EB:74"
 
     client1 = Client(server_host, server_port)
     time.sleep(1)
@@ -33,12 +36,24 @@ def main():
 
     # Send messages from clients
     time.sleep(1)
-    client1.send_message('{"3D:E9:BD:FB:FC:4B": "Connected"}')
+    client1.send_message(f'{{"{client1_mac}": "Connected"}}')
     time.sleep(1)
-    client2.send_message('{"AC:87:CA:64:EB:74": "Connected"}')
+    client2.send_message(f'{{"{client2_mac}": "Connected"}}')
 
     # Keep the script running
-    input("Press Enter to exit...\n")
+    input("Press Enter to buzzer for client 1...\n")
+    client1.send_message(f'{{"{client1_mac}":  "ButtonPressed"}}')
+    
+    input("Press Enter to buzzer for client 2...\n")
+    client2.send_message(f'{{"{client2_mac}":  "ButtonPressed"}}')
+    
+    input("Press Enter to buzzer for client 1...\n")
+    client1.send_message(f'{{"{client1_mac}":  "ButtonPressed"}}')
+    
+    input("Press Enter to buzzer for client 2...\n")
+    client2.send_message(f'{{"{client2_mac}":  "ButtonPressed"}}')
+    
+    input('Press Enter to exit...\n')
 
 
 if __name__ == "__main__":
