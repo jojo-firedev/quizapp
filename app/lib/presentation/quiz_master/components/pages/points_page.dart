@@ -47,7 +47,7 @@ class PointsPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Aktuelle Punkte: ${Global.teilnehmer[index].gesamtPunkte}',
+                    Global.teilnehmer[index].gesamtPunkte.toString(),
                     style: const TextStyle(
                       fontSize: 20,
                     ),
