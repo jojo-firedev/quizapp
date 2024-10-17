@@ -105,21 +105,20 @@ class ScreenAppService {
   }
 
   void startScreenApp() async {
-    // Path to the other Flutter app binary
+    // Start the Flutter app
     String appPath =
         '../screen_app/build/linux/arm64/release/bundle/quizapp_screen';
+    Process process = await Process.start(appPath, []);
 
-    // Check if the app exists at the specified path
-    if (await File(appPath).exists()) {
-      try {
-        // Launch the app as an external process
-        Process result = await Process.start(appPath, []);
-        print('Started quizapp_screen with pid: ${result.pid}');
-      } catch (e) {
-        print('Failed to start quizapp_screen: $e');
-      }
-    } else {
-      print('App not found at path: $appPath');
-    }
+    // Wait a few seconds for the app to launch
+    await Future.delayed(Duration(seconds: 3));
+
+    // Use wmctrl to move the app to the second monitor
+    // Adjust these coordinates to the resolution and offset of your second monitor
+    String moveWindowCommand =
+        'wmctrl -r :ACTIVE: -e 0,1920,0,-1,-1'; // Example moves the window to the right of a 1920x1080 first monitor
+    await Process.run('bash', ['-c', moveWindowCommand]);
+
+    print('App launched and moved to second monitor.');
   }
 }
