@@ -69,6 +69,8 @@ class EinrichtungPage extends StatelessWidget {
                         print(e);
                       }
                     }
+                    jsonImportService
+                        .saveBuzzerTischZuordnung(Global.buzzerTischZuordnung);
                   },
                 ),
               ],

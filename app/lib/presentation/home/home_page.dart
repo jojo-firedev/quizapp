@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
+import 'package:quizapp/service/file_manager_service.dart';
 import 'package:quizapp/service/json_storage_service.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -279,7 +280,31 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.red,
               child: InkWell(
-                onTap: () => JsonStorageService().resetJsonStorage(),
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('JSON zurücksetzen'),
+                    content: const Text(
+                        'Soll nur die JSON Konfiguration zurückgesetzt werden oder auch die Buzzer Konfiguration?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          JsonStorageService().resetJsonStorage();
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Nur JSON'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          JsonStorageService().resetJsonStorage();
+                          FileManagerService().saveBuzzerAssignment([]);
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('JSON und Buzzer'),
+                      ),
+                    ],
+                  ),
+                ),
                 child: Center(
                   child: Column(
                     children: [

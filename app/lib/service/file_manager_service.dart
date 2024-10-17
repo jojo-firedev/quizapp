@@ -79,14 +79,6 @@ class FileManagerService {
     await _saveRawToFile(jsonString);
   }
 
-  // Future<void> saveJFs(List<Jugendfeuerwehr> jf) async {
-  //   await _saveToFile('jugendfeuerwehren.json', jf, (e) => e.toJson());
-  // }
-
-  // Future<List<Jugendfeuerwehr>> readJFs() async {
-  //   return _readFromFile('jugendfeuerwehren.json', Jugendfeuerwehr.fromJson);
-  // }
-
   Future<void> saveBuzzerAssignment(
       List<BuzzerTischZuordnung> buzzerAssignment) async {
     await _saveToFile(
@@ -97,42 +89,4 @@ class FileManagerService {
     return _readFromFile(
         'buzzer_assignment.json', BuzzerTischZuordnung.fromJson);
   }
-
-  // Future<FragenList> readFragen() async {
-  //   try {
-  //     final jsonString = await File('fragen.json').readAsString();
-  //     return FragenList.fromJson(jsonDecode(jsonString));
-  //   } catch (e) {
-  //     print("Error reading Fragen: $e");
-  //     return FragenList(fragen: []);
-  //   }
-  // }
-
-  // Future<void> saveFragen(FragenList fragenList) async {
-  //   final fragenString = fragenList.toRawJson();
-  //   await File('fragen.json').writeAsString(fragenString);
-  // }
-
-  // // Save Points to a file
-  // Future<void> savePoints(List<Points> points) async {
-  //   await _saveToFile('points.json', points, (e) => e.toJson());
-  // }
-
-  // // Read Points from a file
-  // Future<List<Points>> readPoints() async {
-  //   return _readFromFile('points.json', Points.fromJson);
-  // }
-
-  // // Save JfBuzzerAssignment list to a JSON file
-  // Future<void> saveJfBuzzerAssignments(
-  //     List<JfBuzzerAssignment> assignments) async {
-  //   await _saveToFile(
-  //       'jf_buzzer_assignments.json', assignments, (e) => e.toJson());
-  // }
-
-  // // Read JfBuzzerAssignment list from a JSON file
-  // Future<List<JfBuzzerAssignment>> readJfBuzzerAssignments() async {
-  //   return _readFromFile(
-  //       'jf_buzzer_assignments.json', JfBuzzerAssignment.fromJson);
-  // }
 }

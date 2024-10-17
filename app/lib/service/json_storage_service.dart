@@ -13,16 +13,17 @@ class JsonStorageService {
   Future<void> importCompleteJsonFile() async {
     JsonStorageFile jsonStorageFile =
         await fileManagerService.readJsonStorageFile();
-    Global.buzzerTischZuordnung = jsonStorageFile.buzzerTischZuordnung ?? [];
     Global.teilnehmer = jsonStorageFile.teilnehmer;
     Global.jugendfeuerwehren =
         jsonStorageFile.teilnehmer.map((e) => e.jugendfeuerwehr).toList();
     Global.kategorien = jsonStorageFile.kategorien;
+
+    Global.buzzerTischZuordnung =
+        await fileManagerService.readBuzzerAssignment();
   }
 
   Future<void> saveTeilnehmer(List<Teilnehmer> teilnehmer) async {
     JsonStorageFile jsonStorageFile = JsonStorageFile(
-      buzzerTischZuordnung: Global.buzzerTischZuordnung,
       teilnehmer: teilnehmer,
       kategorien: Global.kategorien,
     );
@@ -31,17 +32,11 @@ class JsonStorageService {
 
   Future<void> saveBuzzerTischZuordnung(
       List<BuzzerTischZuordnung> buzzerTischZuordnung) async {
-    JsonStorageFile jsonStorageFile = JsonStorageFile(
-      buzzerTischZuordnung: buzzerTischZuordnung,
-      teilnehmer: Global.teilnehmer,
-      kategorien: Global.kategorien,
-    );
-    await fileManagerService.writeJsonStorageFile(jsonStorageFile);
+    fileManagerService.saveBuzzerAssignment(buzzerTischZuordnung);
   }
 
   Future<void> saveKategorien(List<Kategorie> kategorien) async {
     JsonStorageFile jsonStorageFile = JsonStorageFile(
-      buzzerTischZuordnung: Global.buzzerTischZuordnung,
       teilnehmer: Global.teilnehmer,
       kategorien: kategorien,
     );
@@ -50,7 +45,6 @@ class JsonStorageService {
 
   Future<void> resetJsonStorage() async {
     JsonStorageFile jsonStorageFile = JsonStorageFile(
-      buzzerTischZuordnung: [],
       teilnehmer: Global.teilnehmer
           .map(
             (e) => Teilnehmer(
