@@ -1,21 +1,21 @@
 import 'dart:convert';
 
-class BuzzerAssignment {
+class BuzzerTischZuordnung {
   int tisch;
   String mac;
 
-  BuzzerAssignment({
+  BuzzerTischZuordnung({
     required this.tisch,
     required this.mac,
   });
 
-  factory BuzzerAssignment.fromRawJson(String str) =>
-      BuzzerAssignment.fromJson(json.decode(str));
+  factory BuzzerTischZuordnung.fromRawJson(String str) =>
+      BuzzerTischZuordnung.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory BuzzerAssignment.fromJson(Map<String, dynamic> json) =>
-      BuzzerAssignment(
+  factory BuzzerTischZuordnung.fromJson(Map<String, dynamic> json) =>
+      BuzzerTischZuordnung(
         tisch: json["tisch"],
         mac: json["mac"],
       );
