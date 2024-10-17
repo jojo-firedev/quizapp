@@ -47,4 +47,22 @@ class JsonStorageService {
     );
     await fileManagerService.writeJsonStorageFile(jsonStorageFile);
   }
+
+  Future<void> resetJsonStorage() async {
+    JsonStorageFile jsonStorageFile = JsonStorageFile(
+      buzzerTischZuordnung: [],
+      teilnehmer: Global.teilnehmer
+          .map(
+            (e) => Teilnehmer(
+              jugendfeuerwehr: e.jugendfeuerwehr,
+              fragen: e.fragen,
+            ),
+          )
+          .toList(),
+      kategorien: Global.kategorien
+          .map((e) => Kategorie(reihenfolge: e.reihenfolge, thema: e.thema))
+          .toList(),
+    );
+    await fileManagerService.writeJsonStorageFile(jsonStorageFile);
+  }
 }
