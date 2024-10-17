@@ -67,14 +67,6 @@ class _LeaderboardPageState extends State<LeaderboardPage>
             borderRadius: BorderRadius.circular(12),
           ),
           child: ListTile(
-            // Bigger avatar size
-            leading: CircleAvatar(
-              radius: 30, // Increased size of the avatar
-              child: Text(
-                entry.value.toString(),
-                style: TextStyle(fontSize: 20), // Larger text inside avatar
-              ),
-            ),
             title: Text(
               entry.key,
               style: TextStyle(
