@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          'Geführter Modus',
+                          'Einrichtung',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -60,80 +60,8 @@ class _HomePageState extends State<HomePage> {
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          'Start Quiz',
+                          'Starte Quiz',
                           style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            // Card(
-            //   child: InkWell(
-            //     onTap: () => Navigator.pushNamed(context, '/teilnehmer'),
-            //     child: Center(
-            //       child: Column(
-            //         children: [
-            //           Expanded(
-            //             child: Icon(
-            //               Icons.group,
-            //               size: MediaQuery.of(context).size.width / 10,
-            //             ),
-            //           ),
-            //           const Padding(
-            //             padding: EdgeInsets.all(20.0),
-            //             child: Text(
-            //               'Teilnehmer Übersicht',
-            //               style: TextStyle(fontSize: 20),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
-            Card(
-              child: InkWell(
-                onTap: () => Navigator.pushNamed(context, '/fragen_katalog'),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Icon(
-                          Icons.help,
-                          size: MediaQuery.of(context).size.width / 10,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'Fragenkatalog',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              child: InkWell(
-                onTap: () => Navigator.pushNamed(context, '/einstellungen'),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Icon(
-                          Icons.settings,
-                          size: MediaQuery.of(context).size.width / 10,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          'Einstellungen',
                         ),
                       ),
                     ],
@@ -168,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Theme.of(context).colorScheme.primary,
+              color: Colors.red,
               child: InkWell(
                 onTap: () => Global.buzzerManagerService.sendBuzzerLock(),
                 child: Center(
@@ -184,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          'Lock all Buzzers',
+                          'Alle Buzzer sperren',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
@@ -194,7 +122,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Card(
-              color: Theme.of(context).colorScheme.primary,
+              color: Colors.green,
               child: InkWell(
                 onTap: () => Global.buzzerManagerService.sendBuzzerRelease(),
                 child: Center(
@@ -210,7 +138,79 @@ class _HomePageState extends State<HomePage> {
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(
-                          'Unlock all Buzzers',
+                          'Buzzer freigeben',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              color: Theme.of(context).colorScheme.primary,
+              child: InkWell(
+                onTap: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Buzzer Farbinfo'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Blau: nicht mit WLAN verbunden',
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Violet: mit WLAN verbunden, aber keine TCP-Verbindung zum Server',
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Gelb: TCP-Verbindung zum Server aufgebaut',
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Weiß: Der Taster kann einmalig betätigt werden',
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Rot: Der Taster wurde gesperrt (Gruppe hat nicht als erstes gedückt)',
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Grün: Der Taster wurde gesperrt (Gruppe hat als erstes gedückt)',
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    }),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Icon(
+                          Icons.info,
+                          color: Colors.white,
+                          size: MediaQuery.of(context).size.width / 10,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'Buzzer Farbinfo',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
