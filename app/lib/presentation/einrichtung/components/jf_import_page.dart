@@ -23,40 +23,24 @@ class _JfImportPageState extends State<JfImportPage> {
               'Wenn die Liste der Jugendfeuerwehren stimmt, drücke auf "Speichern und weiter"')
         ],
       ),
-      body: FutureBuilder(
-        future: fileManagerService.readJFs(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            List<Jugendfeuerwehr> jfs = snapshot.data as List<Jugendfeuerwehr>;
-            return ListView.builder(
-              itemCount: jfs.length,
-              itemBuilder: (context, index) {
-                Jugendfeuerwehr jf = jfs[index];
-                return ListTile(
-                  title: Text(jf.name),
-                  leading: Text(jf.reihenfolge.toString()),
-                  trailing: Text('Tisch ${jf.tisch}'),
-                );
-              },
-            );
-          } else {
-            return const Center(
-              child: Text('Keine Jugendfeuerwehren gefunden'),
-            );
-          }
+      body: ListView.builder(
+        itemCount: Global.jugendfeuerwehren.length,
+        itemBuilder: (context, index) {
+          Jugendfeuerwehr jf = Global.jugendfeuerwehren[index];
+          return ListTile(
+            title: Text(jf.name),
+            leading: Text(jf.reihenfolge.toString()),
+            trailing: Text('Tisch ${jf.tisch}'),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          Global.jugendfeuerwehren = await fileManagerService.readJFs();
-
           if (!context.mounted) return;
           Navigator.of(context).popAndPushNamed('/einrichtung/buzzer_paring');
         },
         icon: const Icon(Icons.save),
-        label: const Text('Speichern und weiter'),
+        label: const Text('Weiter'),
       ),
     );
   }
