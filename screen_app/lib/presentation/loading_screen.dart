@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
 class LoadingScreen extends StatelessWidget {
   const LoadingScreen({super.key, this.infoText = 'Lädt...'});
@@ -18,6 +19,14 @@ class LoadingScreen extends StatelessWidget {
             Text(infoText),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          windowManager.setFullScreen(true);
+          windowManager.setAlwaysOnTop(true);
+        },
+        icon: const Icon(Icons.fullscreen),
+        label: const Text('Vollbild'),
       ),
     );
   }

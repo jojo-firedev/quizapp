@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/service/json_storage_service.dart';
+import 'package:window_manager/window_manager.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -223,7 +224,10 @@ class _HomePageState extends State<HomePage> {
             Card(
               color: Colors.white,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  windowManager.setFullScreen(true);
+                  windowManager.setAlwaysOnTop(true);
+                },
                 child: Center(
                   child: Column(
                     children: [

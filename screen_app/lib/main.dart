@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizapp_screen/bloc/screen_app_bloc.dart';
 import 'package:quizapp_screen/presentation/main_page.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
   runApp(const ScreenApp());
 }
 

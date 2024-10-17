@@ -9,8 +9,12 @@ import 'package:quizapp/presentation/home/home_page.dart';
 import 'package:quizapp/presentation/quiz_master/quiz_master_page.dart';
 
 import 'package:quizapp/service/buzzer_manager_service.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
   Global.buzzerType = BuzzerType.socket;
 
   Global.screenAppService.startServer();
