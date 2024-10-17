@@ -3,9 +3,6 @@ import 'dart:io';
 
 import 'package:quizapp/models/buzzer_tisch_zuordnung.dart';
 import 'package:quizapp/models/json_storage_file.dart';
-import 'package:quizapp/models/teilnehmer.dart';
-import 'package:quizapp/models/jugendfeuerwehr.dart';
-import 'package:quizapp/models/punkte.dart';
 
 class FileManagerService {
   const FileManagerService();
