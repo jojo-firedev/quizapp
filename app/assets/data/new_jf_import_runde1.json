@@ -1,1 +1,112 @@
-{"teilnehmer":[{"jugendfeuerwehr":{"reihenfolge":0,"name":"JF Adendorf","tisch":1},"punkte":[{"kategorieReihenfolge":0,"gesetztePunkte":1,"erhaltenePunkte":[1,1,5]},{"kategorieReihenfolge":1,"gesetztePunkte":3,"erhaltenePunkte":[3]},{"kategorieReihenfolge":2,"gesetztePunkte":3,"erhaltenePunkte":[-3,-3,-3]}],"fragen":[{"kategorie":0,"frage":"Wie heißt der aktuelle Bundeskanzler?","antwort":"Olaf Scholz","beantwortet":false},{"kategorie":2,"frage":"Welchen Durchmesser hat ein D-Schlauch?","antwort":"25 mm","beantwortet":false},{"kategorie":3,"frage":"Wie viele Tiere jeder Art nahm Moses mit auf die Arche?","antwort":"Keins, es war Noah, nicht Moses","beantwortet":false},{"kategorie":4,"frage":"Welche Strahlrohrgrößen gibt es bei der Feuerwehr?","antwort":"D-, C-, B-Mehrzweckstrahlrohr","beantwortet":false},{"kategorie":1,"frage":"Wie viel Durchflussmenge hat ein B-Mehrzweckstrahlrohr ohne Mundstück?","antwort":"600 l/min","beantwortet":false}]},{"jugendfeuerwehr":{"reihenfolge":1,"name":"JF Bardowick","tisch":2},"punkte":[{"kategorieReihenfolge":0,"gesetztePunkte":5,"erhaltenePunkte":[-5,-5,-5]},{"kategorieReihenfolge":1,"gesetztePunkte":4,"erhaltenePunkte":[4]},{"kategorieReihenfolge":2,"gesetztePunkte":3,"erhaltenePunkte":[3,3]}],"fragen":[{"kategorie":0,"frage":"Wie viele Bundesländer hat Deutschland?","antwort":"16","beantwortet":false},{"kategorie":2,"frage":"Wofür steht die Abkürzung LF?","antwort":"Löschgruppenfahrzeug","beantwortet":false},{"kategorie":3,"frage":"Welcher Monat hat 28 Tage?","antwort":"Alle Monate haben 28 Tage","beantwortet":false},{"kategorie":4,"frage":"Welches Schild weist auf einen Unterflurhydranten hin?","antwort":"Das Hydrantenschild","beantwortet":false},{"kategorie":1,"frage":"Wie viel Durchflussmenge hat ein C-Mehrzweckstrahlrohr mit Mundstück?","antwort":"100 l/min","beantwortet":false}]}],"kategorien":[{"reihenfolge":0,"name":"Allgemeinwissen","abgeschlossen":true},{"reihenfolge":1,"name":"Feuerwehr 0","abgeschlossen":true},{"reihenfolge":2,"name":"Feuerwehr 1","abgeschlossen":true},{"reihenfolge":3,"name":"Spaß","abgeschlossen":false},{"reihenfolge":4,"name":"Feuerwehr 2","abgeschlossen":false}],"buzzer_tisch_zuordnung":[{"tisch":1,"mac":"3D:E9:BD:FB:FC:4B"},{"tisch":2,"mac":"AC:87:CA:64:EB:74"}]}
+{
+    "teilnehmer": [
+        {
+            "jugendfeuerwehr": {
+                "reihenfolge": 0,
+                "name": "JF Adendorf",
+                "tisch": 1
+            },
+            "punkte": [],
+            "fragen": [
+                {
+                    "kategorie": 0,
+                    "frage": "Wie heißt der aktuelle Bundeskanzler?",
+                    "antwort": "Olaf Scholz",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 2,
+                    "frage": "Welchen Durchmesser hat ein D-Schlauch?",
+                    "antwort": "25 mm",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 3,
+                    "frage": "Wie viele Tiere jeder Art nahm Moses mit auf die Arche?",
+                    "antwort": "Keins, es war Noah, nicht Moses",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 4,
+                    "frage": "Welche Strahlrohrgrößen gibt es bei der Feuerwehr?",
+                    "antwort": "D-, C-, B-Mehrzweckstrahlrohr",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 1,
+                    "frage": "Wie viel Durchflussmenge hat ein B-Mehrzweckstrahlrohr ohne Mundstück?",
+                    "antwort": "600 l/min",
+                    "beantwortet": false
+                }
+            ]
+        },
+        {
+            "jugendfeuerwehr": {
+                "reihenfolge": 1,
+                "name": "JF Bardowick",
+                "tisch": 2
+            },
+            "punkte": [],
+            "fragen": [
+                {
+                    "kategorie": 0,
+                    "frage": "Wie viele Bundesländer hat Deutschland?",
+                    "antwort": "16",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 2,
+                    "frage": "Wofür steht die Abkürzung LF?",
+                    "antwort": "Löschgruppenfahrzeug",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 3,
+                    "frage": "Welcher Monat hat 28 Tage?",
+                    "antwort": "Alle Monate haben 28 Tage",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 4,
+                    "frage": "Welches Schild weist auf einen Unterflurhydranten hin?",
+                    "antwort": "Das Hydrantenschild",
+                    "beantwortet": false
+                },
+                {
+                    "kategorie": 1,
+                    "frage": "Wie viel Durchflussmenge hat ein C-Mehrzweckstrahlrohr mit Mundstück?",
+                    "antwort": "100 l/min",
+                    "beantwortet": false
+                }
+            ]
+        }
+    ],
+    "kategorien": [
+        {
+            "reihenfolge": 0,
+            "name": "Allgemeinwissen",
+            "abgeschlossen": false
+        },
+        {
+            "reihenfolge": 1,
+            "name": "Feuerwehr 0",
+            "abgeschlossen": false
+        },
+        {
+            "reihenfolge": 2,
+            "name": "Feuerwehr 1",
+            "abgeschlossen": false
+        },
+        {
+            "reihenfolge": 3,
+            "name": "Spaß",
+            "abgeschlossen": false
+        },
+        {
+            "reihenfolge": 4,
+            "name": "Feuerwehr 2",
+            "abgeschlossen": false
+        }
+    ],
+    "buzzer_tisch_zuordnung": []
+}
