@@ -1,5 +1,4 @@
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/buzzer_tisch_zuordnung.dart';
 import 'package:quizapp/models/frage.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
 import 'package:quizapp/models/punkte.dart';

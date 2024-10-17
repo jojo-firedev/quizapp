@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/globals.dart';
-import 'package:quizapp/models/teilnehmer.dart';
 import 'package:quizapp/models/jugendfeuerwehr.dart';
-import 'package:quizapp/service/file_manager_service.dart';
 import 'package:quizapp/service/json_storage_service.dart';
 
 class EinrichtungPage extends StatelessWidget {
