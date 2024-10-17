@@ -304,12 +304,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     ));
   }
 
-  FutureOr<void> _showNextQuestion(
-      ShowNextQuestion event, Emitter<QuizMasterState> emit) {
-    triggerNaechsteFrage(emit);
-  }
-
-  Future<void> triggerNaechsteFrage(Emitter<QuizMasterState> emit) async {
+  Future<void> _showNextQuestion(
+      ShowNextQuestion event, Emitter<QuizMasterState> emit) async {
     fehlVersuche = 0;
     currentJfReihenfolge++;
     pressedJfReihenfolge = currentJfReihenfolge;
