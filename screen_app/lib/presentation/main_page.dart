@@ -6,6 +6,7 @@ import 'package:quizapp_screen/presentation/countdown_screen.dart';
 import 'package:quizapp_screen/presentation/loading_screen.dart';
 import 'package:quizapp_screen/presentation/point_input_screen.dart';
 import 'package:quizapp_screen/presentation/question_screen.dart';
+import 'package:quizapp_screen/presentation/winner_screen.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -52,14 +53,14 @@ class MainPage extends StatelessWidget {
             jugendfeuerwehr: state.jugendfeuerwehr,
             answer: state.answer,
           );
-        } else if (state is ScreenAppShowScore) {
-          return const Scaffold();
         } else if (state is ScreenAppShowPointInput) {
           return PointInputScreen(
             jugendfeuerwehren: state.jugendfeuerwehren,
             currentPoints: state.currentPoints,
             inputPoints: state.inputPoints,
           );
+        } else if (state is ScreenAppShowFinalScore) {
+          return LeaderboardPage(leaderboardData: state.points);
         }
         return const Scaffold();
       },

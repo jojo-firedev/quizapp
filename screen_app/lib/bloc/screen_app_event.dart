@@ -59,3 +59,8 @@ class DisplayPointInput extends ScreenAppEvent {
     required this.inputPoints,
   });
 }
+
+class DisplayFinalScore extends ScreenAppEvent {
+  final Map<String, int> points;
+  DisplayFinalScore({required this.points});
+}

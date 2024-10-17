@@ -56,3 +56,9 @@ final class ScreenAppShowPointInput extends ScreenAppState {
   ScreenAppShowPointInput(
       this.jugendfeuerwehren, this.currentPoints, this.inputPoints);
 }
+
+final class ScreenAppShowFinalScore extends ScreenAppState {
+  final Map<String, int> points;
+
+  ScreenAppShowFinalScore(this.points);
+}

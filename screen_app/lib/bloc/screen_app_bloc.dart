@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
@@ -17,6 +19,7 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
     on<DisplayAnswer>(_onDisplayAnswer);
     on<DisplayScore>(_onDisplayScore);
     on<DisplayPointInput>(_onDisplayPointInput);
+    on<DisplayFinalScore>(_onDisplayFinalScore);
   }
 
   // Event handler for connecting to the server
@@ -71,6 +74,10 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
         currentPoints: List<int>.from(data['currentPoints']),
         inputPoints: List<int>.from(data['inputPoints']),
       ));
+    } else if (data['type'] == 'final_score') {
+      add(DisplayFinalScore(
+        points: Map<String, int>.from(data['points']),
+      ));
     }
   }
 
@@ -112,5 +119,10 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
       event.currentPoints,
       event.inputPoints,
     ));
+  }
+
+  FutureOr<void> _onDisplayFinalScore(
+      DisplayFinalScore event, Emitter<ScreenAppState> emit) {
+    emit(ScreenAppShowFinalScore(event.points));
   }
 }
