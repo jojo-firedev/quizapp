@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:csv/csv.dart';
 import 'package:quiz_config/models/jugendfeuerwehr.dart';
 import 'package:quiz_config/services/file_manager_service.dart';
 
@@ -76,7 +74,6 @@ class _ListSelectionScreenState extends State<ListSelectionScreen> {
                           onPressed: () {
                             setState(() {
                               selectedItems.add(availableItems[index]);
-                              availableItems.removeAt(index);
                             });
                           },
                         ),
@@ -128,7 +125,6 @@ class _ListSelectionScreenState extends State<ListSelectionScreen> {
         icon: Icon(Icons.delete),
         onPressed: () {
           setState(() {
-            availableItems.add(selectedItems[index]);
             selectedItems.removeAt(index);
           });
         },
