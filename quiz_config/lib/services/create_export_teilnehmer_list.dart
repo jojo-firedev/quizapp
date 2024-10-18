@@ -9,10 +9,10 @@ List<ExportTeilnehmer> createExportTeilnehmerList(
   List<ExportTeilnehmer> exportTeilnehmerList = [];
 
   // Loop through each Jugendfeuerwehr to create an ExportTeilnehmer
-  for (var jf in jugendfeuerwehren) {
+  for (Jugendfeuerwehr jf in jugendfeuerwehren) {
     // Convert Jugendfeuerwehr to ExportJugendfeuerwehr
     ExportJugendfeuerwehr exportJf = ExportJugendfeuerwehr(
-      reihenfolge: jugendfeuerwehren.indexOf(jf) + 1,
+      reihenfolge: jugendfeuerwehren.indexOf(jf),
       name: jf.name,
       tisch: jugendfeuerwehren.indexOf(jf) +
           1, // Assuming table number is the index + 1
@@ -20,15 +20,19 @@ List<ExportTeilnehmer> createExportTeilnehmerList(
 
     // Create a list of ExportFrage, one per Thema
     List<ExportFrage> exportFragen = [];
-    for (var thema in themen) {
+    for (Thema thema in themen) {
       if (thema.fragen.isNotEmpty) {
         // Pick the first question from each Thema as a representative question
         Frage frage = thema.fragen.first;
+
         ExportFrage exportFrage = ExportFrage(
           kategorieReihenfolge: thema.reihenfolge,
           frage: frage.frage,
           antwort: frage.antwort,
         );
+
+        thema.fragen.removeAt(0); // Remove the question from the list
+
         exportFragen.add(exportFrage);
       }
     }

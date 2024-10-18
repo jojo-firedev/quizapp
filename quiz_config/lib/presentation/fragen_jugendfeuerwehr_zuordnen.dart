@@ -33,64 +33,76 @@ class _FragenJugendfeuerwehrZuordnenScreenState
           ),
         ],
       ),
-      body: Row(
-        children: [
-          // Linke Liste der Teilnehmer
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.teilnehmer!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(widget.teilnehmer![index].jugendfeuerwehr?.name ??
-                      'Unbekannt'),
-                  onTap: () {
-                    setState(() {
-                      selectedTeilnehmer = widget.teilnehmer![index];
-                    });
-                  },
-                );
-              },
-            ),
-          ),
-          // Mittlerer Bereich zeigt die Fragen des ausgewählten Teilnehmers
-          Expanded(
-            child: selectedTeilnehmer != null
-                ? ListView(
-                    children: [
-                      Text(
-                        'Fragen für ${selectedTeilnehmer!.jugendfeuerwehr?.name}:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ...selectedTeilnehmer!.fragen!.map((frage) {
-                        String kategorieName = widget.kategorien!
-                                .firstWhere(
-                                  (kategorie) =>
-                                      kategorie.reihenfolge ==
-                                      frage.kategorieReihenfolge,
-                                  orElse: () => ExportKategorie(
-                                      name: 'Unbekannte Kategorie'),
-                                )
-                                .name ??
-                            'Unbekannte Kategorie';
-
-                        return ListTile(
-                          title: Text(frage.frage ?? 'Keine Frage'),
-                          subtitle: Text(
-                            'Kategorie: $kategorieName\nAntwort: ${frage.antwort ?? "Keine Antwort"}',
-                          ),
-                        );
-                      }).toList(),
-                    ],
-                  )
-                : Center(
-                    child: Text('Bitte einen Teilnehmer auswählen'),
-                  ),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text('Abschließen & Speichern'),
+        icon: const Icon(Icons.save),
+        onPressed: () =>
+            BlocProvider.of<QuizConfigBloc>(context).add(ExportToJsonFile()),
       ),
+      body: (widget.teilnehmer == null || widget.kategorien == null)
+          ? const Center(
+              child: Text('Keine Daten vorhanden'),
+            )
+          : Row(
+              children: [
+                // Linke Liste der Teilnehmer
+
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: widget.teilnehmer!.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(
+                            widget.teilnehmer![index].jugendfeuerwehr?.name ??
+                                'Unbekannt'),
+                        onTap: () {
+                          setState(() {
+                            selectedTeilnehmer = widget.teilnehmer![index];
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+                // Mittlerer Bereich zeigt die Fragen des ausgewählten Teilnehmers
+                Expanded(
+                  child: selectedTeilnehmer != null
+                      ? ListView(
+                          children: [
+                            Text(
+                              'Fragen für ${selectedTeilnehmer!.jugendfeuerwehr?.name}:',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            ...selectedTeilnehmer!.fragen!.map((frage) {
+                              String kategorieName = widget.kategorien!
+                                      .firstWhere(
+                                        (kategorie) =>
+                                            kategorie.reihenfolge ==
+                                            frage.kategorieReihenfolge,
+                                        orElse: () => ExportKategorie(
+                                            name: 'Unbekannte Kategorie'),
+                                      )
+                                      .name ??
+                                  'Unbekannte Kategorie';
+
+                              return ListTile(
+                                title: Text(frage.frage ?? 'Keine Frage'),
+                                subtitle: Text(
+                                  'Kategorie: $kategorieName\nAntwort: ${frage.antwort ?? "Keine Antwort"}',
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        )
+                      : const Center(
+                          child: Text('Bitte einen Teilnehmer auswählen'),
+                        ),
+                ),
+              ],
+            ),
     );
   }
 }

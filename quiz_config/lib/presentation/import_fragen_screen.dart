@@ -98,7 +98,7 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
     }
 
     List<Thema> themenListe = [];
-    int reihenfolge = 1;
+    int reihenfolge = 0;
     fragenMap.forEach((kategorie, fragen) {
       themenListe.add(
           Thema(thema: kategorie, reihenfolge: reihenfolge++, fragen: fragen));

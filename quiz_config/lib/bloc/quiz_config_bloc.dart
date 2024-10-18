@@ -91,5 +91,14 @@ class QuizConfigBloc extends Bloc<QuizConfigEvent, QuizConfigState> {
     on<ShowFragenJugendfeuerwehrZuordnen>((event, emit) {
       emit(QuizConfigAssignFragen(null, null));
     });
+
+    on<ExportToJsonFile>((event, emit) {
+      FileManager.saveJsonString(
+        JsonExportFile(
+          teilnehmer: exportTeilnehmer,
+          kategorien: exportKategorien,
+        ).toRawJson(),
+      );
+    });
   }
 }

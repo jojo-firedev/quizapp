@@ -42,3 +42,5 @@ class ExportData extends QuizConfigEvent {}
 class FragenJugendfeuerwehrZuordnen extends QuizConfigEvent {}
 
 class ShowFragenJugendfeuerwehrZuordnen extends QuizConfigEvent {}
+
+class ExportToJsonFile extends QuizConfigEvent {}

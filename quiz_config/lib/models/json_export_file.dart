@@ -3,10 +3,12 @@ import 'dart:convert';
 class JsonExportFile {
   List<ExportTeilnehmer>? teilnehmer;
   List<ExportKategorie>? kategorien;
+  List<String> buzzerTischZuordnung = [];
 
   JsonExportFile({
     this.teilnehmer,
     this.kategorien,
+    this.buzzerTischZuordnung = const [],
   });
 
   JsonExportFile copyWith({
@@ -32,6 +34,7 @@ class JsonExportFile {
             ? []
             : List<ExportKategorie>.from(
                 json["kategorien"]!.map((x) => ExportKategorie.fromJson(x))),
+        buzzerTischZuordnung: [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,16 +44,19 @@ class JsonExportFile {
         "kategorien": kategorien == null
             ? []
             : List<dynamic>.from(kategorien!.map((x) => x.toJson())),
+        "buzzer_tisch_zuordnung": [],
       };
 }
 
 class ExportKategorie {
   int? reihenfolge;
   String? name;
+  bool abgeschlossen = false;
 
   ExportKategorie({
     this.reihenfolge,
     this.name,
+    this.abgeschlossen = false,
   });
 
   ExportKategorie copyWith({
@@ -71,21 +77,25 @@ class ExportKategorie {
       ExportKategorie(
         reihenfolge: json["reihenfolge"],
         name: json["name"],
+        abgeschlossen: json["abgeschlossen"],
       );
 
   Map<String, dynamic> toJson() => {
         "reihenfolge": reihenfolge,
         "name": name,
+        "abgeschlossen": abgeschlossen,
       };
 }
 
 class ExportTeilnehmer {
   ExportJugendfeuerwehr? jugendfeuerwehr;
   List<ExportFrage>? fragen;
+  List<String> punkte = [];
 
   ExportTeilnehmer({
     this.jugendfeuerwehr,
     this.fragen,
+    this.punkte = const [],
   });
 
   ExportTeilnehmer copyWith({
@@ -111,6 +121,9 @@ class ExportTeilnehmer {
             ? []
             : List<ExportFrage>.from(
                 json["fragen"]!.map((x) => ExportFrage.fromJson(x))),
+        punkte: json["punkte"] == null
+            ? []
+            : List<String>.from(json["punkte"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -118,6 +131,7 @@ class ExportTeilnehmer {
         "fragen": fragen == null
             ? []
             : List<dynamic>.from(fragen!.map((x) => x.toJson())),
+        "punkte": [],
       };
 }
 
