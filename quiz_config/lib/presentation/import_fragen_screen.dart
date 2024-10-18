@@ -25,7 +25,6 @@ class ImportFragenScreen extends StatefulWidget {
 }
 
 class _ImportFragenScreenState extends State<ImportFragenScreen> {
-  String? _filePath;
   List<Thema> _themenListe = [];
   String? _selectedKategorie;
 
@@ -35,9 +34,6 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
 
     if (result != null) {
       File file = File(result.files.single.path!);
-      setState(() {
-        _filePath = file.path;
-      });
       _readFile(file);
     } else {
       // User canceled the picker
@@ -109,7 +105,7 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
     });
 
     setState(() {
-      _themenListe = themenListe;
+      _themenListe.addAll(themenListe);
     });
   }
 
@@ -118,12 +114,19 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Importiere Fragen'),
+        actions: [
+          TextButton.icon(
+            label: const Text('Datei auswählen'),
+            icon: const Icon(Icons.file_upload),
+            onPressed: _selectFile,
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => BlocProvider.of<QuizConfigBloc>(context).add(
           ConfirmKategorieReihenfolge(_themenListe),
         ),
-        label: Text('Speichern & Weiter'),
+        label: const Text('Speichern & Weiter'),
         icon: const Icon(Icons.arrow_forward),
       ),
       body: Padding(
@@ -136,9 +139,61 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Kategorie Liste',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      const Text(
+                        'Kategorie Liste',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                          onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  TextEditingController kategorieController =
+                                      TextEditingController();
+                                  return AlertDialog(
+                                    title: const Text('Kategorie hinzufügen'),
+                                    content: TextField(
+                                      controller: kategorieController,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Kategorie'),
+                                      onSubmitted: (value) {
+                                        setState(() {
+                                          _themenListe.add(Thema(
+                                              thema: value,
+                                              reihenfolge:
+                                                  _themenListe.length + 1,
+                                              fragen: []));
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          child: const Text('Abbrechen')),
+                                      TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _themenListe.add(Thema(
+                                                  thema:
+                                                      kategorieController.text,
+                                                  reihenfolge:
+                                                      _themenListe.length + 1,
+                                                  fragen: []));
+                                            });
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Hinzufügen')),
+                                    ],
+                                  );
+                                },
+                              ),
+                          icon: const Icon(Icons.add),
+                          tooltip: 'Kategorie hinzufügen'),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Expanded(
@@ -157,7 +212,8 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
                             index < _themenListe.length;
                             index++)
                           ListTile(
-                            key: ValueKey(_themenListe[index].thema),
+                            key: ValueKey(
+                                'thema_${index}_${_themenListe[index].thema}'),
                             title: Text(_themenListe[index].thema),
                             onTap: () {
                               setState(() {
@@ -178,9 +234,68 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Fragen aus ausgewählter Kategorie',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      const Text(
+                        'Fragen aus ausgewählter Kategorie',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        tooltip: 'Frage zu ausgewählter Kategorie hinzufügen',
+                        onPressed: () => showDialog(
+                          context: context,
+                          builder: (context) {
+                            TextEditingController frageController =
+                                TextEditingController();
+                            TextEditingController antwortController =
+                                TextEditingController();
+                            return AlertDialog(
+                              title: const Text('Frage hinzufügen'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    controller: frageController,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Frage'),
+                                  ),
+                                  TextField(
+                                    controller: antwortController,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Antwort'),
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: const Text('Abbrechen')),
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _themenListe
+                                            .firstWhere((thema) =>
+                                                thema.thema ==
+                                                _selectedKategorie!)
+                                            .fragen
+                                            .add(Frage(
+                                                frage: frageController.text,
+                                                antwort: antwortController.text,
+                                                kategorie:
+                                                    _selectedKategorie!));
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Hinzufügen')),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   _selectedKategorie != null
