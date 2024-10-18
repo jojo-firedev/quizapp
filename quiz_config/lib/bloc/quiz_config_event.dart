@@ -40,3 +40,5 @@ class ConfirmKategorieReihenfolge extends QuizConfigEvent {
 class ExportData extends QuizConfigEvent {}
 
 class FragenJugendfeuerwehrZuordnen extends QuizConfigEvent {}
+
+class ShowFragenJugendfeuerwehrZuordnen extends QuizConfigEvent {}

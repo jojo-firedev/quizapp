@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz_config/bloc/quiz_config_bloc.dart';
+import 'package:quiz_config/presentation/fragen_jugendfeuerwehr_zuordnen.dart';
 import 'package:quiz_config/presentation/import_fragen_screen.dart';
 import 'package:quiz_config/presentation/initial_screen.dart';
 import 'package:quiz_config/presentation/select_jugendfeuerwehren_screen.dart';
@@ -29,7 +30,10 @@ class MainPage extends StatelessWidget {
             ausgewaehlteJugendfeuerwehren: state.ausgewaehlteJugendfeuerwehren,
           );
         } else if (state is QuizConfigAssignFragen) {
-          return Text('Assign Fragen: ${state.selectedItems}');
+          return FragenJugendfeuerwehrZuordnenScreen(
+            teilnehmer: state.exportTeilnehmer,
+            kategorien: state.exportKategorien,
+          );
         } else {
           return const Text('Unknown state');
         }

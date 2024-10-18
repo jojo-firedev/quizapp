@@ -27,7 +27,8 @@ final class QuizConfigSelectJugendfeuerwehren extends QuizConfigState {
 }
 
 final class QuizConfigAssignFragen extends QuizConfigState {
-  final List<Jugendfeuerwehr> selectedItems;
+  final List<ExportTeilnehmer>? exportTeilnehmer;
+  final List<ExportKategorie>? exportKategorien;
 
-  QuizConfigAssignFragen(this.selectedItems);
+  QuizConfigAssignFragen(this.exportTeilnehmer, this.exportKategorien);
 }

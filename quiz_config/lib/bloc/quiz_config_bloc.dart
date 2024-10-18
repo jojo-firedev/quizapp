@@ -79,6 +79,12 @@ class QuizConfigBloc extends Bloc<QuizConfigEvent, QuizConfigState> {
         ausgewaehlteJugendfeuerwehren,
         themenListe,
       );
+
+      emit(QuizConfigAssignFragen(exportTeilnehmer, exportKategorien));
+    });
+
+    on<ShowFragenJugendfeuerwehrZuordnen>((event, emit) {
+      emit(QuizConfigAssignFragen(null, null));
     });
   }
 }
