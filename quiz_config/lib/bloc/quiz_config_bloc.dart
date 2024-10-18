@@ -43,12 +43,17 @@ class QuizConfigBloc extends Bloc<QuizConfigEvent, QuizConfigState> {
 
     on<SelectJugendfeuerwehr>((event, emit) {
       ausgewaehlteJugendfeuerwehren.add(event.jugendfeuerwehr);
+      jugendfeuerwehren.remove(event.jugendfeuerwehr);
       emit(QuizConfigSelectJugendfeuerwehren(
           jugendfeuerwehren, ausgewaehlteJugendfeuerwehren));
     });
 
     on<RemoveJugendfeuerwehr>((event, emit) {
+      Jugendfeuerwehr jugendfeuerwehr =
+          ausgewaehlteJugendfeuerwehren[event.index];
       ausgewaehlteJugendfeuerwehren.removeAt(event.index);
+      jugendfeuerwehren.add(jugendfeuerwehr);
+      jugendfeuerwehren.sort((a, b) => a.gemeinde.compareTo(b.gemeinde));
       emit(QuizConfigSelectJugendfeuerwehren(
           jugendfeuerwehren, ausgewaehlteJugendfeuerwehren));
     });

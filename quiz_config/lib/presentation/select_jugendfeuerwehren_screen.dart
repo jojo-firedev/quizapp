@@ -22,9 +22,11 @@ class SelectJugendfeuerwehrenScreen extends StatelessWidget {
         subtitle: Text(ausgewaehlteJugendfeuerwehren[index].gemeinde),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
-          onPressed: () => BlocProvider.of<QuizConfigBloc>(context).add(
-            RemoveJugendfeuerwehr(index),
-          ),
+          onPressed: () {
+            BlocProvider.of<QuizConfigBloc>(context).add(
+              RemoveJugendfeuerwehr(index),
+            );
+          },
         ),
       );
     }
@@ -32,6 +34,15 @@ class SelectJugendfeuerwehrenScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wähle Jugendfeuerwehren aus'),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          BlocProvider.of<QuizConfigBloc>(context).add(
+            ShowFragenJugendfeuerwehrZuordnen(),
+          );
+        },
+        label: Text('Weiter'),
+        icon: const Icon(Icons.arrow_forward),
       ),
       body: Row(
         children: [
@@ -46,17 +57,22 @@ class SelectJugendfeuerwehrenScreen extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: jugendfeuerwehren.length,
                     itemBuilder: (context, index) {
+                      final item = jugendfeuerwehren[index];
+                      // Check if item is already selected
+                      if (ausgewaehlteJugendfeuerwehren.contains(item)) {
+                        return const SizedBox
+                            .shrink(); // Hide if already selected
+                      }
                       return ListTile(
-                        title: Text(jugendfeuerwehren[index].name),
-                        subtitle: Text(jugendfeuerwehren[index].gemeinde),
+                        title: Text(item.name),
+                        subtitle: Text(item.gemeinde),
                         trailing: IconButton(
                           icon: const Icon(Icons.arrow_forward),
-                          onPressed: () =>
-                              BlocProvider.of<QuizConfigBloc>(context).add(
-                            SelectJugendfeuerwehr(
-                              jugendfeuerwehren[index],
-                            ),
-                          ),
+                          onPressed: () {
+                            BlocProvider.of<QuizConfigBloc>(context).add(
+                              SelectJugendfeuerwehr(item),
+                            );
+                          },
                         ),
                       );
                     },
@@ -72,15 +88,15 @@ class SelectJugendfeuerwehrenScreen extends StatelessWidget {
               children: [
                 const Text(
                   'Ausgewählte Jugendfeuerwehren',
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Expanded(
                   child: ReorderableListView(
-                    onReorder: (oldIndex, newIndex) =>
-                        BlocProvider.of<QuizConfigBloc>(context).add(
-                      ReoderJugendfeuerwehr(oldIndex, newIndex),
-                    ),
+                    onReorder: (oldIndex, newIndex) {
+                      BlocProvider.of<QuizConfigBloc>(context).add(
+                        ReoderJugendfeuerwehr(oldIndex, newIndex),
+                      );
+                    },
                     children: [
                       for (int i = 0;
                           i < ausgewaehlteJugendfeuerwehren.length;
