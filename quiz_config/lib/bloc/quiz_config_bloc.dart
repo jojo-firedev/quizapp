@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:quiz_config/models/json_export_file.dart';
 import 'package:quiz_config/models/jugendfeuerwehr.dart';
 import 'package:quiz_config/presentation/import_fragen_screen.dart';
+import 'package:quiz_config/services/create_export_teilnehmer_list.dart';
 import 'package:quiz_config/services/file_manager_service.dart';
 
 part 'quiz_config_event.dart';
@@ -16,7 +17,7 @@ class QuizConfigBloc extends Bloc<QuizConfigEvent, QuizConfigState> {
 
   List<Thema> themenListe = [];
 
-  List<ExportJugendfeuerwehr> exportJugendfeuerwehren = [];
+  List<ExportTeilnehmer> exportTeilnehmer = [];
   List<ExportKategorie> exportKategorien = [];
 
   Future<List<Jugendfeuerwehr>> loadCSVData() async {
@@ -71,6 +72,13 @@ class QuizConfigBloc extends Bloc<QuizConfigEvent, QuizConfigState> {
         jugendfeuerwehren,
         ausgewaehlteJugendfeuerwehren,
       ));
+    });
+
+    on<FragenJugendfeuerwehrZuordnen>((event, emit) {
+      exportTeilnehmer = createExportTeilnehmerList(
+        ausgewaehlteJugendfeuerwehren,
+        themenListe,
+      );
     });
   }
 }
