@@ -239,22 +239,24 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
     // Minus Punkte für falsche Antwort für die Jugendfeuerwehr,
     // die den Buzzer gedrückt hat
-    Global.teilnehmer
-        .firstWhere((element) =>
-            element.jugendfeuerwehr.reihenfolge == pressedJfReihenfolge)
-        .punkte
-        .firstWhere(
-          (element) =>
-              element.kategorieReihenfolge == currentCategoryReihenfolge,
-        )
-        .erhaltenePunkte
-        .add(-getGesetztePunkte(
-          pressedJfReihenfolge,
-          currentCategoryReihenfolge,
-        ));
+    if (pressedJfReihenfolge != -1) {
+      Global.teilnehmer
+          .firstWhere((element) =>
+              element.jugendfeuerwehr.reihenfolge == pressedJfReihenfolge)
+          .punkte
+          .firstWhere(
+            (element) =>
+                element.kategorieReihenfolge == currentCategoryReihenfolge,
+          )
+          .erhaltenePunkte
+          .add(-getGesetztePunkte(
+            currentJfReihenfolge, // TODO: Vorher pressedJfReihenfolge (nur ein Versuch, muss noch getestet werden)
+            currentCategoryReihenfolge,
+          ));
 
-    // Save JfBuzzerAssignments after update
-    await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
+      // Save JfBuzzerAssignments after update
+      await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
+    }
 
     if (fehlVersuche > maxFehlVersuche) {
       emit(QuizMasterQuestionConfirmShowAnswer(
@@ -270,6 +272,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
       fehlVersuche = 0;
     } else {
+      print('Fehlversuche: $fehlVersuche');
+      pressedJfReihenfolge = -1;
       Global.buzzerManagerService.sendBuzzerRelease();
 
       // Listen to the buzzerManagerService stream
@@ -310,18 +314,32 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       currentFrage!.frage,
       currentFrage!.antwort,
       getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
-      getTeilnehmerByReihenfolge(pressedJfReihenfolge).jugendfeuerwehr.name,
+      pressedJfReihenfolge == -1
+          ? ''
+          : getTeilnehmerByReihenfolge(pressedJfReihenfolge)
+              .jugendfeuerwehr
+              .name,
     );
 
     emit(QuizMasterQuestionShowAnswer(
       currentFrage!,
       getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
-      getTeilnehmerByReihenfolge(pressedJfReihenfolge).jugendfeuerwehr.name,
+      pressedJfReihenfolge == -1
+          ? ''
+          : getTeilnehmerByReihenfolge(pressedJfReihenfolge)
+              .jugendfeuerwehr
+              .name,
     ));
   }
 
   Future<void> _showNextQuestion(
       ShowNextQuestion event, Emitter<QuizMasterState> emit) async {
+    getTeilnehmerByReihenfolge(currentJfReihenfolge)
+        .fragen
+        .firstWhere((e) => e.kategorie == currentCategoryReihenfolge)
+        .beantwortet = true;
+    await jsonStorageService.saveTeilnehmer(Global.teilnehmer);
+
     fehlVersuche = 0;
     currentJfReihenfolge++;
     pressedJfReihenfolge = currentJfReihenfolge;
@@ -374,6 +392,13 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         .fragen
         .firstWhere(
             (element) => element.kategorie == currentCategory.reihenfolge);
+
+    if (currentFrage?.beantwortet == true) {
+      currentJfReihenfolge++;
+      pressedJfReihenfolge = currentJfReihenfolge;
+
+      return naechsteFrage();
+    }
 
     return currentFrage!;
   }
