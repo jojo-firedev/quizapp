@@ -1,5 +1,6 @@
 import 'package:quizapp/globals.dart';
 import 'package:quizapp/models/buzzer_tisch_zuordnung.dart';
+import 'package:quizapp/models/frage.dart';
 import 'package:quizapp/models/json_storage_file.dart';
 import 'package:quizapp/models/kategorie.dart';
 import 'package:quizapp/models/teilnehmer.dart';
@@ -49,7 +50,14 @@ class JsonStorageService {
           .map(
             (e) => Teilnehmer(
               jugendfeuerwehr: e.jugendfeuerwehr,
-              fragen: e.fragen,
+              fragen: e.fragen
+                  .map((e) => Frage(
+                        kategorie: e.kategorie,
+                        frage: e.frage,
+                        antwort: e.antwort,
+                        beantwortet: false,
+                      ))
+                  .toList(),
             ),
           )
           .toList(),
