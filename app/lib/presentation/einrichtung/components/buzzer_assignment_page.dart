@@ -35,7 +35,9 @@ class _BuzzerAssignmentPageState extends State<BuzzerAssignmentPage> {
         ],
       ),
       body: ListView.builder(
-        itemCount: Global.sockets.length,
+        itemCount: Global.sockets.length > Global.jugendfeuerwehren.length
+            ? Global.jugendfeuerwehren.length
+            : Global.sockets.length,
         itemBuilder: (context, index) => ListTile(
           title: Text('Platz ${index + 1}'),
           trailing: const Icon(Icons.link, color: Colors.red),
