@@ -15,34 +15,36 @@ class PointInputScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Punktevergabe')),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: Center(
         child: Wrap(
-          spacing: 20.0,
-          runSpacing: 20.0,
           children: List.generate(jugendfeuerwehren.length, (index) {
             return SizedBox(
               width: MediaQuery.of(context).size.width *
-                  0.45, // Half the screen width
+                  0.3, // Half the screen width
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(1.0),
                 child: Column(
                   children: [
-                    Text(
-                      jugendfeuerwehren[index],
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      'Aktuelle Punkte: ${currentPoints[index]}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          jugendfeuerwehren[index],
+                          style: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          'Aktuelle Punkte: ${currentPoints[index]}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +107,7 @@ class NumKey extends StatelessWidget {
         border: Border.all(color: Theme.of(context).colorScheme.primary),
       ),
       padding: const EdgeInsets.all(25),
-      margin: const EdgeInsets.only(left: 8, right: 8),
+      margin: const EdgeInsets.only(left: 5, right: 5),
       child: Text(
         text,
         style: TextStyle(
