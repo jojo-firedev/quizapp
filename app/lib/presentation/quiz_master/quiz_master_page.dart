@@ -5,6 +5,7 @@ import 'package:quizapp/presentation/quiz_master/bloc/quiz_master_bloc.dart';
 import 'package:quizapp/presentation/quiz_master/components/pages/categories_page.dart';
 import 'package:quizapp/presentation/quiz_master/components/pages/points_page.dart';
 import 'package:quizapp/presentation/quiz_master/components/pages/question_page.dart';
+import 'package:quizapp/presentation/quiz_master/components/pages/winner_page.dart';
 import 'package:quizapp/service/buzzer_manager_service.dart';
 
 class QuizMasterPage extends StatefulWidget {
@@ -43,6 +44,8 @@ class _QuizMasterPageState extends State<QuizMasterPage>
               state: state,
               bloc: context.read<QuizMasterBloc>(),
             );
+          } else if (state is QuizMasterResults) {
+            return const PlatzierungPage();
           } else {
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),

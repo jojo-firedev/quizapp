@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-class WinnerPage extends StatelessWidget {
-  const WinnerPage({super.key});
+class PlatzierungPage extends StatelessWidget {
+  const PlatzierungPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Anzeige der Platzierung'),
+      ),
+      body: const Placeholder(),
+    );
   }
 }
