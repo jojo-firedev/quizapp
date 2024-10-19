@@ -17,6 +17,7 @@ class PointsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Punktevergabe')),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: ListView.builder(
         itemCount: state.jfBuzzerAssignments.length,
         itemBuilder: (context, index) {
