@@ -96,6 +96,17 @@ class _CountdownScreenState extends State<CountdownScreen>
                     fontWeight: FontWeight.bold,
                     color: Colors.green,
                   ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 50),
+                Text(
+                  widget.jugendfeuerwehr ?? '   ',
+                  style: const TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),

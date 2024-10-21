@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizapp_screen/bloc/screen_app_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizapp_screen/presentation/category_screen.dart';
-import 'package:quizapp_screen/presentation/countdown_screen.dart';
+import 'package:quizapp_screen/presentation/question_countdown_screen.dart';
 import 'package:quizapp_screen/presentation/loading_screen.dart';
 import 'package:quizapp_screen/presentation/point_input_screen.dart';
 import 'package:quizapp_screen/presentation/question_screen.dart';
