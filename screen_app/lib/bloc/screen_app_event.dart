@@ -21,14 +21,28 @@ class DisplayQuestion extends ScreenAppEvent {
       required this.jugendfeuerwehr});
 }
 
+class DisplayBuzzerCountdown extends ScreenAppEvent {
+  final String question;
+  final String category;
+  final int countdown;
+  DisplayBuzzerCountdown({
+    required this.question,
+    required this.category,
+    required this.countdown,
+  });
+}
+
 class DisplayCountdown extends ScreenAppEvent {
   final String question;
   final String category;
   final int countdown;
-  DisplayCountdown(
-      {required this.question,
-      required this.category,
-      required this.countdown});
+  final String jugendfeuerwehr;
+  DisplayCountdown({
+    required this.question,
+    required this.category,
+    required this.countdown,
+    required this.jugendfeuerwehr,
+  });
 }
 
 class DisplayAnswer extends ScreenAppEvent {

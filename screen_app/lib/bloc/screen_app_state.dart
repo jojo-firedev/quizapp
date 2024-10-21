@@ -28,8 +28,10 @@ final class ScreenAppShowCountdown extends ScreenAppState {
   final String question;
   final String category;
   final int countdown;
+  final String jugendfeuerwehr;
 
-  ScreenAppShowCountdown(this.question, this.category, this.countdown);
+  ScreenAppShowCountdown(
+      this.question, this.category, this.countdown, this.jugendfeuerwehr);
 }
 
 final class ScreenAppShowAnswer extends ScreenAppState {
@@ -61,4 +63,12 @@ final class ScreenAppShowFinalScore extends ScreenAppState {
   final Map<String, int> points;
 
   ScreenAppShowFinalScore(this.points);
+}
+
+final class ScreenAppShowBuzzerCountdown extends ScreenAppState {
+  final String question;
+  final String category;
+  final int countdown;
+
+  ScreenAppShowBuzzerCountdown(this.question, this.category, this.countdown);
 }

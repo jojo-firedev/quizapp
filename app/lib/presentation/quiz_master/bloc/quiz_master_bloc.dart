@@ -105,6 +105,7 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         currentFrage!.frage,
         getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
         30,
+        getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
       );
 
       Global.buzzerManagerService.sendBuzzerLock(
@@ -274,6 +275,10 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     } else {
       print('Fehlversuche: $fehlVersuche');
       pressedJfReihenfolge = -1;
+
+      Global.screenAppService.sendBuzzerCountdown(currentFrage!.frage,
+          getKategorieThema(Global.kategorien, currentCategoryReihenfolge), 5);
+
       Global.buzzerManagerService.sendBuzzerRelease();
 
       // Listen to the buzzerManagerService stream
@@ -378,8 +383,12 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
         getTeilnehmerByReihenfolge(pressedJfReihenfolge).jugendfeuerwehr.name,
       ));
 
-      Global.screenAppService.sendCountdown(currentFrage!.frage,
-          getKategorieThema(Global.kategorien, currentCategoryReihenfolge), 30);
+      Global.screenAppService.sendCountdown(
+        currentFrage!.frage,
+        getKategorieThema(Global.kategorien, currentCategoryReihenfolge),
+        30,
+        getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
+      );
     }
   }
 

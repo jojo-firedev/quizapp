@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:quizapp/models/jugendfeuerwehr.dart';
+
 class ScreenAppService {
   ServerSocket? _serverSocket;
   Socket? _connectedSocket;
@@ -47,12 +49,23 @@ class ScreenAppService {
     });
   }
 
-  void sendCountdown(String question, String category, int countdown) {
+  void sendBuzzerCountdown(String question, String category, int countdown) {
+    sendData({
+      'type': 'buzzer_countdown',
+      'question': question,
+      'category': category,
+      'countdown': countdown,
+    });
+  }
+
+  void sendCountdown(
+      String question, String category, int countdown, String jugendfeuerwehr) {
     sendData({
       'type': 'countdown',
       'question': question,
       'category': category,
       'countdown': countdown,
+      'jugendfeuerwehr': jugendfeuerwehr,
     });
   }
 

@@ -15,6 +15,7 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
     on<ConnectToServer>(_onConnectToServer);
     on<DisplayCategories>(_onDisplayCategories);
     on<DisplayQuestion>(_onDisplayQuestion);
+    on<DisplayBuzzerCountdown>(_onDisplayBuzzerCountdown);
     on<DisplayCountdown>(_onDisplayCountdown);
     on<DisplayAnswer>(_onDisplayAnswer);
     on<DisplayScore>(_onDisplayScore);
@@ -53,10 +54,17 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
         category: data['category'],
         jugendfeuerwehr: data['jugendfeuerwehr'],
       ));
+    } else if (data['type'] == 'buzzer_countdown') {
+      add(DisplayBuzzerCountdown(
+        question: data['question'],
+        category: data['category'],
+        countdown: data['countdown'],
+      ));
     } else if (data['type'] == 'countdown') {
       add(DisplayCountdown(
         question: data['question'],
         category: data['category'],
+        jugendfeuerwehr: data['jugendfeuerwehr'],
         countdown: data['countdown'],
       ));
     } else if (data['type'] == 'answer') {
@@ -93,11 +101,21 @@ class ScreenAppBloc extends Bloc<ScreenAppEvent, ScreenAppState> {
         event.question, event.category, event.jugendfeuerwehr));
   }
 
+  void _onDisplayBuzzerCountdown(
+      DisplayBuzzerCountdown event, Emitter<ScreenAppState> emit) {
+    emit(ScreenAppShowBuzzerCountdown(
+        event.question, event.category, event.countdown));
+  }
+
   // Event handler for DisplayCountdown
   void _onDisplayCountdown(
       DisplayCountdown event, Emitter<ScreenAppState> emit) {
     emit(ScreenAppShowCountdown(
-        event.question, event.category, event.countdown));
+      event.question,
+      event.category,
+      event.countdown,
+      event.jugendfeuerwehr,
+    ));
   }
 
   // Event handler for DisplayAnswer

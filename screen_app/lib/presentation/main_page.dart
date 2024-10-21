@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizapp_screen/bloc/screen_app_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizapp_screen/presentation/category_screen.dart';
+import 'package:quizapp_screen/presentation/question_buzzer_countdown_screen.dart';
 import 'package:quizapp_screen/presentation/question_countdown_screen.dart';
 import 'package:quizapp_screen/presentation/loading_screen.dart';
 import 'package:quizapp_screen/presentation/point_input_screen.dart';
@@ -40,11 +41,18 @@ class MainPage extends StatelessWidget {
             category: state.category,
             jugendfeuerwehr: state.jugendfeuerwehr,
           );
+        } else if (state is ScreenAppShowBuzzerCountdown) {
+          return QuestionBuzzerCountdownScreen(
+            question: state.question,
+            category: state.category,
+            countdown: state.countdown,
+          );
         } else if (state is ScreenAppShowCountdown) {
           return CountdownScreen(
             question: state.question,
             category: state.category,
             countdown: state.countdown,
+            jugendfeuerwehr: state.jugendfeuerwehr,
           );
         } else if (state is ScreenAppShowAnswer) {
           return QuestionScreen(
