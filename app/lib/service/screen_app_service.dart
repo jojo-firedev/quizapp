@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:quizapp/models/jugendfeuerwehr.dart';
-
 class ScreenAppService {
   ServerSocket? _serverSocket;
   Socket? _connectedSocket;
