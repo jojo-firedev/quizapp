@@ -279,6 +279,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
       Global.screenAppService.sendBuzzerCountdown(currentFrage!.frage,
           getKategorieThema(Global.kategorien, currentCategoryReihenfolge), 5);
 
+      await Future.delayed(Duration(seconds: 5));
+
       Global.buzzerManagerService.sendBuzzerRelease();
 
       // Listen to the buzzerManagerService stream
