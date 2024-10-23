@@ -31,7 +31,7 @@ class PointsPage extends StatelessWidget {
               .gesetztePunkte;
 
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(3),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
