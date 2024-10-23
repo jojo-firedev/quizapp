@@ -260,6 +260,8 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
     }
 
     if (fehlVersuche > maxFehlVersuche) {
+      Global.buzzerManagerService.sendBuzzerLock();
+
       emit(QuizMasterQuestionConfirmShowAnswer(
         currentFrage!,
         getTeilnehmerByReihenfolge(currentJfReihenfolge).jugendfeuerwehr.name,
@@ -273,7 +275,6 @@ class QuizMasterBloc extends Bloc<QuizMasterEvent, QuizMasterState> {
 
       fehlVersuche = 0;
     } else {
-      print('Fehlversuche: $fehlVersuche');
       pressedJfReihenfolge = -1;
 
       Global.screenAppService.sendBuzzerCountdown(currentFrage!.frage,
