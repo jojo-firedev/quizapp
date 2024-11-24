@@ -28,7 +28,7 @@ class QuestionPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: Column(
                   children: [
                     const Text(
