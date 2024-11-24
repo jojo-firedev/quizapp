@@ -43,7 +43,8 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
   Future<void> _readFile(File file) async {
     String extension = file.path.split('.').last;
     Map<String, List<Frage>> fragenMap = {};
-    if (extension == 'csv' || extension == 'CSV') {
+
+    if (extension.toLowerCase() == 'csv') {
       final input = file.openRead();
       final fields = await input
           .transform(utf8.decoder)
@@ -51,7 +52,13 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
           .toList();
       List<String> headers =
           fields.first.map((header) => header.toString()).toList();
+
       for (var row in fields.skip(1)) {
+        // Ignore rows with all empty values
+        if (row
+            .every((cell) => cell == null || cell.toString().trim().isEmpty)) {
+          continue;
+        }
         Map<String, dynamic> rowData = {
           for (var i = 0; i < headers.length; i++) headers[i]: row[i]
         };
@@ -66,16 +73,24 @@ class _ImportFragenScreenState extends State<ImportFragenScreen> {
         }
         fragenMap[kategorie]!.add(frage);
       }
-    } else if (extension == 'xlsx') {
+    } else if (extension.toLowerCase() == 'xlsx') {
       var bytes = file.readAsBytesSync();
       var excel = Excel.decodeBytes(bytes);
+
       for (var table in excel.tables.keys) {
         var sheet = excel.tables[table]!;
         if (sheet.rows.isNotEmpty) {
           List<String> headers = sheet.rows.first
               .map((header) => header?.value.toString() ?? '')
               .toList();
+
           for (var row in sheet.rows.skip(1)) {
+            // Ignore rows with all empty values
+            if (row.every((cell) =>
+                cell == null ||
+                cell.value?.toString().trim().isEmpty == true)) {
+              continue;
+            }
             Map<String, dynamic> rowData = {
               for (var i = 0; i < headers.length; i++)
                 headers[i]: row[i]?.value.toString() ?? ''
