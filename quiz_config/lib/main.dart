@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quiz_config/bloc/quiz_config_bloc.dart';
 import 'package:quiz_config/presentation/main_page.dart';
 
@@ -13,6 +14,13 @@ class QuizConfig extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: const Locale('de', 'DE'),
+      supportedLocales: const [Locale('de', 'DE')],
       title: 'Quiz Config',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
