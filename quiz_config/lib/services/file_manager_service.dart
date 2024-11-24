@@ -14,14 +14,14 @@ class FileManager {
     return csvData.skip(1).map((row) => Jugendfeuerwehr.fromCsv(row)).toList();
   }
 
-  static Future<void> saveJsonString(String jsonString) async {
+  static Future<void> saveJsonString(String jsonString, String fileName) async {
     try {
       // Let the user pick a directory where the file will be saved
       String? directoryPath = await FilePicker.platform.getDirectoryPath();
 
       if (directoryPath != null) {
         // Create a reference to the new file
-        String filePath = '$directoryPath/my_data.json';
+        String filePath = '$directoryPath/$fileName.json';
         File jsonFile = File(filePath);
 
         // Write the JSON string to the file

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:quiz_config/models/json_export_file.dart';
 import 'package:quiz_config/models/jugendfeuerwehr.dart';
@@ -98,6 +99,7 @@ class QuizConfigBloc extends Bloc<QuizConfigEvent, QuizConfigState> {
           teilnehmer: exportTeilnehmer,
           kategorien: exportKategorien,
         ).toRawJson(),
+        'Quizdaten_${DateFormat('yyyy-MM-dd').format(datum)}_$durchlaeufe',
       );
     });
   }

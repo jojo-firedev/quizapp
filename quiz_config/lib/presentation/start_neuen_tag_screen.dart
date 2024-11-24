@@ -49,6 +49,9 @@ class _StartNeuenTagScreenState extends State<StartNeuenTagScreen> {
       setState(() {
         _selectedDate = picked;
         _dateController.text = DateFormat('dd.MM.yyyy').format(_selectedDate);
+        BlocProvider.of<QuizConfigBloc>(context).add(
+          StartNeuenTag(_selectedDate, _durchlaeufe),
+        );
       });
     }
   }
